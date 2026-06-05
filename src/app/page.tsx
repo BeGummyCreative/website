@@ -1,65 +1,214 @@
 import Image from "next/image";
 
+const designProjects = [
+  {
+    title: "FOMI 2025",
+    category: "Festival identity",
+    image: "/portfolio/web/fomi-poster.png",
+    summary:
+      "Campaign posters, social materials, certificate design, ticketing artwork, and launch graphics for Festival of the Moving Image.",
+    tags: ["Identity", "Campaign", "Print"],
+  },
+  {
+    title: "MeSnap",
+    category: "Experience visuals",
+    image: "/portfolio/web/mesnap-0504.jpg",
+    summary:
+      "Product stills and visual direction for an interactive photo experience, with a strong focus on energy and shareable moments.",
+    tags: ["Photography", "Product", "Social"],
+  },
+  {
+    title: "Burju Cafe",
+    category: "Brand system",
+    image: "/portfolio/web/burju-banner.png",
+    summary:
+      "Cafe identity materials spanning logo usage, profile assets, colour palette, and polished transparent banner treatments.",
+    tags: ["Brand", "Hospitality", "Logo"],
+  },
+  {
+    title: "BeGummy",
+    category: "Logo design",
+    image: "/portfolio/web/begummy-logo-black.png",
+    summary:
+      "A clean, playful mark prepared in black and white variants for flexible use across web, packaging, and social surfaces.",
+    tags: ["Logo", "Consumer", "System"],
+  },
+];
+
+const filmProjects = [
+  {
+    title: "FOMI 2026",
+    role: "Event photography",
+    image: "/portfolio/web/film-fomi-3839.jpg",
+  },
+  {
+    title: "HENRY Music Video",
+    role: "Behind the scenes",
+    image: "/portfolio/web/henry-1938.jpg",
+  },
+  {
+    title: "Wishbone Fever",
+    role: "BTS photography",
+    image: "/portfolio/web/wishbone-bts-6646.jpg",
+  },
+];
+
+const capabilities = [
+  "Brand identity",
+  "Campaign design",
+  "Film stills",
+  "BTS photography",
+  "Social assets",
+  "Event visuals",
+];
+
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <main>
+      <section className="hero">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
+          src="/portfolio/web/about-portrait.jpg"
+          alt="Begum portrait"
+          fill
           priority
+          sizes="100vw"
+          className="heroImage"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+        <div className="heroShade" />
+        <nav className="nav" aria-label="Primary navigation">
+          <a href="#work">Work</a>
+          <a href="#film">Film</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div className="heroContent">
+          <p className="eyebrow">Portfolio V1</p>
+          <h1>Begum</h1>
+          <p className="heroCopy">
+            Visual designer and film creative building identities, campaign
+            systems, and image-led stories across brand, culture, and moving
+            image.
+          </p>
+          <div className="heroActions">
+            <a href="#work">View selected work</a>
+            <a href="#contact">Start a project</a>
+          </div>
+        </div>
+      </section>
+
+      <section className="introBand">
+        <div>
+          <p className="sectionKicker">Practice</p>
+          <h2>Design systems with cinematic instincts.</h2>
+        </div>
+        <div className="capabilityGrid">
+          {capabilities.map((capability) => (
+            <span key={capability}>{capability}</span>
+          ))}
+        </div>
+      </section>
+
+      <section className="splitFeature">
+        <div className="featureText">
+          <p className="sectionKicker">Current signal</p>
+          <h2>From festival campaigns to product moments.</h2>
+          <p>
+            The downloaded portfolio material points to a body of work that
+            combines graphic design, event storytelling, brand identity, and
+            on-set visual documentation.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="featureImages">
+          <Image
+            src="/portfolio/web/fomi-ticket.png"
+            alt="FOMI ticket poster design"
+            width={900}
+            height={1200}
+            loading="eager"
+          />
+          <Image
+            src="/portfolio/web/mesnap-0506.jpg"
+            alt="MeSnap product still"
+            width={1200}
+            height={900}
+            loading="eager"
+          />
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="workSection" id="work">
+        <div className="sectionHeader">
+          <p className="sectionKicker">Selected design work</p>
+          <h2>Identity, campaign, and social assets.</h2>
+        </div>
+        <div className="projectGrid">
+          {designProjects.map((project) => (
+            <article className="projectCard" key={project.title}>
+              <div className="projectImage">
+                <Image
+                  src={project.image}
+                  alt={`${project.title} portfolio image`}
+                  fill
+                  loading="eager"
+                  sizes="(max-width: 760px) 100vw, 50vw"
+                />
+              </div>
+              <div className="projectBody">
+                <p>{project.category}</p>
+                <h3>{project.title}</h3>
+                <span>{project.summary}</span>
+                <div className="tagRow">
+                  {project.tags.map((tag) => (
+                    <strong key={tag}>{tag}</strong>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="filmSection" id="film">
+        <div className="sectionHeader">
+          <p className="sectionKicker">Film and photography</p>
+          <h2>Frames from live projects, shoots, and festival work.</h2>
+        </div>
+        <div className="filmGrid">
+          {filmProjects.map((project) => (
+            <article key={project.title}>
+              <Image
+                src={project.image}
+                alt={`${project.title} still`}
+                width={900}
+                height={700}
+                loading="eager"
+              />
+              <div>
+                <p>{project.role}</p>
+                <h3>{project.title}</h3>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="contactSection" id="contact">
+        <Image
+          src="/portfolio/web/about-bts.jpg"
+          alt="Begum behind the scenes"
+          width={1000}
+          height={700}
+          loading="eager"
+        />
+        <div>
+          <p className="sectionKicker">Next step</p>
+          <h2>Shape the V1 into a polished public portfolio.</h2>
+          <p>
+            The first pass is built around the strongest downloaded categories:
+            personal imagery, brand marks, graphic campaigns, and film stills.
+          </p>
+          <a href="mailto:hello@heysalad.io">hello@heysalad.io</a>
+        </div>
+      </section>
+    </main>
   );
 }

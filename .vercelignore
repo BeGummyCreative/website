@@ -1,0 +1,10 @@
+.git
+.next
+node_modules
+.playwright-mcp
+*.log
+*.pid
+begum-*.png
+material
+transfer-*.log
+transfer-*.pid
