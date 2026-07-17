@@ -65,24 +65,32 @@ const capabilities = [
 export default function Home() {
   return (
     <main>
-      <section className="hero">
-        <Image
-          src="/portfolio/web/about-portrait.jpg"
-          alt="Begum portrait"
-          fill
-          priority
-          sizes="100vw"
-          className="heroImage"
-        />
-        <div className="heroShade" />
+      <header className="siteHeader">
+        <a href="#" className="brandMark" aria-label="Begum home">
+          <span aria-hidden="true" />
+          <strong>Begum</strong>
+        </a>
         <nav className="nav" aria-label="Primary navigation">
           <a href="#work">Work</a>
           <a href="#film">Film</a>
           <a href="#contact">Contact</a>
         </nav>
+      </header>
+
+      <section className="hero">
+        <Image
+          src="/portfolio/web/about-portrait.jpg"
+          alt="Begum portrait"
+          width={1400}
+          height={1800}
+          priority
+          sizes="100vw"
+          className="heroImage"
+        />
+        <div className="heroRule" aria-hidden="true" />
         <div className="heroContent">
-          <p className="eyebrow">Portfolio V1</p>
-          <h1>Begum</h1>
+          <p className="eyebrow">Visual identity / campaign / film</p>
+          <h1>Image-led design for culture, brands, and moving stories.</h1>
           <p className="heroCopy">
             Visual designer and film creative building identities, campaign
             systems, and image-led stories across brand, culture, and moving
@@ -98,7 +106,7 @@ export default function Home() {
       <section className="introBand">
         <div>
           <p className="sectionKicker">Practice</p>
-          <h2>Design systems with cinematic instincts.</h2>
+          <h2>Design systems with cinematic instincts and a precise visual hand.</h2>
         </div>
         <div className="capabilityGrid">
           {capabilities.map((capability) => (
@@ -110,7 +118,7 @@ export default function Home() {
       <section className="splitFeature">
         <div className="featureText">
           <p className="sectionKicker">Current signal</p>
-          <h2>From festival campaigns to product moments.</h2>
+          <h2>Festival worlds, product moments, and brand marks with memory.</h2>
           <p>
             The downloaded portfolio material points to a body of work that
             combines graphic design, event storytelling, brand identity, and
@@ -138,7 +146,7 @@ export default function Home() {
       <section className="workSection" id="work">
         <div className="sectionHeader">
           <p className="sectionKicker">Selected design work</p>
-          <h2>Identity, campaign, and social assets.</h2>
+          <h2>Identity, campaign, and social systems.</h2>
         </div>
         <div className="projectGrid">
           {designProjects.map((project) => (
@@ -170,7 +178,7 @@ export default function Home() {
       <section className="filmSection" id="film">
         <div className="sectionHeader">
           <p className="sectionKicker">Film and photography</p>
-          <h2>Frames from live projects, shoots, and festival work.</h2>
+          <h2>Frames with atmosphere, evidence, and motion.</h2>
         </div>
         <div className="filmGrid">
           {filmProjects.map((project) => (
@@ -201,7 +209,7 @@ export default function Home() {
         />
         <div>
           <p className="sectionKicker">Next step</p>
-          <h2>Shape the V1 into a polished public portfolio.</h2>
+          <h2>Available for visual identity, campaign, and film-led work.</h2>
           <p>
             The first pass is built around the strongest downloaded categories:
             personal imagery, brand marks, graphic campaigns, and film stills.
