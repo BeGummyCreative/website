@@ -6,32 +6,37 @@ const designProjects = [
     category: "Festival identity",
     image: "/portfolio/web/fomi-poster.png",
     summary:
-      "Campaign posters, social materials, certificate design, ticketing artwork, and launch graphics for Festival of the Moving Image.",
+      "A vivid campaign system spanning posters, social assets, certificates, ticketing, and launch graphics.",
     tags: ["Identity", "Campaign", "Print"],
+    tone: "cobalt",
   },
   {
     title: "MeSnap",
     category: "Experience visuals",
     image: "/portfolio/web/mesnap-0504.jpg",
     summary:
-      "Product stills and visual direction for an interactive photo experience, with a strong focus on energy and shareable moments.",
+      "Product imagery and visual direction for an interactive photo experience built around energy and shared moments.",
     tags: ["Photography", "Product", "Social"],
+    tone: "acid",
   },
   {
     title: "Burju Cafe",
     category: "Brand system",
     image: "/portfolio/web/burju-banner.png",
     summary:
-      "Cafe identity materials spanning logo usage, profile assets, colour palette, and polished transparent banner treatments.",
+      "A warm hospitality identity with a flexible logo, profile system, colour palette, and digital campaign assets.",
     tags: ["Brand", "Hospitality", "Logo"],
+    tone: "coral",
   },
   {
     title: "BeGummy",
     category: "Logo design",
     image: "/portfolio/web/begummy-logo-black.png",
     summary:
-      "A clean, playful mark prepared in black and white variants for flexible use across web, packaging, and social surfaces.",
+      "A clean, playful mark designed to move easily across web, packaging, and social surfaces.",
     tags: ["Logo", "Consumer", "System"],
+    tone: "white",
+    contain: true,
   },
 ];
 
@@ -42,13 +47,13 @@ const filmProjects = [
     image: "/portfolio/web/film-fomi-3839.jpg",
   },
   {
-    title: "HENRY Music Video",
-    role: "Behind the scenes",
+    title: "HENRY",
+    role: "Music video / behind the scenes",
     image: "/portfolio/web/henry-1938.jpg",
   },
   {
     title: "Wishbone Fever",
-    role: "BTS photography",
+    role: "Film / BTS photography",
     image: "/portfolio/web/wishbone-bts-6646.jpg",
   },
 ];
@@ -66,107 +71,99 @@ export default function Home() {
   return (
     <main>
       <header className="siteHeader">
-        <a href="#" className="brandMark" aria-label="Begum home">
-          <span aria-hidden="true" />
-          <strong>Begum</strong>
+        <a href="#top" className="wordmark" aria-label="Begum, back to top">
+          BEGUM
         </a>
-        <nav className="nav" aria-label="Primary navigation">
+        <nav aria-label="Primary navigation">
           <a href="#work">Work</a>
           <a href="#film">Film</a>
           <a href="#contact">Contact</a>
         </nav>
+        <a className="availability" href="mailto:hello@heysalad.io">
+          <span aria-hidden="true" />
+          Available for projects
+        </a>
       </header>
 
-      <section className="hero">
+      <section className="hero" id="top">
         <Image
           src="/portfolio/web/about-portrait.jpg"
-          alt="Begum portrait"
-          width={1400}
-          height={1800}
+          alt="Begum, visual designer and film creative"
+          fill
           priority
           sizes="100vw"
           className="heroImage"
         />
-        <div className="heroRule" aria-hidden="true" />
+        <div className="heroWash" aria-hidden="true" />
         <div className="heroContent">
-          <p className="eyebrow">Visual identity / campaign / film</p>
-          <h1>Image-led design for culture, brands, and moving stories.</h1>
-          <p className="heroCopy">
-            Visual designer and film creative building identities, campaign
-            systems, and image-led stories across brand, culture, and moving
-            image.
-          </p>
-          <div className="heroActions">
-            <a href="#work">View selected work</a>
-            <a href="#contact">Start a project</a>
+          <p className="heroEyebrow">Visual designer / Film creative</p>
+          <h1>Begum</h1>
+          <div className="heroFooter">
+            <p>
+              Building expressive identities, campaign worlds, and image-led
+              stories across culture and moving image.
+            </p>
+            <a href="#work">Explore selected work</a>
           </div>
         </div>
+        <p className="heroLocation">London / Istanbul</p>
       </section>
 
-      <section className="introBand">
-        <div>
-          <p className="sectionKicker">Practice</p>
-          <h2>Design systems with cinematic instincts and a precise visual hand.</h2>
+      <section className="introSection">
+        <p className="sectionLabel">01 / Practice</p>
+        <div className="introCopy">
+          <h2>Visual systems with cinematic instinct.</h2>
+          <p>
+            I work where graphic design, photography, and film meet — creating
+            identities with clarity, campaigns with energy, and images that
+            hold attention.
+          </p>
         </div>
-        <div className="capabilityGrid">
+        <div className="capabilityRail" aria-label="Creative capabilities">
           {capabilities.map((capability) => (
             <span key={capability}>{capability}</span>
           ))}
         </div>
       </section>
 
-      <section className="splitFeature">
-        <div className="featureText">
-          <p className="sectionKicker">Current signal</p>
-          <h2>Festival worlds, product moments, and brand marks with memory.</h2>
-          <p>
-            The downloaded portfolio material points to a body of work that
-            combines graphic design, event storytelling, brand identity, and
-            on-set visual documentation.
-          </p>
-        </div>
-        <div className="featureImages">
-          <Image
-            src="/portfolio/web/fomi-ticket.png"
-            alt="FOMI ticket poster design"
-            width={900}
-            height={1200}
-            loading="eager"
-          />
-          <Image
-            src="/portfolio/web/mesnap-0506.jpg"
-            alt="MeSnap product still"
-            width={1200}
-            height={900}
-            loading="eager"
-          />
-        </div>
-      </section>
-
       <section className="workSection" id="work">
-        <div className="sectionHeader">
-          <p className="sectionKicker">Selected design work</p>
-          <h2>Identity, campaign, and social systems.</h2>
+        <div className="sectionTitle">
+          <p className="sectionLabel">02 / Selected work</p>
+          <h2>Projects with a point of view.</h2>
+          <p>Identity / Campaign / Image-making</p>
         </div>
+
         <div className="projectGrid">
-          {designProjects.map((project) => (
-            <article className="projectCard" key={project.title}>
-              <div className="projectImage">
+          {designProjects.map((project, index) => (
+            <article
+              className={`project project${index + 1} ${project.tone}`}
+              key={project.title}
+            >
+              <div className="projectMedia">
                 <Image
                   src={project.image}
-                  alt={`${project.title} portfolio image`}
+                  alt={`${project.title} — ${project.category}`}
                   fill
-                  loading="eager"
-                  sizes="(max-width: 760px) 100vw, 50vw"
+                  sizes={
+                    index === 0
+                      ? "(max-width: 760px) 100vw, 66vw"
+                      : "(max-width: 760px) 100vw, 50vw"
+                  }
+                  className={project.contain ? "contain" : undefined}
                 />
+                <span className="projectNumber">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
               </div>
-              <div className="projectBody">
-                <p>{project.category}</p>
-                <h3>{project.title}</h3>
-                <span>{project.summary}</span>
-                <div className="tagRow">
+              <div className="projectInfo">
+                <div>
+                  <p>{project.category}</p>
+                  <h3>{project.title}</h3>
+                </div>
+                <p className="projectSummary">{project.summary}</p>
+                <div className="projectTags">
                   {project.tags.map((tag) => (
-                    <strong key={tag}>{tag}</strong>
+                    <span key={tag}>{tag}</span>
                   ))}
                 </div>
               </div>
@@ -175,24 +172,53 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="featureSection">
+        <div className="featureStatement">
+          <p className="sectionLabel">A closer look</p>
+          <h2>Every touchpoint belongs to the same story.</h2>
+        </div>
+        <figure className="featureTall">
+          <Image
+            src="/portfolio/web/fomi-ticket.png"
+            alt="FOMI campaign ticket design"
+            fill
+            sizes="(max-width: 760px) 100vw, 36vw"
+          />
+          <figcaption>FOMI / Campaign detail</figcaption>
+        </figure>
+        <figure className="featureWide">
+          <Image
+            src="/portfolio/web/mesnap-0506.jpg"
+            alt="MeSnap product photograph"
+            fill
+            sizes="(max-width: 760px) 100vw, 54vw"
+          />
+          <figcaption>MeSnap / Product moment</figcaption>
+        </figure>
+      </section>
+
       <section className="filmSection" id="film">
-        <div className="sectionHeader">
-          <p className="sectionKicker">Film and photography</p>
-          <h2>Frames with atmosphere, evidence, and motion.</h2>
+        <div className="sectionTitle filmTitle">
+          <p className="sectionLabel">03 / Film & photography</p>
+          <h2>Frames that carry the atmosphere.</h2>
         </div>
         <div className="filmGrid">
-          {filmProjects.map((project) => (
+          {filmProjects.map((project, index) => (
             <article key={project.title}>
-              <Image
-                src={project.image}
-                alt={`${project.title} still`}
-                width={900}
-                height={700}
-                loading="eager"
-              />
-              <div>
-                <p>{project.role}</p>
-                <h3>{project.title}</h3>
+              <div className="filmMedia">
+                <Image
+                  src={project.image}
+                  alt={`${project.title} — ${project.role}`}
+                  fill
+                  sizes="(max-width: 760px) 100vw, 33vw"
+                />
+              </div>
+              <div className="filmInfo">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <p>{project.role}</p>
+                  <h3>{project.title}</h3>
+                </div>
               </div>
             </article>
           ))}
@@ -200,23 +226,30 @@ export default function Home() {
       </section>
 
       <section className="contactSection" id="contact">
-        <Image
-          src="/portfolio/web/about-bts.jpg"
-          alt="Begum behind the scenes"
-          width={1000}
-          height={700}
-          loading="eager"
-        />
-        <div>
-          <p className="sectionKicker">Next step</p>
-          <h2>Available for visual identity, campaign, and film-led work.</h2>
+        <div className="contactImage">
+          <Image
+            src="/portfolio/web/about-bts.jpg"
+            alt="Begum working behind the scenes"
+            fill
+            sizes="(max-width: 760px) 100vw, 50vw"
+          />
+        </div>
+        <div className="contactCopy">
+          <p className="sectionLabel">04 / Start a conversation</p>
+          <h2>Let&apos;s make something worth remembering.</h2>
           <p>
-            The first pass is built around the strongest downloaded categories:
-            personal imagery, brand marks, graphic campaigns, and film stills.
+            Available for visual identity, campaigns, photography, and
+            film-led creative work.
           </p>
           <a href="mailto:hello@heysalad.io">hello@heysalad.io</a>
         </div>
       </section>
+
+      <footer>
+        <a href="#top">Begum</a>
+        <p>Visual design / Film / Photography</p>
+        <p>© 2026</p>
+      </footer>
     </main>
   );
 }
