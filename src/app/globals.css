@@ -226,7 +226,7 @@ img {
 .heroLocation {
   position: absolute;
   right: 26px;
-  bottom: 28px;
+  bottom: 63px;
   z-index: 2;
   margin: 0;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
