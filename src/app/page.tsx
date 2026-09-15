@@ -99,7 +99,22 @@ export default function Home() {
           />
         </a>
         <nav aria-label="Primary navigation">
-          <a href="#work">Work</a>
+          <div className="navDropdown">
+            <button
+              className="navDropdownTrigger"
+              type="button"
+              aria-haspopup="true"
+            >
+              Work
+              <span className="navChevron" aria-hidden="true" />
+            </button>
+            <div className="workDropdown" aria-label="Work categories">
+              <a href="#social-content">Social</a>
+              <a href="#film">Film</a>
+              <a href="#design">Design</a>
+              <a href="#game">Game</a>
+            </div>
+          </div>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -244,7 +259,15 @@ export default function Home() {
           return (
             <div
               className="archiveGroup"
-              id={category === "Social Content" ? "social-content" : undefined}
+              id={
+                category === "Social Content"
+                  ? "social-content"
+                  : category === "Graphic Design"
+                    ? "design"
+                    : category === "Game Design"
+                      ? "game"
+                      : undefined
+              }
               key={category}
             >
               <div className="archiveGroupTitle">

@@ -94,13 +94,15 @@ img {
   gap: 30px;
 }
 
-.siteHeader nav a {
+.siteHeader nav > a,
+.navDropdownTrigger {
   position: relative;
   font-size: 13px;
   font-weight: 600;
 }
 
-.siteHeader nav a::after {
+.siteHeader nav > a::after,
+.navDropdownTrigger::after {
   content: "";
   position: absolute;
   left: 0;
@@ -113,8 +115,101 @@ img {
   transition: transform 180ms ease;
 }
 
-.siteHeader nav a:hover::after {
+.siteHeader nav > a:hover::after,
+.siteHeader nav > a:focus-visible::after,
+.navDropdown:hover .navDropdownTrigger::after,
+.navDropdown:focus-within .navDropdownTrigger::after {
   transform: scaleX(1);
+}
+
+.navDropdown {
+  position: relative;
+  height: 58px;
+  display: flex;
+  align-items: center;
+}
+
+.navDropdownTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.navDropdownTrigger:focus-visible {
+  border-radius: 2px;
+  outline: 1px solid currentColor;
+  outline-offset: 5px;
+}
+
+.navChevron {
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 180ms ease;
+}
+
+.workDropdown {
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 50%;
+  min-width: 156px;
+  display: grid;
+  gap: 2px;
+  padding: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 4px;
+  background: rgba(18, 18, 16, 0.92);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, -6px);
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+}
+
+.workDropdown a {
+  padding: 10px 12px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.workDropdown a:hover,
+.workDropdown a:focus-visible {
+  background: var(--white);
+  color: var(--ink);
+  outline: none;
+}
+
+.navDropdown:hover .workDropdown,
+.navDropdown:focus-within .workDropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.navDropdown:hover .navChevron,
+.navDropdown:focus-within .navChevron {
+  margin-top: 3px;
+  transform: rotate(225deg);
+}
+
+#social-content,
+#film,
+#design,
+#game {
+  scroll-margin-top: 100px;
 }
 
 .availability {
@@ -1231,8 +1326,13 @@ footer p:last-child {
     gap: 11px;
   }
 
-  .siteHeader nav a {
+  .siteHeader nav > a,
+  .navDropdownTrigger {
     font-size: 11px;
+  }
+
+  .navDropdown {
+    height: 54px;
   }
 
   .wordmark {
