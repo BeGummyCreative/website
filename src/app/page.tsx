@@ -59,12 +59,51 @@ const filmProjects = [
 ];
 
 const capabilities = [
+  "Art direction",
   "Brand identity",
-  "Campaign design",
-  "Film stills",
-  "BTS photography",
-  "Social assets",
-  "Event visuals",
+  "Videography",
+  "Photography",
+  "Editing",
+  "3D design",
+];
+
+const experience = [
+  {
+    company: "TikTok Shop",
+    role: "Videographer & Editor Intern",
+    period: "Jun — Sep 2026",
+    href: "https://www.tiktok.com/@tiktokshop_uk",
+  },
+  {
+    company: "HeySalad",
+    role: "Creative Director",
+    period: "May 2026 — Present",
+    href: "https://heysalad.ee/",
+  },
+  {
+    company: "ELO Humanoid",
+    role: "Branding Executive",
+    period: "Jan 2026 — Present",
+    href: "https://elo.inc/",
+  },
+  {
+    company: "The New Black Film Collective",
+    role: "Social Media & Marketing",
+    period: "Jan 2026 — Present",
+    href: "https://www.tnbfc.co.uk/",
+  },
+  {
+    company: "British Film Institute",
+    role: "Film Festival Marketing",
+    period: "Apr — May 2025",
+    href: "https://www.bfi.org.uk/",
+  },
+  {
+    company: "Pinewood Studios",
+    role: "Camera Specialist Experience",
+    period: "Aug 2023",
+    href: "https://pinewoodgroup.com/pinewood-studios/",
+  },
 ];
 
 export default function Home() {
@@ -76,6 +115,7 @@ export default function Home() {
         </a>
         <nav aria-label="Primary navigation">
           <a href="#work">Work</a>
+          <a href="#about">About</a>
           <a href="#film">Film</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -109,15 +149,21 @@ export default function Home() {
         <p className="heroLocation">London / Istanbul</p>
       </section>
 
-      <section className="introSection">
-        <p className="sectionLabel">01 / Practice</p>
+      <section className="introSection" id="about">
+        <p className="sectionLabel">01 / About & practice</p>
         <div className="introCopy">
           <h2>Visual systems with cinematic instinct.</h2>
           <p>
-            I work where graphic design, photography, and film meet — creating
-            identities with clarity, campaigns with energy, and images that
-            hold attention.
+            I&apos;m a UCL Film and Game Design graduate with First Class
+            Honours, working where graphic design, photography, film, and
+            gamification meet. My ambition is to shape memorable visual worlds
+            as an art director.
           </p>
+        </div>
+        <div className="profileFacts" aria-label="Profile highlights">
+          <p><span>Education</span>University College London</p>
+          <p><span>Degree</span>BA Film & Game Design, First Class</p>
+          <p><span>Based</span>London / Istanbul</p>
         </div>
         <div className="capabilityRail" aria-label="Creative capabilities">
           {capabilities.map((capability) => (
@@ -225,6 +271,30 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="experienceSection" id="experience">
+        <div className="experienceIntro">
+          <p className="sectionLabel">04 / Selected experience</p>
+          <h2>Building ideas inside ambitious creative teams.</h2>
+        </div>
+        <div className="experienceList">
+          {experience.map((item, index) => (
+            <a
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              className="experienceItem"
+              key={item.company}
+            >
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <h3>{item.company}</h3>
+              <p>{item.role}</p>
+              <time>{item.period}</time>
+              <span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <section className="contactSection" id="contact">
         <div className="contactImage">
           <Image
@@ -235,7 +305,7 @@ export default function Home() {
           />
         </div>
         <div className="contactCopy">
-          <p className="sectionLabel">04 / Start a conversation</p>
+          <p className="sectionLabel">05 / Start a conversation</p>
           <h2>Let&apos;s make something worth remembering.</h2>
           <p>
             Available for visual identity, campaigns, photography, and
@@ -247,7 +317,11 @@ export default function Home() {
 
       <footer>
         <a href="#top">Begum</a>
-        <p>Visual design / Film / Photography</p>
+        <nav className="footerSocials" aria-label="Social links">
+          <a href="https://www.linkedin.com/in/begum-geveci" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://www.youtube.com/@begummy.creative" target="_blank" rel="noreferrer">YouTube</a>
+          <a href="https://www.instagram.com/be.gummy.creative/" target="_blank" rel="noreferrer">Instagram</a>
+        </nav>
         <p>© 2026</p>
       </footer>
     </main>

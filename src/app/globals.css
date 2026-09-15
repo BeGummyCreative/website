@@ -261,6 +261,43 @@ img {
   line-height: 1.65;
 }
 
+.profileFacts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 64px;
+  border-top: 1px solid var(--line);
+}
+
+.profileFacts p {
+  min-height: 106px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 0;
+  padding: 18px 20px 20px 0;
+  border-right: 1px solid var(--line);
+  font-size: 15px;
+  font-weight: 620;
+}
+
+.profileFacts p:not(:first-child) {
+  padding-left: 20px;
+}
+
+.profileFacts p:last-child {
+  border-right: 0;
+}
+
+.profileFacts span {
+  color: var(--muted);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .capabilityRail {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -583,6 +620,77 @@ img {
   font-weight: 620;
 }
 
+.experienceSection {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.7fr) minmax(0, 1.3fr);
+  gap: 8vw;
+  padding: 132px 5vw;
+  background: var(--ink);
+  color: var(--white);
+}
+
+.experienceIntro {
+  position: sticky;
+  top: 104px;
+  align-self: start;
+}
+
+.experienceIntro h2 {
+  max-width: 540px;
+  margin: 46px 0 0;
+  font-size: 4.25rem;
+  font-weight: 520;
+  line-height: 1;
+}
+
+.experienceList {
+  border-top: 1px solid rgba(250, 249, 245, 0.3);
+}
+
+.experienceItem {
+  min-height: 126px;
+  display: grid;
+  grid-template-columns: 34px minmax(150px, 0.8fr) minmax(190px, 1fr) 140px 24px;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid rgba(250, 249, 245, 0.3);
+  transition: color 180ms ease, padding 180ms ease;
+}
+
+.experienceItem:hover {
+  padding-left: 10px;
+  color: var(--acid);
+}
+
+.experienceItem > span,
+.experienceItem time {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.experienceItem h3,
+.experienceItem p {
+  margin: 0;
+}
+
+.experienceItem h3 {
+  font-size: 22px;
+  font-weight: 620;
+}
+
+.experienceItem p {
+  color: rgba(250, 249, 245, 0.67);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.experienceItem > span:last-child {
+  justify-self: end;
+  font-size: 18px;
+}
+
 .contactSection {
   min-height: 760px;
   display: grid;
@@ -637,10 +745,21 @@ footer {
   color: var(--white);
 }
 
-footer a {
+footer > a {
   justify-self: start;
   font-size: 18px;
   font-weight: 720;
+  text-transform: uppercase;
+}
+
+.footerSocials {
+  display: flex;
+  gap: 24px;
+}
+
+.footerSocials a {
+  font-size: 11px;
+  font-weight: 650;
   text-transform: uppercase;
 }
 
@@ -673,6 +792,7 @@ footer p:last-child {
 
   .introCopy h2,
   .sectionTitle h2,
+  .experienceIntro h2,
   .contactCopy h2 {
     font-size: 4rem;
   }
@@ -713,6 +833,14 @@ footer p:last-child {
     grid-column: 1 / -1;
     max-width: 760px;
     margin-bottom: 40px;
+  }
+
+  .experienceSection {
+    grid-template-columns: 1fr;
+  }
+
+  .experienceIntro {
+    position: static;
   }
 }
 
@@ -778,6 +906,7 @@ footer p:last-child {
   .introCopy h2,
   .sectionTitle h2,
   .featureStatement h2,
+  .experienceIntro h2,
   .contactCopy h2 {
     font-size: 2.75rem;
     line-height: 1;
@@ -799,6 +928,18 @@ footer p:last-child {
 
   .capabilityRail span:nth-child(even) {
     border-right: 0;
+  }
+
+  .profileFacts {
+    grid-template-columns: 1fr;
+  }
+
+  .profileFacts p,
+  .profileFacts p:not(:first-child) {
+    min-height: 88px;
+    padding: 16px 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
 
   .workSection {
@@ -874,6 +1015,40 @@ footer p:last-child {
     min-height: 480px;
   }
 
+  .experienceSection {
+    gap: 54px;
+    padding: 86px 20px;
+  }
+
+  .experienceIntro h2 {
+    margin-top: 32px;
+  }
+
+  .experienceItem {
+    min-height: 148px;
+    grid-template-columns: 28px 1fr 20px;
+    grid-template-rows: auto auto;
+    gap: 8px 14px;
+    padding: 22px 0;
+  }
+
+  .experienceItem h3 {
+    align-self: end;
+  }
+
+  .experienceItem p {
+    grid-column: 2;
+  }
+
+  .experienceItem time {
+    grid-column: 2;
+  }
+
+  .experienceItem > span:last-child {
+    grid-column: 3;
+    grid-row: 1 / -1;
+  }
+
   .contactSection {
     min-height: 0;
     grid-template-columns: 1fr;
@@ -899,8 +1074,10 @@ footer p:last-child {
     align-content: center;
   }
 
-  footer p:nth-child(2) {
-    display: none;
+  .footerSocials {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    gap: 18px;
   }
 }
 
