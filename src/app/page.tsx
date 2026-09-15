@@ -228,8 +228,8 @@ export default function Home() {
       <section className="contactSection" id="contact">
         <div className="contactImage">
           <Image
-            src="/portfolio/web/about-bts.jpg"
-            alt="Begum working behind the scenes"
+            src="/portfolio/web/contact-begum-tiktok.jpg"
+            alt="Begum speaking at a TikTok event"
             fill
             sizes="(max-width: 760px) 100vw, 50vw"
           />
