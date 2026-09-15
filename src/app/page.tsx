@@ -79,7 +79,7 @@ export default function Home() {
           <a href="#film">Film</a>
           <a href="#contact">Contact</a>
         </nav>
-        <a className="availability" href="mailto:hello@heysalad.io">
+        <a className="availability" href="mailto:begumgeveci@gmail.com">
           <span aria-hidden="true" />
           Available for projects
         </a>
@@ -241,7 +241,7 @@ export default function Home() {
             Available for visual identity, campaigns, photography, and
             film-led creative work.
           </p>
-          <a href="mailto:hello@heysalad.io">hello@heysalad.io</a>
+          <a href="mailto:begumgeveci@gmail.com">begumgeveci@gmail.com</a>
         </div>
       </section>
 
