@@ -100,9 +100,7 @@ export default function Home() {
         </a>
         <nav aria-label="Primary navigation">
           <a href="#work">Work</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#film">Film</a>
-          <a href="#social-content">Social</a>
+          <a href="#about">About</a>
           <a href="#contact">Contact</a>
         </nav>
         <a className="availability" href="mailto:begumgeveci@gmail.com">
