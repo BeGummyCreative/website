@@ -142,7 +142,7 @@ export default function Home() {
             <a href="#work">Explore selected work</a>
           </div>
         </div>
-        <p className="heroLocation">London / Istanbul</p>
+        <p className="heroLocation">London</p>
       </section>
 
       <section className="introSection" id="about">
