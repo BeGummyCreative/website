@@ -1,4 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
+
+import {
+  filmProjects,
+  portfolioCategories,
+  portfolioProjects,
+} from "@/data/portfolio";
 
 const designProjects = [
   {
@@ -37,24 +44,6 @@ const designProjects = [
     tags: ["Logo", "Consumer", "System"],
     tone: "white",
     contain: true,
-  },
-];
-
-const filmProjects = [
-  {
-    title: "FOMI 2026",
-    role: "Event photography",
-    image: "/portfolio/web/film-fomi-3839.jpg",
-  },
-  {
-    title: "HENRY",
-    role: "Music video / behind the scenes",
-    image: "/portfolio/web/henry-1938.jpg",
-  },
-  {
-    title: "Wishbone Fever",
-    role: "Film / BTS photography",
-    image: "/portfolio/web/wishbone-bts-6646.jpg",
   },
 ];
 
@@ -115,7 +104,7 @@ export default function Home() {
         </a>
         <nav aria-label="Primary navigation">
           <a href="#work">Work</a>
-          <a href="#about">About</a>
+          <a href="#portfolio">Portfolio</a>
           <a href="#film">Film</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -243,14 +232,72 @@ export default function Home() {
         </figure>
       </section>
 
+      <section className="portfolioArchive" id="portfolio">
+        <div className="archiveIntro">
+          <p className="sectionLabel">03 / Full portfolio</p>
+          <h2>Explore the wider practice.</h2>
+          <p>
+            Graphic design, interactive worlds, photography, and social
+            storytelling. Open any project for the complete story and gallery.
+          </p>
+        </div>
+
+        {portfolioCategories.map((category) => {
+          const projects = portfolioProjects.filter(
+            (project) => project.category === category,
+          );
+
+          return (
+            <div className="archiveGroup" key={category}>
+              <div className="archiveGroupTitle">
+                <h3>{category}</h3>
+                <span>{String(projects.length).padStart(2, "0")} projects</span>
+              </div>
+              <div className="archiveGrid">
+                {projects.map((project) => (
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="archiveCard"
+                    key={project.slug}
+                  >
+                    <div className="archiveMedia">
+                      <Image
+                        src={project.cover}
+                        alt={`${project.title} project cover`}
+                        fill
+                        sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                      />
+                      <div className="archiveHover">
+                        <p>{project.summary}</p>
+                        <span>View project ↗</span>
+                      </div>
+                    </div>
+                    <div className="archiveCardInfo">
+                      <h4>{project.title}</h4>
+                      <span>{project.year}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </section>
+
       <section className="filmSection" id="film">
         <div className="sectionTitle filmTitle">
-          <p className="sectionLabel">03 / Film & photography</p>
-          <h2>Frames that carry the atmosphere.</h2>
+          <p className="sectionLabel">04 / Film</p>
+          <h2>Stories revealed frame by frame.</h2>
         </div>
         <div className="filmGrid">
           {filmProjects.map((project, index) => (
-            <article key={project.title}>
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+              className="filmCard"
+              key={project.title}
+            >
               <div className="filmMedia">
                 <Image
                   src={project.image}
@@ -258,6 +305,10 @@ export default function Home() {
                   fill
                   sizes="(max-width: 760px) 100vw, 33vw"
                 />
+                <div className="filmReveal">
+                  <p>{project.description}</p>
+                  <span>Watch project ↗</span>
+                </div>
               </div>
               <div className="filmInfo">
                 <span>{String(index + 1).padStart(2, "0")}</span>
@@ -266,14 +317,14 @@ export default function Home() {
                   <h3>{project.title}</h3>
                 </div>
               </div>
-            </article>
+            </a>
           ))}
         </div>
       </section>
 
       <section className="experienceSection" id="experience">
         <div className="experienceIntro">
-          <p className="sectionLabel">04 / Selected experience</p>
+          <p className="sectionLabel">05 / Selected experience</p>
           <h2>Building ideas inside ambitious creative teams.</h2>
         </div>
         <div className="experienceList">
@@ -305,7 +356,7 @@ export default function Home() {
           />
         </div>
         <div className="contactCopy">
-          <p className="sectionLabel">05 / Start a conversation</p>
+          <p className="sectionLabel">06 / Start a conversation</p>
           <h2>Let&apos;s make something worth remembering.</h2>
           <p>
             Available for visual identity, campaigns, photography, and
