@@ -1214,7 +1214,11 @@ footer p:last-child {
   }
 
   .siteHeader nav {
-    gap: 16px;
+    gap: 11px;
+  }
+
+  .siteHeader nav a {
+    font-size: 11px;
   }
 
   .availability {

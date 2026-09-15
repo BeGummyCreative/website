@@ -106,6 +106,7 @@ export default function Home() {
           <a href="#work">Work</a>
           <a href="#portfolio">Portfolio</a>
           <a href="#film">Film</a>
+          <a href="#social-content">Social</a>
           <a href="#contact">Contact</a>
         </nav>
         <a className="availability" href="mailto:begumgeveci@gmail.com">
@@ -248,7 +249,11 @@ export default function Home() {
           );
 
           return (
-            <div className="archiveGroup" key={category}>
+            <div
+              className="archiveGroup"
+              id={category === "Social Content" ? "social-content" : undefined}
+              key={category}
+            >
               <div className="archiveGroupTitle">
                 <h3>{category}</h3>
                 <span>{String(projects.length).padStart(2, "0")} projects</span>
