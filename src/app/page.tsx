@@ -100,7 +100,13 @@ export default function Home() {
     <main>
       <header className="siteHeader">
         <a href="#top" className="wordmark" aria-label="Begum, back to top">
-          BEGUM
+          <Image
+            src="/portfolio/web/begummy-nav-logo.png"
+            alt=""
+            width={520}
+            height={480}
+            priority
+          />
         </a>
         <nav aria-label="Primary navigation">
           <a href="#work">Work</a>
