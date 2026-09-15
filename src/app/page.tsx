@@ -35,16 +35,6 @@ const designProjects = [
     tags: ["Brand", "Hospitality", "Logo"],
     tone: "coral",
   },
-  {
-    title: "BeGummy",
-    category: "Logo design",
-    image: "/portfolio/web/begummy-logo-black.png",
-    summary:
-      "A clean, playful mark designed to move easily across web, packaging, and social surfaces.",
-    tags: ["Logo", "Consumer", "System"],
-    tone: "white",
-    contain: true,
-  },
 ];
 
 const capabilities = [
@@ -191,7 +181,6 @@ export default function Home() {
                       ? "(max-width: 760px) 100vw, 66vw"
                       : "(max-width: 760px) 100vw, 50vw"
                   }
-                  className={project.contain ? "contain" : undefined}
                 />
                 <span className="projectNumber">
                   {String(index + 1).padStart(2, "0")}
