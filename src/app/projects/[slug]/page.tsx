@@ -3,10 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import {
-  getPortfolioProject,
-  portfolioProjects,
-} from "@/data/portfolio";
+import { getPortfolioProject, portfolioProjects } from "@/data/portfolio";
 
 export const dynamicParams = false;
 
@@ -22,9 +19,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getPortfolioProject(slug);
 
-  if (!project) {
-    return {};
-  }
+  if (!project) return {};
 
   return {
     title: `${project.title} | Begum Geveci`,
@@ -40,78 +35,111 @@ export default async function ProjectPage({
   const { slug } = await params;
   const project = getPortfolioProject(slug);
 
-  if (!project) {
-    notFound();
-  }
+  if (!project) notFound();
 
   const currentIndex = portfolioProjects.findIndex(
     (item) => item.slug === project.slug,
   );
   const nextProject = portfolioProjects[(currentIndex + 1) % portfolioProjects.length];
+  const indexedImages = project.images.map((image, index) => ({ image, index }));
+  const imageColumns = [
+    indexedImages.filter(({ index }) => index % 2 === 0),
+    indexedImages.filter(({ index }) => index % 2 === 1),
+  ];
 
   return (
-    <main className="projectPage">
-      <header className="projectPageHeader">
-        <Link href="/#portfolio" className="projectBack">
-          ← All projects
-        </Link>
-        <Link href="/" className="wordmark" aria-label="Begum home">
-          BEGUM
-        </Link>
-        <a href="mailto:begumgeveci@gmail.com">Start a conversation</a>
-      </header>
+    <main className="projectSplit" id="project-top">
+      <section className="projectInfoPanel">
+        <div className="projectInfoInner">
+          <Link className="darkPill" href="/#work">
+            <span aria-hidden="true">←</span> Back
+          </Link>
 
-      <section className="projectHero">
-        <div className="projectHeroCopy">
-          <p className="sectionLabel">{project.category} / {project.year}</p>
-          <h1>{project.title}</h1>
-          <p>{project.summary}</p>
-        </div>
-        <div className="projectHeroImage">
-          <Image
-            src={project.cover}
-            alt={`${project.title} cover image`}
-            fill
-            priority
-            sizes="100vw"
-          />
-        </div>
-      </section>
+          <div className="projectTitleBlock">
+            <p>{project.category}</p>
+            <h1>{project.title}</h1>
+            <p>{project.summary}</p>
+            {project.externalUrl ? (
+              <a
+                className="lightButton"
+                href={project.externalUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {project.externalLabel ?? "Live preview"}
+              </a>
+            ) : null}
+          </div>
 
-      <section className="projectNarrative">
-        <p className="sectionLabel">Project story</p>
-        <div>
-          {project.description.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-          {project.externalUrl ? (
-            <a href={project.externalUrl} target="_blank" rel="noreferrer">
-              {project.externalLabel ?? "View project"} ↗
+          <dl className="projectMeta">
+            <div>
+              <dt>Year</dt>
+              <dd>{project.year}</dd>
+            </div>
+            <div>
+              <dt>Scope</dt>
+              <dd>{project.category}</dd>
+            </div>
+            <div>
+              <dt>Gallery</dt>
+              <dd>{project.images.length} images</dd>
+            </div>
+          </dl>
+
+          <div className="projectStory">
+            {project.description.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+
+          <div className="projectNext">
+            <p>Next project</p>
+            <Link href={`/projects/${nextProject.slug}`}>
+              <span>
+                <strong>{nextProject.title}</strong>
+                <small>{nextProject.category}</small>
+              </span>
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+
+          <section className="projectContact">
+            <a className="backToTop" href="#project-top" aria-label="Back to top">
+              ↑
             </a>
-          ) : null}
+            <h2>Reach out.</h2>
+            <p>Let&apos;s work together to bring your ideas to life.</p>
+            <a href="mailto:begumgeveci@gmail.com">begumgeveci@gmail.com</a>
+          </section>
         </div>
       </section>
 
-      <section className="projectGallery" aria-label={`${project.title} gallery`}>
-        {project.images.map((image, index) => (
-          <figure key={`${image}-${index}`}>
-            <Image
-              src={image}
-              alt={`${project.title} project image ${index + 1}`}
-              fill
-              sizes={index === 0 ? "100vw" : "(max-width: 760px) 100vw, 50vw"}
-            />
-          </figure>
-        ))}
-      </section>
-
-      <section className="nextProject">
-        <p className="sectionLabel">Next project</p>
-        <Link href={`/projects/${nextProject.slug}`}>
-          <span>{nextProject.category}</span>
-          <strong>{nextProject.title}</strong>
-          <span aria-hidden="true">→</span>
-        </Link>
+      <section className="projectVisualPanel" aria-label={`${project.title} gallery`}>
+        <div className="projectImageColumns">
+          {imageColumns.map((column, columnIndex) => (
+            <div className="projectImageColumn" key={columnIndex}>
+              {column.map(({ image, index }) => (
+                <figure className={`projectImage projectImageShape${index % 4}`} key={`${image}-${index}`}>
+                  <Image
+                    src={image}
+                    alt={`${project.title} project image ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    sizes="(max-width: 700px) 100vw, 34vw"
+                  />
+                </figure>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="projectVisualFooter">
+          <a className="lightButton" href="mailto:begumgeveci@gmail.com">
+            Start a project
+          </a>
+          <a className="backToTop" href="#project-top" aria-label="Back to project top">
+            ↑
+          </a>
+        </div>
       </section>
     </main>
   );
