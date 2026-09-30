@@ -285,12 +285,11 @@ img {
 
 .heroMark {
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   top: 50%;
   left: 50%;
   width: clamp(140px, 15vw, 240px);
   transform: translate(-50%, -50%);
-  mix-blend-mode: multiply;
 }
 
 .heroMark img {
@@ -372,10 +371,10 @@ img {
     transform: rotate(var(--spiral-rotate)) scale(1);
   }
   58% {
-    top: var(--spiral-y);
-    left: var(--spiral-x);
+    top: 45%;
+    left: 45%;
     opacity: 0.9;
-    transform: rotate(calc(var(--spiral-rotate) + 55deg)) scale(0.88);
+    transform: translate(-35%, -35%) rotate(calc(var(--spiral-rotate) + 55deg)) scale(0.7);
   }
   100% {
     top: 50%;

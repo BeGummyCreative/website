@@ -78,7 +78,7 @@ export default function Home() {
 
           <div className="heroMark">
             <Image
-              src="/portfolio/web/begummy-logo-black.png"
+              src="/portfolio/web/begummy-logo-white.png"
               alt="BeGummy Creative"
               width={1800}
               height={1661}
