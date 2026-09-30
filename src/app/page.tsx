@@ -51,7 +51,7 @@ export default function Home() {
               <Image src="/portfolio/wix/graphic/wonderland-cover.jpg" alt="" fill priority sizes="34vw" />
             </div>
             <div className="ribbonSlice ribbonSliceTwo">
-              <Image src="/portfolio/wix/social/tiktok-be-iconic-1.jpg" alt="" fill priority sizes="34vw" />
+              <Image src="/portfolio/web/contact-begum-tiktok.jpg" alt="" fill priority sizes="34vw" />
             </div>
             <div className="ribbonSlice ribbonSliceThree">
               <Image src="/portfolio/wix/game/latrinalia-cover.jpg" alt="" fill priority sizes="34vw" />
