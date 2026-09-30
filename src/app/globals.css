@@ -193,67 +193,94 @@ img {
 }
 
 .spiralFrame1 {
-  top: 1%;
-  left: 39%;
+  --spiral-x: 39%;
+  --spiral-y: 1%;
+  --spiral-rotate: -7deg;
+  top: var(--spiral-y);
+  left: var(--spiral-x);
   width: 22%;
-  transform: rotate(-7deg);
+  transform: rotate(var(--spiral-rotate));
 }
 
 .spiralFrame2 {
-  top: 13%;
-  left: 65%;
+  --spiral-x: 65%;
+  --spiral-y: 13%;
+  --spiral-rotate: 11deg;
+  top: var(--spiral-y);
+  left: var(--spiral-x);
   width: 18%;
-  transform: rotate(11deg);
+  transform: rotate(var(--spiral-rotate));
 }
 
 .spiralFrame3 {
-  top: 34%;
-  left: 76%;
+  --spiral-x: 76%;
+  --spiral-y: 34%;
+  --spiral-rotate: 18deg;
+  top: var(--spiral-y);
+  left: var(--spiral-x);
   width: 16%;
-  transform: rotate(18deg);
+  transform: rotate(var(--spiral-rotate));
 }
 
 .spiralFrame4 {
-  top: 55%;
-  left: 67%;
+  --spiral-x: 67%;
+  --spiral-y: 55%;
+  --spiral-rotate: 10deg;
+  top: var(--spiral-y);
+  left: var(--spiral-x);
   width: 12%;
-  transform: rotate(10deg);
+  transform: rotate(var(--spiral-rotate));
 }
 
 .spiralFrame5 {
-  top: 72%;
-  left: 43%;
+  --spiral-x: 43%;
+  --spiral-y: 72%;
+  --spiral-rotate: -3deg;
+  top: var(--spiral-y);
+  left: var(--spiral-x);
   width: 20%;
-  transform: rotate(-3deg);
+  transform: rotate(var(--spiral-rotate));
 }
 
 .spiralFrame6 {
-  top: 62%;
-  left: 18%;
+  --spiral-x: 18%;
+  --spiral-y: 62%;
+  --spiral-rotate: -13deg;
+  top: var(--spiral-y);
+  left: var(--spiral-x);
   width: 18%;
-  transform: rotate(-13deg);
+  transform: rotate(var(--spiral-rotate));
 }
 
 .spiralFrame7 {
-  top: 38%;
-  left: 6%;
+  --spiral-x: 6%;
+  --spiral-y: 38%;
+  --spiral-rotate: -19deg;
+  top: var(--spiral-y);
+  left: var(--spiral-x);
   width: 19%;
-  transform: rotate(-19deg);
+  transform: rotate(var(--spiral-rotate));
 }
 
 .spiralFrame8 {
-  top: 17%;
-  left: 18%;
+  --spiral-x: 18%;
+  --spiral-y: 17%;
+  --spiral-rotate: -11deg;
+  top: var(--spiral-y);
+  left: var(--spiral-x);
   width: 17%;
-  transform: rotate(-11deg);
+  transform: rotate(var(--spiral-rotate));
 }
 
 .spiralFrame9 {
+  --spiral-x: 39%;
+  --spiral-y: 35%;
+  --spiral-rotate: 4deg;
   z-index: 2;
-  top: 35%;
-  left: 39%;
+  top: var(--spiral-y);
+  left: var(--spiral-x);
   width: 23%;
-  transform: rotate(4deg);
+  transform: rotate(var(--spiral-rotate));
 }
 
 .heroMark {
@@ -307,9 +334,15 @@ img {
 
 @supports (animation-timeline: view()) {
   .heroSpiral {
-    animation: ribbonMove linear both;
+    animation: spiralTurn linear both;
     animation-timeline: scroll(root block);
     animation-range: 0 250svh;
+  }
+
+  .spiralFrame {
+    animation: spiralGather linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 225svh;
   }
 
   .heroMark {
@@ -325,10 +358,31 @@ img {
   }
 }
 
-@keyframes ribbonMove {
-  0% { transform: translate(-50%, -48%) rotate(5deg) scale(0.94); }
-  45% { transform: translate(-50%, -51%) rotate(-2deg) scale(1); }
-  100% { transform: translate(-50%, -55%) rotate(-9deg) scale(0.9); filter: saturate(0.4) contrast(1.08); }
+@keyframes spiralTurn {
+  0% { transform: translate(-50%, -48%) rotate(2deg) scale(0.94); }
+  48% { transform: translate(-50%, -50%) rotate(104deg) scale(0.92); }
+  100% { transform: translate(-50%, -53%) rotate(224deg) scale(0.72); filter: saturate(0.45) contrast(1.08); }
+}
+
+@keyframes spiralGather {
+  0% {
+    top: var(--spiral-y);
+    left: var(--spiral-x);
+    opacity: 1;
+    transform: rotate(var(--spiral-rotate)) scale(1);
+  }
+  58% {
+    top: var(--spiral-y);
+    left: var(--spiral-x);
+    opacity: 0.9;
+    transform: rotate(calc(var(--spiral-rotate) + 55deg)) scale(0.88);
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+    opacity: 0.34;
+    transform: translate(-50%, -50%) rotate(calc(var(--spiral-rotate) + 145deg)) scale(0.42);
+  }
 }
 
 @keyframes markFade {
