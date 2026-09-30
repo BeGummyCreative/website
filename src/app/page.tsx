@@ -46,15 +46,33 @@ export default function Home() {
 
       <section className="aurenHero" aria-labelledby="hero-title">
         <div className="aurenHeroStage">
-          <div className="heroRibbon" aria-hidden="true">
-            <div className="ribbonSlice ribbonSliceOne">
-              <Image src="/portfolio/wix/graphic/wonderland-cover.jpg" alt="" fill priority sizes="34vw" />
+          <div className="heroSpiral" aria-hidden="true">
+            <div className="spiralFrame spiralFrame1">
+              <Image src="/portfolio/wix/graphic/wonderland-cover.jpg" alt="" width={1600} height={931} priority />
             </div>
-            <div className="ribbonSlice ribbonSliceTwo">
-              <Image src="/portfolio/web/contact-begum-tiktok.jpg" alt="" fill priority sizes="34vw" />
+            <div className="spiralFrame spiralFrame2">
+              <Image src="/portfolio/wix/graphic/cake-sit-cover.jpg" alt="" width={1600} height={731} priority />
             </div>
-            <div className="ribbonSlice ribbonSliceThree">
-              <Image src="/portfolio/wix/game/latrinalia-cover.jpg" alt="" fill priority sizes="34vw" />
+            <div className="spiralFrame spiralFrame3">
+              <Image src="/portfolio/wix/photo/architecture-cover.jpg" alt="" width={1600} height={1066} />
+            </div>
+            <div className="spiralFrame spiralFrame4">
+              <Image src="/portfolio/wix/social/tiktok-live-cover.jpg" alt="" width={899} height={1600} />
+            </div>
+            <div className="spiralFrame spiralFrame5">
+              <Image src="/portfolio/wix/photo/fashion-cover.jpg" alt="" width={1600} height={1066} />
+            </div>
+            <div className="spiralFrame spiralFrame6">
+              <Image src="/portfolio/wix/social/oakberry-cover.jpg" alt="" width={1600} height={1066} />
+            </div>
+            <div className="spiralFrame spiralFrame7">
+              <Image src="/portfolio/wix/game/latrinalia-cover.jpg" alt="" width={1600} height={896} priority />
+            </div>
+            <div className="spiralFrame spiralFrame8">
+              <Image src="/portfolio/wix/social/holistic-cover.jpg" alt="" width={1600} height={1283} />
+            </div>
+            <div className="spiralFrame spiralFrame9">
+              <Image src="/portfolio/web/contact-begum-tiktok.jpg" alt="" width={842} height={788} priority />
             </div>
           </div>
 
