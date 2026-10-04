@@ -6,6 +6,7 @@ const workLinks = [
   { label: "FILM", href: "/#film" },
   { label: "DESIGN", href: "/#design" },
   { label: "GAME", href: "/#game" },
+  { label: "PHOTOGRAPHY", href: "/#photography" },
 ];
 
 const mainLinks = [
