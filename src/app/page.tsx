@@ -10,11 +10,9 @@ import {
 } from "@/data/portfolio";
 
 const featuredSlugs = [
-  "cake-sit-rebrand",
-  "latrinalia",
-  "architecture-photography",
   "tiktok-shop-internship",
-  "elo-design-work",
+  "london-fashion-week",
+  "latrinalia",
   "into-wonderland",
 ];
 

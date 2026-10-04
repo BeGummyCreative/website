@@ -6,6 +6,12 @@ import { notFound } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import { getPortfolioProject, portfolioProjects } from "@/data/portfolio";
 
+const compactAssetPattern = /palette|swatch|logo|badge|ticket|sticker|detail/i;
+
+function getGalleryScale(image: string) {
+  return compactAssetPattern.test(image) ? "galleryCompact" : "galleryStandard";
+}
+
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -80,17 +86,17 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      <section className="projectGallery" aria-label={`${project.title} gallery`}>
+      <section className="projectGallery" id="gallery" aria-label={`${project.title} gallery`}>
         {project.images.map((image, index) => (
-          <figure className={`projectGalleryItem galleryItem${index % 3}`} key={`${image}-${index}`}>
-            <div>
-              <Image
-                src={image}
-                alt={`${project.title} project image ${index + 1}`}
-                fill
-                sizes={index % 3 === 1 ? "(max-width: 760px) 100vw, 72vw" : "100vw"}
-              />
-            </div>
+          <figure className={`projectGalleryItem ${getGalleryScale(image)}`} key={`${image}-${index}`}>
+            {/* Native sizing preserves each artwork's exact orientation in the masonry collage. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={image}
+              alt={`${project.title} project image ${index + 1}`}
+              loading={index < 6 ? "eager" : "lazy"}
+              decoding="async"
+            />
             <figcaption>{String(index + 1).padStart(2, "0")} / {project.title}</figcaption>
           </figure>
         ))}
