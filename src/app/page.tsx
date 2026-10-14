@@ -102,7 +102,7 @@ export default function Home() {
       <section className="featuredWork" id="work" aria-labelledby="featured-title">
         <header className="featuredIntro">
           <span>02</span>
-          <h2 id="featured-title">SELECTED WORK</h2>
+          <h2 className="chromeScript" id="featured-title">Selected Work</h2>
           <p>A collection of identities, worlds, images, and stories.</p>
         </header>
 
@@ -141,7 +141,7 @@ export default function Home() {
             <span>03</span>
             <p>FULL ARCHIVE</p>
           </div>
-          <h2 id="archive-title">THE WORK,<br />IN FULL.</h2>
+          <h2 className="chromeScript" id="archive-title">The Work,<br />in Full.</h2>
         </header>
 
         {portfolioCategories.map((category) => {
@@ -149,7 +149,7 @@ export default function Home() {
           return (
             <section className="archiveCategory" id={categoryIds[category]} key={category}>
               <div className="archiveCategoryHeading">
-                <h3>{category}</h3>
+                <h3 className="chromeScript">{category}</h3>
                 <span>{String(projects.length).padStart(2, "0")}</span>
               </div>
               <div className="archiveGrid">
@@ -172,7 +172,7 @@ export default function Home() {
 
         <section className="archiveCategory" id="film">
           <div className="archiveCategoryHeading">
-            <h3>Film</h3>
+            <h3 className="chromeScript">Film</h3>
             <span>{String(filmProjects.length).padStart(2, "0")}</span>
           </div>
           <div className="archiveGrid filmGrid">

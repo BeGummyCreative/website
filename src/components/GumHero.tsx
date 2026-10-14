@@ -797,8 +797,9 @@ function buildScene(
       gum.open = ease(gum.open, gum.targetOpen, 4.5, delta);
       const size = gum.scale * baseScale * (1 - gatherEase * 0.58);
       gum.group.scale.setScalar(size);
-      gum.shadow.scale.setScalar(size);
-      gum.shadow.position.set(gum.group.position.x, gum.group.position.y - BODY.b * 1.3 * size, -0.8);
+      // Tucked just under the wrapper so it reads as a contact shadow.
+      gum.shadow.scale.set(size * 0.9, size * 0.8, 1);
+      gum.shadow.position.set(gum.group.position.x, gum.group.position.y - BODY.b * 0.85 * size, -0.8);
 
       // While open, the piece turns to face the viewer so the drop is visible.
       const bob = reduceMotion ? 0 : Math.sin(time * 0.8 + gum.phase) * 0.06;

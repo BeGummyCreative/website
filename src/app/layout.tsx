@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Pacifico } from "next/font/google";
+import { Pinyon_Script } from "next/font/google";
+import ScrollGumball from "@/components/ScrollGumball";
 import "./globals.css";
 
-// Script face for the chrome hero line; the rest of the site stays Helvetica.
-const script = Pacifico({
+// Copperplate script for the chrome hero line; the rest of the site stays Helvetica.
+const script = Pinyon_Script({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-script",
@@ -35,7 +36,32 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        {/* Chrome lettering (hero slogan and large titles): each stroke becomes a
+            rounded tube (blurred alpha as a height map), lit with soft shading
+            and sharp specular highlights over the reflection gradient. */}
+        <svg className="visuallyHidden" aria-hidden="true" focusable="false">
+          <filter id="chromeLettering" x="-5%" y="-10%" width="110%" height="120%" colorInterpolationFilters="sRGB">
+            <feMorphology in="SourceGraphic" operator="dilate" radius="0.7" result="body" />
+            <feGaussianBlur in="body" stdDeviation="1.15" result="height" />
+            <feDiffuseLighting in="height" surfaceScale="4" diffuseConstant="1.3" lightingColor="#ffffff" result="shade">
+              <feDistantLight azimuth="235" elevation="50" />
+            </feDiffuseLighting>
+            <feSpecularLighting in="height" surfaceScale="5" specularConstant="2.2" specularExponent="60" lightingColor="#ffffff" result="shine">
+              <feDistantLight azimuth="225" elevation="52" />
+            </feSpecularLighting>
+            <feSpecularLighting in="height" surfaceScale="5" specularConstant="1.2" specularExponent="80" lightingColor="#ffffff" result="rim">
+              <feDistantLight azimuth="45" elevation="38" />
+            </feSpecularLighting>
+            <feComposite in="body" in2="shade" operator="arithmetic" k1="1.25" k2="0.18" k3="0" k4="-0.04" result="lit" />
+            <feComposite in="lit" in2="shine" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="glossy" />
+            <feComposite in="glossy" in2="rim" operator="arithmetic" k1="0" k2="1" k3="0.8" k4="0" result="chrome" />
+            <feComposite in="chrome" in2="body" operator="in" />
+          </filter>
+        </svg>
+        {children}
+        <ScrollGumball />
+      </body>
     </html>
   );
 }

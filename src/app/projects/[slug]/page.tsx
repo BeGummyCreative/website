@@ -63,7 +63,7 @@ export default async function ProjectPage({
         <Link className="projectBack" href="/#work">← ALL WORK</Link>
         <div className="projectHeroTitle">
           <p>{project.category} / {project.year}</p>
-          <h1>{project.title}</h1>
+          <h1 className="chromeScript">{project.title}</h1>
         </div>
         <p className="projectScroll">SCROLL TO EXPLORE ↓</p>
       </section>

@@ -8,17 +8,17 @@
   /* Chrome reflections for the hero quote (light mode swaps whites for silvers). */
   --chrome-bands: linear-gradient(
     172deg,
-    #ffffff 0%,
-    #cfd0d8 16%,
-    #fbfbfd 30%,
-    #8d8d98 41%,
-    #24242b 47%,
-    #121216 50%,
-    #a49dd0 53%,
-    #e9e9f0 64%,
-    #ffffff 72%,
-    #8a8a95 86%,
-    #ffffff 100%
+    #e4e4e8 0%,
+    #a6a6ae 16%,
+    #f3f3f6 28%,
+    #8a8a93 40%,
+    #2c2c32 48%,
+    #18181c 52%,
+    #6e6e77 60%,
+    #d6d6dc 72%,
+    #f7f7fa 80%,
+    #92929a 92%,
+    #cfcfd6 100%
   );
   /* Type: Helvetica, thin or bold only. */
   --weight-thin: 200;
@@ -35,17 +35,17 @@
   --logo-shine: rgba(255, 255, 255, 0.95);
   --chrome-bands: linear-gradient(
     172deg,
-    #9a9aa5 0%,
-    #5d5d68 16%,
-    #c4c4cd 30%,
-    #4a4a54 41%,
-    #16161b 47%,
-    #0b0b0e 50%,
-    #5a4f99 53%,
-    #8d8d99 64%,
-    #b8b8c2 72%,
-    #3f3f48 86%,
-    #8f8f9a 100%
+    #e4e4e8 0%,
+    #a6a6ae 16%,
+    #f3f3f6 28%,
+    #8a8a93 40%,
+    #2c2c32 48%,
+    #18181c 52%,
+    #6e6e77 60%,
+    #d6d6dc 72%,
+    #f7f7fa 80%,
+    #92929a 92%,
+    #cfcfd6 100%
   );
   --paper: var(--white);
   --fg: var(--ink);
@@ -127,8 +127,9 @@ img {
   display: flex;
   align-items: center;
   padding: 0 3vw;
-  border-bottom: 1px solid var(--purple);
   background: var(--paper);
+  /* A soft purple glow under the header instead of a hard line. */
+  box-shadow: 0 6px 22px rgba(90, 68, 175, 0.22);
   backdrop-filter: blur(18px);
 }
 
@@ -288,6 +289,73 @@ img {
 
 
 
+/* The native scrollbar is replaced by a purple gumball (ScrollGumball). */
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollGumTrack {
+  position: fixed;
+  z-index: 150;
+  top: calc(var(--header-height) + 10px);
+  right: 6px;
+  bottom: 10px;
+  width: 30px;
+  cursor: pointer;
+  /* Only shown while scrolling (or hovered/dragged); ignores clicks when hidden. */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 450ms ease;
+}
+
+.scrollGumTrack.isVisible {
+  opacity: 1;
+  pointer-events: auto;
+  transition-duration: 160ms;
+}
+
+.scrollGum {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  /* Glossy purple gumball: lit from the top left, darker toward the edge. */
+  background: radial-gradient(circle at 32% 28%, #c9bcff 0%, #8f78ea 18%, #5a44af 46%, #3a2a7d 78%, #22184c 100%);
+  box-shadow: inset -3px -4px 8px rgba(0, 0, 0, 0.35), 0 3px 8px rgba(0, 0, 0, 0.35);
+  cursor: grab;
+  touch-action: none;
+  will-change: transform;
+  transition: scale 160ms ease;
+}
+
+.scrollGum:hover,
+.scrollGum.isDragging {
+  scale: 1.15;
+}
+
+.scrollGum.isDragging {
+  cursor: grabbing;
+}
+
+.scrollGum::after {
+  content: "";
+  position: absolute;
+  top: 12%;
+  left: 18%;
+  width: 34%;
+  height: 22%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+  transform: rotate(-30deg);
+  pointer-events: none;
+}
+
 /* Covers the jump from an eaten gum to its Work section. */
 .gumFade {
   position: fixed;
@@ -372,36 +440,62 @@ img {
 /* "Ideas you can chew on": chrome script that appears as the gums gather.
    Two clipped layers make the chrome: banded silver reflections and a bright
    glint, both shifted by scroll so the light moves across the letters. */
+/* Chrome script lettering, shared by the hero slogan and the large titles
+   (.chromeScript): smooth reflections plus a moving glint, then the
+   #chromeLettering filter lights each stroke as a polished tube. */
+.heroQuote,
+.chromeScript {
+  font-family: var(--font-script), "Snell Roundhand", "Apple Chancery", cursive;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: transparent;
+  background-image:
+    linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.9) 50%, transparent 58%),
+    var(--chrome-bands);
+  background-size: 320% 100%, 100% 220%;
+  background-blend-mode: screen, normal;
+  background-position: 130% 0, 0 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  /* Tube lighting, a fine dark rim, then a soft cast shadow. */
+  filter:
+    url(#chromeLettering)
+    drop-shadow(0 0 0.6px rgba(10, 10, 14, 0.95))
+    drop-shadow(0 5px 8px rgba(0, 0, 0, 0.5));
+}
+
+:root[data-theme="light"] .heroQuote,
+:root[data-theme="light"] .chromeScript {
+  filter:
+    url(#chromeLettering)
+    drop-shadow(0 0 0.6px rgba(10, 10, 14, 0.9))
+    drop-shadow(0 8px 12px rgba(90, 68, 175, 0.28));
+}
+
+/* Room for the script's tall capitals and descenders inside the clipped fill. */
+.chromeScript {
+  padding-block: 0.12em;
+  line-height: 1.05;
+}
+
+/* "Ideas you can chew on": appears as the gums gather. */
 .heroQuote {
   position: absolute;
   z-index: 3;
   top: 50%;
   left: 50%;
-  width: 92%;
+  width: 94%;
   margin: 0;
-  padding: 0.12em 0;
-  font-family: var(--font-script), "Brush Script MT", cursive;
-  font-size: clamp(54px, 9.5vw, 156px);
-  font-weight: 400;
-  line-height: 1.12;
+  padding: 0.15em 0;
+  font-size: clamp(66px, 11.5vw, 190px);
+  line-height: 1.02;
   text-align: center;
-  color: transparent;
-  background-image:
-    linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.95) 50%, transparent 58%),
-    var(--chrome-bands);
-  background-size: 320% 100%, 100% 220%;
-  background-position: 130% 0, 0 0;
-  background-clip: text;
-  -webkit-background-clip: text;
-  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.55)) drop-shadow(0 8px 18px rgba(0, 0, 0, 0.55));
   opacity: 0;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
-:root[data-theme="light"] .heroQuote {
-  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.35)) drop-shadow(0 10px 16px rgba(90, 68, 175, 0.3));
-}
 
 .heroCaption {
   position: absolute;
@@ -421,6 +515,21 @@ img {
 }
 
 @supports (animation-timeline: view()) {
+  /* Large chrome titles: reflections slide as each title passes through the screen. */
+  .chromeScript {
+    animation: chromeShift linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+
+  .featuredIntro > .chromeScript {
+    animation:
+      blendIn linear both,
+      chromeShift linear both;
+    animation-timeline: view(), view();
+    animation-range: entry 0% cover 25%, cover 0% cover 100%;
+  }
+
   /* The chrome quote rises in where the gums gather, and its reflections move with scroll. */
   /* Timed against the hero's own pinned scroll (--hero), so it works at any screen height. */
   .heroQuote {
@@ -668,9 +777,7 @@ img {
 
 .featuredIntro h2 {
   margin: 0;
-  font-size: clamp(50px, 8vw, 132px);
-  font-weight: var(--weight-bold);
-  line-height: 0.88;
+  font-size: clamp(64px, 10vw, 170px);
 }
 
 .featureSlide {
@@ -774,10 +881,8 @@ img {
 
 .archiveHeader h2 {
   margin: 0;
-  text-transform: uppercase;
-  font-size: clamp(70px, 11vw, 170px);
-  font-weight: var(--weight-bold);
-  line-height: 0.83;
+  font-size: clamp(80px, 12vw, 200px);
+  line-height: 0.95;
 }
 
 .archiveCategory {
@@ -796,9 +901,7 @@ img {
 
 .archiveCategoryHeading h3 {
   margin: 0;
-  text-transform: uppercase;
-  font-size: clamp(34px, 5vw, 76px);
-  font-weight: var(--weight-bold);
+  font-size: clamp(46px, 6.5vw, 104px);
 }
 
 .archiveCategoryHeading span {
@@ -1196,10 +1299,8 @@ img {
 .projectHeroTitle h1 {
   max-width: 1100px;
   margin: 0;
-  text-transform: uppercase;
-  font-size: clamp(72px, 9vw, 154px);
-  font-weight: var(--weight-bold);
-  line-height: 0.8;
+  font-size: clamp(80px, 11vw, 180px);
+  line-height: 0.98;
 }
 
 .projectIntroduction {
@@ -1475,7 +1576,17 @@ img {
   }
 
   .heroQuote {
-    font-size: clamp(42px, 13vw, 64px);
+    font-size: clamp(54px, 16vw, 84px);
+  }
+
+  .scrollGumTrack {
+    right: 3px;
+    width: 22px;
+  }
+
+  .scrollGum {
+    width: 22px;
+    height: 22px;
   }
 
   .heroCaption {
@@ -1519,7 +1630,7 @@ img {
 
   .featuredIntro h2 {
     margin-top: 70px;
-    font-size: 58px;
+    font-size: 72px;
   }
 
   .featuredIntro p {
@@ -1547,7 +1658,7 @@ img {
 
   .archiveHeader h2 {
     margin-top: 78px;
-    font-size: 64px;
+    font-size: 78px;
   }
 
   .archiveCategory {
@@ -1559,7 +1670,7 @@ img {
   }
 
   .archiveCategoryHeading h3 {
-    font-size: 36px;
+    font-size: 50px;
   }
 
   .archiveGrid {
@@ -1659,7 +1770,7 @@ img {
   }
 
   .projectHeroTitle h1 {
-    font-size: clamp(56px, 18vw, 92px);
+    font-size: clamp(64px, 20vw, 104px);
   }
 
   .projectBack {
