@@ -29,7 +29,7 @@ export async function generateMetadata({
   if (!project) return {};
 
   return {
-    title: `${project.title} | Begum Geveci`,
+    title: `${project.title} | Begüm Geveci`,
     description: project.summary,
   };
 }

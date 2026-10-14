@@ -48,7 +48,7 @@ export const filmProjects = [
     image: "/portfolio/wix/film/wishbone-fever.jpg",
     href: "https://www.imdb.com/name/nm18369899/",
     description:
-      "Audience Choice winner at FOMI. Begum worked as production assistant and runner on this psychological thriller about healing from domestic violence.",
+      "Audience Choice winner at FOMI. Begüm worked as production assistant and runner on this psychological thriller about healing from domestic violence.",
   },
   {
     title: "HENRY",
@@ -56,7 +56,7 @@ export const filmProjects = [
     image: "/portfolio/wix/film/henry.jpg",
     href: "https://youtu.be/VytNsdTkoAI",
     description:
-      "Flo Wilkes' music video exploring performative male stereotypes. Begum worked across lighting, set assistance, and production running.",
+      "Flo Wilkes' music video exploring performative male stereotypes. Begüm worked across lighting, set assistance, and production running.",
   },
   {
     title: "The Nurturer",
@@ -169,22 +169,48 @@ export const portfolioProjects: PortfolioProject[] = [
   },
   {
     slug: "world-tour-branding",
-    title: "World Tour Branding",
+    title: "BitterSweet World Tour",
     category: "Graphic Design",
     year: "2023",
-    cover: "/portfolio/wix/graphic/world-tour-cover.jpg",
-    summary: "A full tour identity spanning posters, tickets, merchandise, and print.",
+    cover: "/portfolio/wix/graphic/bittersweet/02-logo-coloured.jpg",
+    summary: "A Melanie Martinez world-tour identity spanning logos, posters, brochures, tickets, stickers, and merchandise.",
     description: [
-      "A speculative world-tour identity inspired by Melanie Martinez, developed as an A Level branding project.",
-      "The system combines custom lettering, risograph texture, offset print, posters, brochures, tickets, stickers, and merchandise. Selected products also support the Safe Stay refuge charity.",
+      "My second A Level branding project. The topic was Music, so I created a world-tour brand for Melanie Martinez, an artist I always listened to, to bring her work back to life.",
+      "The colour palette was inspired by an image of high heels that reflects her style. I designed my own font in Calligraphr and added a 3D, buttercream-like material effect in Illustrator. Brochures use risograph grain for nostalgia and offset print for energy, and the pink ticket references the permission slip in her song \"Nurse's Office\".",
+      "Stickers, a tote bag, a pillow case, and a limited-edition colouring book complete the range, with a percentage of charity merch profits going to the refuge charity Safe Stay. Made with Illustrator, Photoshop, InDesign, and Procreate.",
     ],
     images: [
-      "/portfolio/wix/graphic/world-tour-cover.jpg",
-      "/portfolio/wix/graphic/world-tour-logo.jpg",
-      "/portfolio/wix/graphic/world-tour-poster-1.jpg",
-      "/portfolio/wix/graphic/world-tour-poster-2.jpg",
-      "/portfolio/wix/graphic/world-tour-ticket.jpg",
-      "/portfolio/wix/graphic/world-tour-tote.jpg",
+      "/portfolio/wix/graphic/bittersweet/01-logo-final.jpg",
+      "/portfolio/wix/graphic/bittersweet/02-logo-coloured.jpg",
+      "/portfolio/wix/graphic/bittersweet/04-palette-heels.jpg",
+      "/portfolio/wix/graphic/bittersweet/05-palette-mockup.jpg",
+      "/portfolio/wix/graphic/bittersweet/06-palette-strip.jpg",
+      "/portfolio/wix/graphic/bittersweet/07-poster-1.jpg",
+      "/portfolio/wix/graphic/bittersweet/08-poster-2.jpg",
+      "/portfolio/wix/graphic/bittersweet/09-poster-3.jpg",
+      "/portfolio/wix/graphic/bittersweet/10-type-3d.jpg",
+      "/portfolio/wix/graphic/bittersweet/11-type-screenshot-1.jpg",
+      "/portfolio/wix/graphic/bittersweet/12-type-screenshot-2.jpg",
+      "/portfolio/wix/graphic/bittersweet/13-type-screenshot-3.jpg",
+      "/portfolio/wix/graphic/bittersweet/14-poster-blue-1.jpg",
+      "/portfolio/wix/graphic/bittersweet/15-poster-blue-2.jpg",
+      "/portfolio/wix/graphic/bittersweet/16-poster-blue-3.jpg",
+      "/portfolio/wix/graphic/bittersweet/17-brochure-1.jpg",
+      "/portfolio/wix/graphic/bittersweet/18-brochure-2.jpg",
+      "/portfolio/wix/graphic/bittersweet/19-brochure-3.jpg",
+      "/portfolio/wix/graphic/bittersweet/20-brochure-risograph.jpg",
+      "/portfolio/wix/graphic/bittersweet/21-ticket-1.jpg",
+      "/portfolio/wix/graphic/bittersweet/22-ticket-2.jpg",
+      "/portfolio/wix/graphic/bittersweet/23-ticket-mockup.jpg",
+      "/portfolio/wix/graphic/bittersweet/24-stickers-sheet.png",
+      "/portfolio/wix/graphic/bittersweet/25-stickers-photo-1.jpg",
+      "/portfolio/wix/graphic/bittersweet/26-stickers-photo-2.jpg",
+      "/portfolio/wix/graphic/bittersweet/27-heat-press-product.jpg",
+      "/portfolio/wix/graphic/bittersweet/28-heat-press-photo.jpg",
+      "/portfolio/wix/graphic/bittersweet/29-tote-bag.jpg",
+      "/portfolio/wix/graphic/bittersweet/30-colouring-book-1.jpg",
+      "/portfolio/wix/graphic/bittersweet/31-colouring-book-2.jpg",
+      "/portfolio/wix/graphic/bittersweet/32-colouring-book-photo.jpg",
     ],
   },
   {
@@ -233,7 +259,7 @@ export const portfolioProjects: PortfolioProject[] = [
     summary: "A competition-winning sticker set created for Autism Acceptance Week.",
     description: [
       "Designed for an Autism Acceptance Week competition in April 2023.",
-      "The winning stickers were printed and distributed throughout Begum's sixth form, turning a compact illustration system into a visible awareness campaign.",
+      "The winning stickers were printed and distributed throughout Begüm's sixth form, turning a compact illustration system into a visible awareness campaign.",
     ],
     images: [
       "/portfolio/wix/graphic/autism-stickers-cover.jpg",
@@ -268,7 +294,7 @@ export const portfolioProjects: PortfolioProject[] = [
     cover: "/portfolio/wix/game/interactive-toy.jpg",
     summary: "A modelled, animated, and coded character with a Blade Runner atmosphere.",
     description: [
-      "Begum's first complete character design, developed individually within a shared sci-fi world.",
+      "Begüm's first complete character design, developed individually within a shared sci-fi world.",
       "The project moved through modelling, animation, and code to produce a finished interactive toy with a Blade Runner-inspired visual atmosphere.",
     ],
     images: ["/portfolio/wix/game/interactive-toy.jpg"],
@@ -580,7 +606,7 @@ export const portfolioProjects: PortfolioProject[] = [
     cover: "/portfolio/wix/social/tiktok-live-cover.jpg",
     summary: "B2C and B2B video production across campaigns, LIVE events, and seller stories.",
     description: [
-      "As a videographer and editor within TikTok Shop Marketing, Begum created social content for product campaigns, events, seller testimonials, podcasts, and behind-the-scenes stories.",
+      "As a videographer and editor within TikTok Shop Marketing, Begüm created social content for product campaigns, events, seller testimonials, podcasts, and behind-the-scenes stories.",
       "Projects included a Rita Ora and Anna Lahey TYPEBEA LIVE, the Be Iconic campaign, Meet The Shop, product videos, event coverage, and more than ten seller testimonials.",
     ],
     images: [
@@ -601,7 +627,7 @@ export const portfolioProjects: PortfolioProject[] = [
     summary: "Styled food photography produced for Swift Food and Asian Delights.",
     description: [
       "A freelance food-photography commission for Asian Delights through Swift Food.",
-      "Begum set the lighting, styled each dish, photographed the menu, and edited the final images for use across the restaurant's website and social channels.",
+      "Begüm set the lighting, styled each dish, photographed the menu, and edited the final images for use across the restaurant's website and social channels.",
     ],
     images: [
       "/portfolio/wix/social/asian-delights-cover.jpg",

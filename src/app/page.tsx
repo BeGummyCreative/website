@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import ContactSection from "@/components/ContactSection";
+import GumHero from "@/components/GumHero";
 import SiteHeader from "@/components/SiteHeader";
+import { imageOrientation } from "@/lib/imageOrientation";
 import {
   filmProjects,
   portfolioCategories,
@@ -44,35 +47,7 @@ export default function Home() {
 
       <section className="aurenHero" aria-labelledby="hero-title">
         <div className="aurenHeroStage">
-          <div className="heroSpiral" aria-hidden="true">
-            <div className="spiralFrame spiralFrame1">
-              <Image src="/portfolio/wix/graphic/wonderland-cover.jpg" alt="" width={1600} height={931} priority />
-            </div>
-            <div className="spiralFrame spiralFrame2">
-              <Image src="/portfolio/wix/graphic/cake-sit-cover.jpg" alt="" width={1600} height={731} priority />
-            </div>
-            <div className="spiralFrame spiralFrame3">
-              <Image src="/portfolio/wix/photo/architecture-cover.jpg" alt="" width={1600} height={1066} />
-            </div>
-            <div className="spiralFrame spiralFrame4">
-              <Image src="/portfolio/wix/social/tiktok-live-cover.jpg" alt="" width={899} height={1600} />
-            </div>
-            <div className="spiralFrame spiralFrame5">
-              <Image src="/portfolio/wix/photo/fashion-cover.jpg" alt="" width={1600} height={1066} />
-            </div>
-            <div className="spiralFrame spiralFrame6">
-              <Image src="/portfolio/wix/social/oakberry-cover.jpg" alt="" width={1600} height={1066} />
-            </div>
-            <div className="spiralFrame spiralFrame7">
-              <Image src="/portfolio/wix/game/latrinalia-cover.jpg" alt="" width={1600} height={896} priority />
-            </div>
-            <div className="spiralFrame spiralFrame8">
-              <Image src="/portfolio/wix/social/holistic-cover.jpg" alt="" width={1600} height={1283} />
-            </div>
-            <div className="spiralFrame spiralFrame9">
-              <Image src="/portfolio/web/contact-begum-tiktok.jpg" alt="" width={842} height={788} priority />
-            </div>
-          </div>
+          <GumHero />
 
           <div className="heroMark">
             <Image
@@ -84,58 +59,44 @@ export default function Home() {
             />
           </div>
 
-          <h1 className="heroManifesto" id="hero-title">
-            Stories with texture.<br />Ideas with a pulse.
+          <p className="heroQuote">Ideas you can<br />chew on</p>
+
+          <h1 className="visuallyHidden" id="hero-title">
+            Begüm Geveci, multidisciplinary creative
           </h1>
 
-          <p className="heroCaption heroCaptionLeft">BEGUM GEVECI<br />MULTIDISCIPLINARY CREATIVE</p>
+          <p className="heroCaption heroCaptionLeft">BEGÜM GEVECI<br />MULTIDISCIPLINARY CREATIVE</p>
           <p className="heroCaption heroCaptionRight">LONDON<br />2026</p>
         </div>
       </section>
 
-      <section className="imageInterlude" aria-label="Begum at work">
-        <Image
-          src="/portfolio/web/contact-begum-tiktok.jpg"
-          alt="Begum Geveci speaking at a creative event"
-          fill
-          sizes="100vw"
-        />
-        <p>FILM / DESIGN / IMAGE / PLAY</p>
-      </section>
-
-      <section className="aboutEditorial" id="about">
-        <div className="sectionKicker">
-          <span>01</span>
-          <p>ABOUT THE STUDIO</p>
+      <section className="imageInterlude" id="about" aria-labelledby="about-title">
+        <div className="interludeStage">
+          <div className="interludeMedia">
+            <Image
+              src="/portfolio/web/contact-begum-tiktok.jpg"
+              alt="Begüm Geveci speaking at a creative event"
+              fill
+              sizes="100vw"
+            />
+          </div>
+          <p>FILM / DESIGN / IMAGE / PLAY</p>
+          <div className="interludeBlurb">
+            <div className="sectionKicker inverse">
+              <span>01</span>
+              <p id="about-title">WHO IS BEGUMMY?</p>
+            </div>
+            <p className="interludeCopy">
+              I&apos;m Begüm, a London-based multidisciplinary creative and UCL Film
+              and Game Design graduate. I shape playful visual worlds across art
+              direction, brand identity, photography, film, social content, and
+              game design.
+            </p>
+            <a className="textArrow" href="#contact">
+              START A CONVERSATION <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
-        <div className="aboutCopy">
-          <h2>
-            I shape playful visual worlds across design, moving image, and
-            interactive experiences.
-          </h2>
-          <p>
-            I&apos;m Begum, a London-based multidisciplinary creative and UCL Film
-            and Game Design graduate. My practice moves between art direction,
-            brand identity, photography, film, social content, and game design.
-          </p>
-          <a className="textArrow" href="mailto:begumgeveci@gmail.com">
-            START A CONVERSATION <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-        <figure className="aboutPortrait">
-          <Image
-            src="/portfolio/web/about-portrait.jpg"
-            alt="Portrait of Begum Geveci"
-            fill
-            sizes="(max-width: 760px) 100vw, 42vw"
-          />
-          <figcaption>BEGUM GEVECI / CREATIVE DIRECTOR</figcaption>
-        </figure>
-      </section>
-
-      <section className="statementBand" aria-label="Creative approach">
-        <p>STRATEGY IN THE DETAILS.</p>
-        <h2>MADE TO BE<br />FELT, NOT JUST SEEN.</h2>
       </section>
 
       <section className="featuredWork" id="work" aria-labelledby="featured-title">
@@ -192,8 +153,8 @@ export default function Home() {
                 <span>{String(projects.length).padStart(2, "0")}</span>
               </div>
               <div className="archiveGrid">
-                {projects.map((project, index) => (
-                  <Link className={`archiveCard archiveCard${index % 3}`} href={`/projects/${project.slug}`} key={project.slug}>
+                {projects.map((project) => (
+                  <Link className={`archiveCard ${imageOrientation(project.cover)}`} href={`/projects/${project.slug}`} key={project.slug}>
                     <span className="archiveImage">
                       <Image src={project.cover} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />
                     </span>
@@ -215,8 +176,8 @@ export default function Home() {
             <span>{String(filmProjects.length).padStart(2, "0")}</span>
           </div>
           <div className="archiveGrid filmGrid">
-            {filmProjects.map((project, index) => (
-              <a className={`archiveCard archiveCard${index % 3}`} href={project.href} target="_blank" rel="noreferrer" key={project.title}>
+            {filmProjects.map((project) => (
+              <a className={`archiveCard ${imageOrientation(project.image)}`} href={project.href} target="_blank" rel="noreferrer" key={project.title}>
                 <span className="archiveImage">
                   <Image src={project.image} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />
                 </span>
@@ -247,14 +208,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="contactSection" id="contact">
-        <p>HAVE A STORY IN MIND?</p>
-        <h2>LET&apos;S MAKE<br />IT MEMORABLE.</h2>
-        <a href="mailto:begumgeveci@gmail.com">begumgeveci@gmail.com <span aria-hidden="true">↗</span></a>
-        <div className="contactPortrait">
-          <Image src="/portfolio/web/contact-begum-tiktok.jpg" alt="Begum Geveci" fill sizes="(max-width: 760px) 56vw, 22vw" />
-        </div>
-      </section>
+      <ContactSection />
 
       <footer className="aurenFooter">
         <Image src="/portfolio/web/begummy-logo-white.png" alt="BeGummy Creative" width={1800} height={1661} />
@@ -263,7 +217,7 @@ export default function Home() {
           <a href="https://www.linkedin.com/in/begum-geveci" target="_blank" rel="noreferrer">LINKEDIN</a>
           <a href="https://www.youtube.com/@begummy.creative" target="_blank" rel="noreferrer">YOUTUBE</a>
         </nav>
-        <p>© 2026 BEGUM GEVECI / LONDON</p>
+        <p>© 2026 BEGÜM GEVECI / LONDON</p>
       </footer>
     </main>
   );
