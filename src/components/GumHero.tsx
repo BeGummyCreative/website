@@ -27,6 +27,7 @@ const poses: [number, number, number][] = [
 // Body radii: long axis along x, like a wrapped sweet.
 const BODY = { a: 1.05, b: 0.78, c: 0.72 };
 const HOVER_SCALE = 1.1;
+const INTRO_SECONDS = 2.4;
 // Where the foil tears open: the top-front of the body.
 const TEAR_DIRECTION = [0.1, 0.6, 0.79];
 
@@ -254,7 +255,7 @@ function buildScene(
   const textureLoader = new THREE.TextureLoader();
   const disposables: { dispose: () => void }[] = [envMap, pmrem];
 
-  // Light mode: a soft purple shadow sits beneath each piece.
+  // A soft purple shadow sits beneath each piece (both themes).
   const shadowTexture = (() => {
     const canvas = document.createElement("canvas");
     canvas.width = 256;
@@ -270,6 +271,9 @@ function buildScene(
     return new THREE.CanvasTexture(canvas);
   })();
   const shadowGeometry = new THREE.PlaneGeometry(2.8, 1.1);
+  // Kept on the pieces' own plane: a shadow set further back is pulled toward
+  // the screen centre by perspective and hides behind the lower pieces. Depth
+  // testing still lets each wrapper cover the part of its shadow behind it.
   const shadowMaterial = new THREE.MeshBasicMaterial({
     map: shadowTexture,
     transparent: true,
@@ -755,7 +759,11 @@ function buildScene(
 
     // Scrolling spirals the pieces into the centre: they orbit inward, shrink,
     // spin and fade, like the photo spiral this replaced.
-    const gather = gatherProgress();
+    // On first load the pieces play the spiral in reverse: they start gathered
+    // in the centre and unwind out to the ring. Scrolling takes over from there.
+    const intro = reduceMotion ? 1 : Math.min(1, time / INTRO_SECONDS);
+    const introGather = (1 - intro) ** 3; // eases out: fast unwind, gentle landing
+    const gather = Math.max(gatherProgress(), introGather);
     const gatherEase = gather * gather * (3 - 2 * gather);
     if (gather > 0.04) gums.forEach((gum) => (gum.targetOpen = 0));
     gums.forEach((gum, index) => {
@@ -768,7 +776,7 @@ function buildScene(
       );
     });
     renderer.domElement.style.opacity = String(1 - gatherEase * 0.66);
-    shadowMaterial.opacity = ease(shadowMaterial.opacity, lightMode ? 1 : 0, 5, delta);
+    shadowMaterial.opacity = ease(shadowMaterial.opacity, 1, 5, delta);
 
     if (pointerInside) {
       ray.set(pointer.x, pointer.y, 0.5).unproject(camera).sub(camera.position).normalize();
@@ -797,9 +805,8 @@ function buildScene(
       gum.open = ease(gum.open, gum.targetOpen, 4.5, delta);
       const size = gum.scale * baseScale * (1 - gatherEase * 0.58);
       gum.group.scale.setScalar(size);
-      // Tucked just under the wrapper so it reads as a contact shadow.
+      // Contact shadow sized to the piece; positioned below once its tilt is known.
       gum.shadow.scale.set(size * 0.9, size * 0.8, 1);
-      gum.shadow.position.set(gum.group.position.x, gum.group.position.y - BODY.b * 0.85 * size, -0.8);
 
       // While open, the piece turns to face the viewer so the drop is visible.
       const bob = reduceMotion ? 0 : Math.sin(time * 0.8 + gum.phase) * 0.06;
@@ -815,6 +822,11 @@ function buildScene(
         THREE.MathUtils.lerp(ry, 0, gum.open),
         THREE.MathUtils.lerp(rz * (1 - gum.hover * 0.6), 0, gum.open) + gatherEase * 2.5,
       );
+      // Tucked just under the lowest point of the (tilted) wrapper body, so it
+      // stays visible under strongly rotated pieces too.
+      const tilt = gum.group.rotation.z;
+      const lowest = Math.hypot(BODY.a * Math.sin(tilt), BODY.b * Math.cos(tilt));
+      gum.shadow.position.set(gum.group.position.x, gum.group.position.y - lowest * 0.95 * size, 0);
       gum.tear.uOpen.value = gum.open;
       gum.drop.position.set(0, 0.06 * gum.open, 0);
       gum.drop.rotation.x = -0.4 * gum.open;

@@ -115,7 +115,7 @@ export default function ContactSection() {
                 <rect x="3" y="5.5" width="18" height="13" />
                 <path d="m3 6 9 7.5L21 6M3 18.5l6.8-6.3M21 18.5l-6.8-6.3" />
               </svg>
-              <a href={`mailto:${email}`}>{email}</a>
+              <a href={`mailto:${email}`} target="_blank" rel="noreferrer">{email}</a>
             </li>
             <li>
               <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -158,7 +158,7 @@ export default function ContactSection() {
             {status === "error" && (
               <>
                 Something went wrong. Please try again or email{" "}
-                <a href={`mailto:${email}`}>{email}</a>.
+                <a href={`mailto:${email}`} target="_blank" rel="noreferrer">{email}</a>.
               </>
             )}
           </p>

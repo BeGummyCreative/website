@@ -164,7 +164,7 @@ export default async function ProjectPage({
 
       <footer className="projectFooter">
         <Link href="/#work">ALL WORK</Link>
-        <a href="mailto:begumgeveci@gmail.com">BEGUMGEVECI@GMAIL.COM</a>
+        <a href="mailto:begumgeveci@gmail.com" target="_blank" rel="noreferrer">BEGUMGEVECI@GMAIL.COM</a>
         <a href="#project-top">BACK TO TOP ↑</a>
       </footer>
     </main>

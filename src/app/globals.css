@@ -137,8 +137,8 @@ img {
   position: absolute;
   z-index: 2;
   left: 3vw;
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
 }
 
 .aurenHeaderLogo img {
@@ -404,7 +404,8 @@ html::-webkit-scrollbar {
 .heroMark img {
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 6px 22px rgba(90, 68, 175, 0.45));
+  /* The same subtle purple shadow beneath the logo in both themes. */
+  filter: drop-shadow(0 14px 16px rgba(90, 68, 175, 0.32));
 }
 
 :root[data-theme="light"] .aurenHeaderLogo img {
@@ -461,11 +462,11 @@ html::-webkit-scrollbar {
   background-position: 130% 0, 0 0;
   background-clip: text;
   -webkit-background-clip: text;
-  /* Tube lighting, a fine dark rim, then a soft cast shadow. */
+  /* Tube lighting, a fine dark rim, then a soft purple cast shadow. */
   filter:
     url(#chromeLettering)
     drop-shadow(0 0 0.6px rgba(10, 10, 14, 0.95))
-    drop-shadow(0 5px 8px rgba(0, 0, 0, 0.5));
+    drop-shadow(0 8px 12px rgba(90, 68, 175, 0.28));
 }
 
 :root[data-theme="light"] .heroQuote,
@@ -952,6 +953,41 @@ html::-webkit-scrollbar {
 }
 
 /* Logo covers sit whole on the page colour, framed in purple. */
+.archiveCardLink {
+  display: block;
+}
+
+/* Behind-the-scenes reels shown under a film card. */
+.archiveClips {
+  display: flex;
+  gap: 12px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.archiveClips a {
+  display: grid;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.archiveClips img {
+  width: 72px;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  border: 1px solid var(--purple);
+  transition: transform 180ms ease;
+}
+
+.archiveClips a:hover img,
+.archiveClips a:focus-visible img {
+  transform: translateY(-3px);
+}
+
 .logoCover .archiveImage {
   border: 1px solid var(--purple);
   background: var(--paper);
@@ -1452,20 +1488,19 @@ html::-webkit-scrollbar {
   line-height: 1.6;
 }
 
+/* Rows of photos that wrap, so large event sets stay visible without sideways scrolling. */
 .projectSectionImages {
   display: flex;
-  gap: 14px;
-  overflow-x: auto;
-  padding-bottom: 6px;
-  scrollbar-width: none;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .projectSectionImages img {
-  flex: none;
-  height: clamp(260px, 42svh, 460px);
+  flex: 0 1 auto;
+  height: clamp(200px, 32svh, 380px);
   width: auto;
-  max-width: 88vw;
-  object-fit: contain;
+  max-width: 100%;
+  object-fit: cover;
   background: var(--ink);
 }
 
@@ -1657,8 +1692,8 @@ html::-webkit-scrollbar {
 
   .aurenHeaderLogo {
     left: 18px;
-    width: 42px;
-    height: 42px;
+    width: 52px;
+    height: 52px;
   }
 
   .aurenDesktopNav {

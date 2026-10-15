@@ -196,16 +196,31 @@ export default function Home() {
           </div>
           <div className="archiveGrid filmGrid">
             {filmProjects.map((project) => (
-              <a className={`archiveCard ${imageOrientation(project.image)}`} href={project.href} target="_blank" rel="noreferrer" key={project.title}>
-                <span className="archiveImage">
-                  <Image src={project.image} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />
-                </span>
-                <span className="archiveDetails">
-                  <strong>{project.title}</strong>
-                  <small>{project.role}</small>
-                </span>
-                <span className="archiveSummary">{project.description}</span>
-              </a>
+              // Links can't nest, so a film with extra clips wraps its card link and the clips in a div.
+              <div className={`archiveCard ${imageOrientation(project.image)}`} key={project.title}>
+                <a className="archiveCardLink" href={project.href} target="_blank" rel="noreferrer">
+                  <span className="archiveImage">
+                    <Image src={project.image} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />
+                  </span>
+                  <span className="archiveDetails">
+                    <strong>{project.title}</strong>
+                    <small>{project.role}</small>
+                  </span>
+                  <span className="archiveSummary">{project.description}</span>
+                </a>
+                {project.clips?.length ? (
+                  <ul className="archiveClips" aria-label={`${project.title} behind the scenes`}>
+                    {project.clips.map((clip) => (
+                      <li key={clip.href}>
+                        <a href={clip.href} target="_blank" rel="noreferrer">
+                          <Image src={clip.image} alt="" width={120} height={218} />
+                          <span>{clip.label} ↗</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
             ))}
           </div>
         </section>
