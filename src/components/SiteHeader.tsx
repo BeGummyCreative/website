@@ -22,6 +22,7 @@ const mainLinks = [
 
 export default function SiteHeader() {
   const mobileNavRef = useRef<HTMLDetailsElement>(null);
+  const fadeRef = useRef<HTMLDivElement>(null);
   const mobileCloseTimer = useRef<number | undefined>(undefined);
   const [workMenuClosed, setWorkMenuClosed] = useState(false);
   const pathname = usePathname();
@@ -38,16 +39,29 @@ export default function SiteHeader() {
 
   // <details> hides its content instantly, so fade the links out first and
   // only collapse the menu once the fade (600ms, see .isClosing) has finished.
-  // The logo is the home button: on the homepage it scrolls back to the top
+  // The logo is the home button: on the homepage it fades back to the top
   // (a same-page "#top" link does nothing once that hash is already set).
   function goHome(event: MouseEvent<HTMLAnchorElement>) {
     if (mobileNavRef.current) mobileNavRef.current.open = false;
     if (pathname !== "/") return;
     event.preventDefault();
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
-    history.replaceState(null, "", "/");
     blurLink();
+    history.replaceState(null, "", "/");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      return;
+    }
+    // Fade the page out, jump to the top behind the fade, then fade the landing page in.
+    const overlay = fadeRef.current;
+    if (!overlay) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      return;
+    }
+    overlay.classList.add("isOn");
+    window.setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      requestAnimationFrame(() => overlay.classList.remove("isOn"));
+    }, 380);
   }
 
   function closeMobileMenu() {
@@ -67,49 +81,53 @@ export default function SiteHeader() {
   }
 
   return (
-    <header className="aurenHeader">
-      <Link className="aurenHeaderLogo" href="/" onClick={goHome} aria-label="Begüm Geveci home">
-        <Image
-          src="/portfolio/web/begummy-logo-white.png"
-          alt=""
-          width={1800}
-          height={1661}
-          priority
-        />
-      </Link>
+    <>
+      {/* Kept outside the header: its backdrop-filter would confine a fixed child to the header. */}
+      <div className="pageFade" ref={fadeRef} aria-hidden="true" />
+      <header className="aurenHeader">
+        <Link className="aurenHeaderLogo" href="/" onClick={goHome} aria-label="Begüm Geveci home">
+          <Image
+            src="/portfolio/web/begummy-logo-white.png"
+            alt=""
+            width={1800}
+            height={1661}
+            priority
+          />
+        </Link>
 
-      <nav className="aurenDesktopNav" aria-label="Primary navigation">
-        <div
-          className={workMenuClosed ? "aurenWorkMenu isClosed" : "aurenWorkMenu"}
-          onMouseLeave={() => setWorkMenuClosed(false)}
-        >
-          <Link href="/#work" onClick={closeDesktopMenu}>WORK</Link>
-          <div className="aurenWorkDropdown" aria-label="Work categories">
-            {workLinks.map((link) => (
-              <Link href={link.href} key={link.label} onClick={closeDesktopMenu}>{link.label}</Link>
-            ))}
+        <nav className="aurenDesktopNav" aria-label="Primary navigation">
+          <div
+            className={workMenuClosed ? "aurenWorkMenu isClosed" : "aurenWorkMenu"}
+            onMouseLeave={() => setWorkMenuClosed(false)}
+          >
+            <Link href="/#work" onClick={closeDesktopMenu}>WORK</Link>
+            <div className="aurenWorkDropdown" aria-label="Work categories">
+              {workLinks.map((link) => (
+                <Link href={link.href} key={link.label} onClick={closeDesktopMenu}>{link.label}</Link>
+              ))}
+            </div>
           </div>
-        </div>
-        {mainLinks.map((link) => (
-          <Link href={link.href} key={link.label} onClick={closeDesktopMenu}>{link.label}</Link>
-        ))}
-      </nav>
-
-      <ThemeToggle />
-
-      <details className="aurenMobileNav" ref={mobileNavRef}>
-        <summary>MENU</summary>
-        <nav aria-label="Mobile navigation">
-          <Link href="/#work" onClick={closeMobileMenu}>WORK</Link>
-          {workLinks.map((link) => (
-            <Link className="mobileSubLink" href={link.href} key={link.label} onClick={closeMobileMenu}>
-              {link.label}
-            </Link>
+          {mainLinks.map((link) => (
+            <Link href={link.href} key={link.label} onClick={closeDesktopMenu}>{link.label}</Link>
           ))}
-          <Link href="/#about" onClick={closeMobileMenu}>ABOUT</Link>
-          <Link href="/#contact" onClick={closeMobileMenu}>CONTACT</Link>
         </nav>
-      </details>
-    </header>
+
+        <ThemeToggle />
+
+        <details className="aurenMobileNav" ref={mobileNavRef}>
+          <summary>MENU</summary>
+          <nav aria-label="Mobile navigation">
+            <Link href="/#work" onClick={closeMobileMenu}>WORK</Link>
+            {workLinks.map((link) => (
+              <Link className="mobileSubLink" href={link.href} key={link.label} onClick={closeMobileMenu}>
+                {link.label}
+              </Link>
+            ))}
+            <Link href="/#about" onClick={closeMobileMenu}>ABOUT</Link>
+            <Link href="/#contact" onClick={closeMobileMenu}>CONTACT</Link>
+          </nav>
+        </details>
+      </header>
+    </>
   );
 }

@@ -154,9 +154,28 @@ export default function Home() {
               </div>
               <div className="archiveGrid">
                 {projects.map((project) => (
-                  <Link className={`archiveCard ${imageOrientation(project.cover)}`} href={`/projects/${project.slug}`} key={project.slug}>
+                  <Link
+                    className={[
+                      "archiveCard",
+                      // Graphic design covers all share one landscape frame.
+                      category === "Graphic Design" ? "landscape" : imageOrientation(project.cover),
+                      project.coverStyle === "logo" ? "logoCover" : "",
+                      project.coverInvertsInLight ? "invertsInLight" : "",
+                    ].join(" ")}
+                    href={`/projects/${project.slug}`}
+                    key={project.slug}
+                  >
                     <span className="archiveImage">
-                      <Image src={project.cover} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />
+                      <Image
+                        className={project.coverLight ? "coverDarkOnly" : undefined}
+                        src={project.cover}
+                        alt=""
+                        fill
+                        sizes="(max-width: 760px) 100vw, 33vw"
+                      />
+                      {project.coverLight ? (
+                        <Image className="coverLightOnly" src={project.coverLight} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />
+                      ) : null}
                     </span>
                     <span className="archiveDetails">
                       <strong>{project.title}</strong>

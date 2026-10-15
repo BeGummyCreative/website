@@ -12,6 +12,14 @@ function getGalleryScale(image: string) {
   return compactAssetPattern.test(image) ? "galleryCompact" : "galleryStandard";
 }
 
+function linkPlatform(href: string) {
+  if (href.includes("tiktok.com")) return "TikTok";
+  if (href.includes("linkedin.com")) return "LinkedIn";
+  if (href.includes("youtu")) return "YouTube";
+  if (href.includes("instagram.com")) return "Instagram";
+  return "Watch";
+}
+
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -86,21 +94,62 @@ export default async function ProjectPage({
         </div>
       </section>
 
-      <section className="projectGallery" id="gallery" aria-label={`${project.title} gallery`}>
-        {project.images.map((image, index) => (
-          <figure className={`projectGalleryItem ${getGalleryScale(image)}`} key={`${image}-${index}`}>
-            {/* Native sizing preserves each artwork's exact orientation in the masonry collage. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={image}
-              alt={`${project.title} project image ${index + 1}`}
-              loading={index < 6 ? "eager" : "lazy"}
-              decoding="async"
-            />
-            <figcaption>{String(index + 1).padStart(2, "0")} / {project.title}</figcaption>
-          </figure>
-        ))}
-      </section>
+      {project.sections ? (
+        <div className="projectSections" id="gallery">
+          {project.sections.map((section, sectionIndex) => (
+            <section className="projectSection" key={section.title} aria-labelledby={`section-${sectionIndex}`}>
+              <header className="projectSectionHeader">
+                {section.group ? <span>{section.group}</span> : null}
+                <h3 id={`section-${sectionIndex}`}>{section.title}</h3>
+                {section.text ? <p>{section.text}</p> : null}
+              </header>
+              {section.images?.length ? (
+                <div className="projectSectionImages">
+                  {section.images.map((image, index) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={image} alt={`${section.title} ${index + 1}`} loading="lazy" decoding="async" key={image} />
+                  ))}
+                </div>
+              ) : null}
+              {section.links?.length ? (
+                <ul className="projectSectionLinks">
+                  {section.links.map((link) => (
+                    <li key={link.label}>
+                      {link.href ? (
+                        <a href={link.href} target="_blank" rel="noreferrer">
+                          <span>{link.label}</span>
+                          <small>{linkPlatform(link.href)} ↗</small>
+                        </a>
+                      ) : (
+                        <p>
+                          <span>{link.label}</span>
+                          <small>Not posted yet</small>
+                        </p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </section>
+          ))}
+        </div>
+      ) : (
+        <section className="projectGallery" id="gallery" aria-label={`${project.title} gallery`}>
+          {project.images.map((image, index) => (
+            <figure className={`projectGalleryItem ${getGalleryScale(image)}`} key={`${image}-${index}`}>
+              {/* Native sizing preserves each artwork's exact orientation in the masonry collage. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={image}
+                alt={`${project.title} project image ${index + 1}`}
+                loading={index < 6 ? "eager" : "lazy"}
+                decoding="async"
+              />
+              <figcaption>{String(index + 1).padStart(2, "0")} / {project.title}</figcaption>
+            </figure>
+          ))}
+        </section>
+      )}
 
       <section className="nextProject">
         <Image src={nextProject.cover} alt="" fill sizes="100vw" />

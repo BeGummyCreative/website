@@ -4,6 +4,22 @@ export type PortfolioCategory =
   | "Photography"
   | "Social Content";
 
+// A video or post the work appears in; `href` is omitted for work not yet published.
+export type ProjectLink = {
+  label: string;
+  href?: string;
+};
+
+// A titled block of a project (used for experience write-ups like the TikTok
+// internship): optional B2C/B2B-style group label, images, and video links.
+export type ProjectSection = {
+  group?: string;
+  title: string;
+  text?: string;
+  images?: string[];
+  links?: ProjectLink[];
+};
+
 export type PortfolioProject = {
   slug: string;
   title: string;
@@ -13,6 +29,13 @@ export type PortfolioProject = {
   summary: string;
   description: string[];
   images: string[];
+  sections?: ProjectSection[];
+  // "logo": the cover is a logo shown whole on the page colour inside a purple frame.
+  coverStyle?: "logo";
+  // A white-on-transparent logo cover, flipped to black in light mode.
+  coverInvertsInLight?: boolean;
+  // Alternative cover shown in light mode (e.g. a logo on white instead of black).
+  coverLight?: string;
   externalUrl?: string;
   externalLabel?: string;
 };
@@ -114,7 +137,9 @@ export const portfolioProjects: PortfolioProject[] = [
     title: "Cake Sit Rebrand",
     category: "Graphic Design",
     year: "2026",
-    cover: "/portfolio/wix/graphic/cake-sit-cover.jpg",
+    cover: "/portfolio/wix/graphic/cake-sit-logo-dark.png",
+    coverLight: "/portfolio/wix/graphic/cake-sit-logo-light.png",
+    coverStyle: "logo",
     summary: "A refreshed identity for Peckham's monthly queer performance night.",
     description: [
       "Cake Sit hosts a monthly queer performance event at The Old Nun's Head pub in Peckham.",
@@ -134,7 +159,9 @@ export const portfolioProjects: PortfolioProject[] = [
     title: "ELO Design Work",
     category: "Graphic Design",
     year: "2026",
-    cover: "/portfolio/wix/graphic/elo-cover.jpg",
+    cover: "/portfolio/wix/graphic/elo-logo-white.png",
+    coverStyle: "logo",
+    coverInvertsInLight: true,
     summary: "Brand and campaign design for a London open-source humanoid start-up.",
     description: [
       "ELO is an open-source humanoid start-up based in London.",
@@ -610,10 +637,156 @@ export const portfolioProjects: PortfolioProject[] = [
       "Projects included a Rita Ora and Anna Lahey TYPEBEA LIVE, the Be Iconic campaign, Meet The Shop, product videos, event coverage, and more than ten seller testimonials.",
     ],
     images: [
-      "/portfolio/wix/social/tiktok-live-cover.jpg",
-      "/portfolio/wix/social/tiktok-be-iconic-1.jpg",
-      "/portfolio/wix/social/tiktok-be-iconic-2.jpg",
-      "/portfolio/wix/social/tiktok-meet-shop.jpg",
+      "/portfolio/wix/social/tiktok/live-1.jpg",
+      "/portfolio/wix/social/tiktok/live-2.jpg",
+      "/portfolio/wix/social/tiktok/iconic-1.jpg",
+      "/portfolio/wix/social/tiktok/iconic-2.jpg",
+      "/portfolio/wix/social/tiktok/iconic-3.jpg",
+      "/portfolio/wix/social/tiktok/iconic-4.jpg",
+      "/portfolio/wix/social/tiktok/unndr-1.jpg",
+      "/portfolio/wix/social/tiktok/unndr-2.jpg",
+      "/portfolio/wix/social/tiktok/social-1.jpg",
+      "/portfolio/wix/social/tiktok/social-2.jpg",
+      "/portfolio/wix/social/tiktok/social-3.jpg",
+      "/portfolio/wix/social/tiktok/b2b-1.jpg",
+      "/portfolio/wix/social/tiktok/b2b-2.jpg",
+      "/portfolio/wix/social/tiktok/b2b-3.jpg",
+      "/portfolio/wix/social/tiktok/podcast-1.jpg",
+      "/portfolio/wix/social/tiktok/podcast-2.jpg",
+    ],
+    sections: [
+      {
+        group: "B2C",
+        title: "TikTok LIVE with Rita Ora & Anna Lahey",
+        text: "Social content from behind the scenes of the TYPEBEA LIVE.",
+        images: ["/portfolio/wix/social/tiktok/live-1.jpg", "/portfolio/wix/social/tiktok/live-2.jpg"],
+        links: [
+          { label: "Q&A with Rita Ora and Anna Lahey", href: "https://www.tiktok.com/@tiktokshop_uk/video/7553354848582765846" },
+          { label: "Overall BTS from the Rita Ora LIVE" },
+          { label: "Funny moments from the Rita Ora LIVE" },
+        ],
+      },
+      {
+        group: "B2C",
+        title: "Be Iconic Campaign",
+        text: "Ad campaign.",
+        images: ["/portfolio/wix/social/tiktok/iconic-1.jpg", "/portfolio/wix/social/tiktok/iconic-2.jpg", "/portfolio/wix/social/tiktok/iconic-3.jpg", "/portfolio/wix/social/tiktok/iconic-4.jpg"],
+        links: [
+          { label: "Introducing the Be Iconic cast", href: "https://www.linkedin.com/posts/tiktokshop_be-iconic-on-tiktok-shop-campaign-go-behind-the-scenes-activity-7372252820814635010-0ZaH" },
+          { label: "What's in the baskets of our Be Iconic cast", href: "https://www.linkedin.com/posts/tiktokshop_go-behind-the-scenes-of-our-be-iconic-activity-7374741098914807808-IMZg" },
+          { label: "Highlights from the shoot", href: "https://www.linkedin.com/posts/tiktokshop_what-were-the-most-iconic-moments-of-our-activity-7377250683340685313-m74_" },
+          { label: "Be Iconic: Mad Baker", href: "https://www.linkedin.com/posts/tiktokshop_from-air-fryers-to-electric-whisks-the-mad-activity-7363488235701854209-KTEi" },
+          { label: "Be Iconic: Governess", href: "https://www.linkedin.com/posts/tiktokshop_tiktokshop-discoveryecommerce-activity-7363131236480868353-Nl1t" },
+          { label: "Be Iconic: Camper", href: "https://www.linkedin.com/posts/tiktokshop_tiktokshop-discoveryecommerce-activity-7361678067200581632-laaH" },
+          { label: "Be Iconic: Duchess", href: "https://www.linkedin.com/posts/tiktokshop_tiktokshop-discoveryecommerce-activity-7361309233172103169-PQZZ" },
+          { label: "Be Iconic: Debonair Man", href: "https://www.linkedin.com/posts/tiktokshop_tiktokshop-discoveryecommerce-activity-7361042182104879104-qIrx" },
+          { label: "Be Iconic: Queenie the Royal Corgi", href: "https://www.linkedin.com/posts/tiktokshop_tiktokshop-discoveryecommerce-activity-7363849416790712321-X0yA" },
+        ],
+      },
+      {
+        group: "B2C",
+        title: "Meet The Shop: Unndr",
+        text: "TikTok Shop series.",
+        images: ["/portfolio/wix/social/tiktok/unndr-1.jpg", "/portfolio/wix/social/tiktok/unndr-2.jpg"],
+        links: [
+          { label: "Unndr studio tour", href: "https://www.tiktok.com/@tiktokshop_uk/video/7539971543414131990" },
+          { label: "Unndr behind the scenes", href: "https://www.linkedin.com/posts/tiktokshop_go-behind-the-scenes-of-our-be-iconic-activity-7374741098914807808-IMZg" },
+          { label: "Unndr emoji aesthetic", href: "https://www.tiktok.com/@tiktokshop_uk/video/7540338291170708758" },
+          { label: "Unndr favourites", href: "https://www.tiktok.com/@tiktokshop_uk/video/7547453235506711830" },
+          { label: "Unndr random items", href: "https://www.tiktok.com/@tiktokshop_uk/video/7545515299655732502" },
+        ],
+      },
+      {
+        group: "B2C",
+        title: "Meet The Shop: Luxe Dressing",
+        text: "TikTok Shop series.",
+        links: [
+          { label: "Luxe Dressing shop tour, interview & BTS", href: "https://www.tiktok.com/@tiktokshop_uk/video/7521650699290053910" },
+          { label: "Luxe Dressing storytime", href: "https://www.tiktok.com/@tiktokshop_uk/video/7521787781870357782" },
+          { label: "If Luxe Dressing was a moodboard", href: "https://www.tiktok.com/@tiktokshop_uk/video/7521725605977656598" },
+        ],
+      },
+      {
+        group: "B2C",
+        title: "Product Videos",
+        text: "TikTok Shop social media.",
+        images: ["/portfolio/wix/social/tiktok/social-1.jpg"],
+        links: [
+          { label: "Berghaus jackets spotted", href: "https://www.tiktok.com/@tiktokshop_uk/video/7526173502278257942" },
+          { label: "Berghaus pub scene", href: "https://www.tiktok.com/@tiktokshop_uk/video/7525903606382480662" },
+          { label: "Berghaus jacket close-up", href: "https://www.tiktok.com/@tiktokshop_uk/video/7526121096278543638" },
+          { label: "P. Louise favourite product", href: "https://www.tiktok.com/@tiktokshop_uk/video/7544006599229132054" },
+          { label: "P. Louise Mega LIVE announcement", href: "https://www.tiktok.com/@tiktokshop_uk/video/7543948715057319190" },
+          { label: "P. Louise bag charms", href: "https://www.tiktok.com/@tiktokshop_uk/video/7544071076091890966" },
+          { label: "NYX guess the Smushy scent", href: "https://www.tiktok.com/@tiktokshop_uk/video/7523310976725224726" },
+          { label: "NYX Smushy in the wild", href: "https://www.tiktok.com/@tiktokshop_uk/video/7523215815580224791" },
+          { label: "NYX Smushy zodiac signs pt. 1", href: "https://www.tiktok.com/@tiktokshop_uk/video/7523586761323285782" },
+          { label: "NYX Smushy zodiac signs pt. 2", href: "https://www.tiktok.com/@tiktokshop_uk/video/7524813657050565910" },
+          { label: "ELF Mother of All Primer", href: "https://www.tiktok.com/@tiktokshop_uk/video/7525145925527047446" },
+          { label: "Crocs unboxing ASMR", href: "https://www.tiktok.com/@tiktokshop_uk/video/7531101074950819094" },
+          { label: "Crocs summer starter pack", href: "https://www.tiktok.com/@tiktokshop_uk/video/7532954730457238806" },
+        ],
+      },
+      {
+        group: "B2C",
+        title: "Event Videos",
+        text: "TikTok Shop social media.",
+        links: [
+          { label: "Summer Sale event favourite products", href: "https://www.tiktok.com/@tiktokshop_uk/video/7519795336936836374" },
+          { label: "Beauty event Q&A", href: "https://www.tiktok.com/@tiktokshop_uk/video/7570072130470055190" },
+          { label: "Festival day Q&As" },
+          { label: "FMCG breakfast" },
+        ],
+      },
+      {
+        group: "B2C",
+        title: "More Product Videos",
+        text: "Additional product videos I worked on.",
+        images: ["/portfolio/wix/social/tiktok/social-2.jpg", "/portfolio/wix/social/tiktok/social-3.jpg"],
+        links: [
+          { label: "Rimmel blush & lip tint", href: "https://www.tiktok.com/@tiktokshop_uk/video/7519932664904912150" },
+          { label: "TRIP blind taste challenge", href: "https://www.tiktok.com/@tiktokshop_uk/video/7540709688522837270" },
+          { label: "CAKES Body launch party", href: "https://www.tiktok.com/@tiktokshop_uk/video/7536262916799008022" },
+          { label: "CAKES Body interviewing co-founder Taylor" },
+          { label: "Remington hair straightener unboxing", href: "https://www.tiktok.com/@tiktokshop_uk/video/7541392455925517590" },
+          { label: "Remington hair dryer", href: "https://www.tiktok.com/@tiktokshop_uk/video/7541125303549168918" },
+          { label: "Humantra electrolytes", href: "https://www.tiktok.com/@tiktokshop_uk/video/7545545772289346838" },
+        ],
+      },
+      {
+        group: "B2B",
+        title: "Seller Testimonials",
+        text: "I've worked on 10+ testimonials; here are some of them.",
+        images: ["/portfolio/wix/social/tiktok/b2b-1.jpg", "/portfolio/wix/social/tiktok/b2b-2.jpg", "/portfolio/wix/social/tiktok/b2b-3.jpg"],
+        links: [
+          { label: "Straame testimonial", href: "https://www.linkedin.com/posts/tiktokshop_tiktokshop-straame-activity-7356639836503506944-pKh_" },
+          { label: "Geepas testimonial", href: "https://www.linkedin.com/posts/tiktokshop_tiktokshop-geepas-activity-7354065311278473216-GCyt" },
+          { label: "BPerfect Cosmetics testimonial", href: "https://www.linkedin.com/posts/tiktokshop_tiktokshop-discovercommerce-activity-7358413995537494017-ZTbJ" },
+        ],
+      },
+      {
+        group: "B2B",
+        title: "Podcasts",
+        text: "I set up and filmed 3 podcasts; here are their trailers. The full episodes are on TikTok's Beyond the Hashtag.",
+        images: ["/portfolio/wix/social/tiktok/podcast-1.jpg", "/portfolio/wix/social/tiktok/podcast-2.jpg"],
+        links: [
+          { label: "Remington podcast trailer", href: "https://www.linkedin.com/posts/tiktokshop_new-episode-coming-soon-get-ready-activity-7374825184287006720-Xt-F" },
+          { label: "BPerfect Cosmetics podcast trailer", href: "https://www.linkedin.com/posts/tiktokshop_beyondthehashtag-lives-tiktokshop-activity-7343914675153080320-KAz4" },
+          { label: "Third podcast trailer" },
+        ],
+      },
+      {
+        group: "B2B",
+        title: "LinkedIn Event Videos",
+        links: [
+          { label: "Day in the life of interns", href: "https://www.linkedin.com/posts/tiktokshop_behind-the-scenes-of-the-be-iconic-campaign-activity-7369651851438235649-HmV-" },
+          { label: "Summer Sale matchmaking event", href: "https://www.linkedin.com/posts/tiktokshop_summersale-live-tiktokshop-activity-7344317844207153152-_TkR" },
+          { label: "TikTok at SXSW London", href: "https://www.linkedin.com/posts/tiktokshop_tiktok-at-sxsw-london-be-what-happens-activity-7341748086265769984-tAtF" },
+          { label: "FMCG breakfast" },
+          { label: "FMCG breakfast interviews" },
+          { label: "P. Louise office event" },
+        ],
+      },
     ],
     externalUrl: "https://www.tiktok.com/@tiktokshop_uk",
     externalLabel: "View TikTok Shop",
@@ -630,9 +803,16 @@ export const portfolioProjects: PortfolioProject[] = [
       "Begüm set the lighting, styled each dish, photographed the menu, and edited the final images for use across the restaurant's website and social channels.",
     ],
     images: [
-      "/portfolio/wix/social/asian-delights-cover.jpg",
-      "/portfolio/wix/social/asian-delights-2.jpg",
-      "/portfolio/wix/social/asian-delights-3.jpg",
+      "/portfolio/wix/social/asian-delights/asian-01.jpg",
+      "/portfolio/wix/social/asian-delights/asian-02.jpg",
+      "/portfolio/wix/social/asian-delights/asian-03.jpg",
+      "/portfolio/wix/social/asian-delights/asian-04.jpg",
+      "/portfolio/wix/social/asian-delights/asian-05.jpg",
+      "/portfolio/wix/social/asian-delights/asian-06.jpg",
+      "/portfolio/wix/social/asian-delights/asian-07.jpg",
+      "/portfolio/wix/social/asian-delights/asian-08.jpg",
+      "/portfolio/wix/social/asian-delights/asian-09.jpg",
+      "/portfolio/wix/social/asian-delights/asian-10.jpg",
     ],
     externalUrl: "https://swiftfood.uk/",
     externalLabel: "Visit Swift Food",
@@ -649,10 +829,23 @@ export const portfolioProjects: PortfolioProject[] = [
       "The series captures product, people, and atmosphere with a bright editorial treatment designed for social storytelling.",
     ],
     images: [
-      "/portfolio/wix/social/oakberry-cover.jpg",
-      "/portfolio/wix/social/oakberry-2.jpg",
-      "/portfolio/wix/social/oakberry-3.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-01.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-02.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-03.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-04.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-05.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-06.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-07.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-08.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-09.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-10.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-11.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-12.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-13.jpg",
+      "/portfolio/wix/social/oakberry/oakberry-14.jpg",
     ],
+    externalUrl: "https://drive.google.com/file/d/1AyyYal_-D9V-2L36woJFuoMpdwFj8IGy/view",
+    externalLabel: "Watch the event video",
   },
   {
     slug: "holistic-ai-hackathon",
