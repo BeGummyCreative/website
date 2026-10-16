@@ -31,6 +31,7 @@ const experience = [
   ["The New Black Film Collective", "Social Media & Marketing", "Jan 2026 - Present"],
   ["British Film Institute", "Film Festival Marketing", "Apr - May 2025"],
   ["Pinewood Studios", "Camera Specialist Experience", "Aug 2023"],
+  ["Autism Acceptance Week", "Sticker Competition Winner", "Apr 2023"],
 ];
 
 const categoryIds: Record<PortfolioCategory, string> = {
@@ -118,10 +119,12 @@ export default function Home() {
             <div className="featureScrim" aria-hidden="true" />
             <Link className="featureCard" href={`/projects/${project.slug}`}>
               <Image
+                className={project.featureFocus ? "featureCover" : undefined}
                 src={project.cover}
                 alt={`${project.title} project`}
                 fill
                 sizes="(max-width: 760px) 78vw, 34vw"
+                style={project.featureFocus ? { objectPosition: project.featureFocus } : undefined}
               />
               <span className="featureCardShade" aria-hidden="true" />
               <span className="featureIndex">0{index + 1}</span>

@@ -17,6 +17,8 @@ export type ProjectSection = {
   title: string;
   text?: string;
   images?: string[];
+  // Links shown directly under a specific image, keyed by that image's path.
+  imageLinks?: Record<string, ProjectLink>;
   links?: ProjectLink[];
 };
 
@@ -36,6 +38,8 @@ export type PortfolioProject = {
   coverInvertsInLight?: boolean;
   // Alternative cover shown in light mode (e.g. a logo on white instead of black).
   coverLight?: string;
+  // Crops the cover to fill the tall Selected Work card, centred on this CSS object-position.
+  featureFocus?: string;
   externalUrl?: string;
   externalLabel?: string;
 };
@@ -211,8 +215,13 @@ export const portfolioProjects: PortfolioProject[] = [
     images: [
       "/portfolio/wix/graphic/wonderland-cover.jpg",
       "/portfolio/wix/graphic/wonderland-logo.jpg",
+      "/portfolio/wix/graphic/wonderland-lettering.jpg",
+      "/portfolio/wix/graphic/wonderland-palette.jpg",
+      "/portfolio/wix/graphic/wonderland-illustrations.jpg",
       "/portfolio/wix/graphic/wonderland-poster-1.jpg",
       "/portfolio/wix/graphic/wonderland-poster-2.jpg",
+      "/portfolio/wix/graphic/wonderland-posters-wall.jpg",
+      "/portfolio/wix/graphic/wonderland-postcards.jpg",
     ],
   },
   {
@@ -293,9 +302,47 @@ export const portfolioProjects: PortfolioProject[] = [
     images: [
       "/portfolio/wix/graphic/film-festival-cover.jpg",
       "/portfolio/wix/graphic/film-festival-logo.jpg",
+      "/portfolio/wix/graphic/film-festival-poster-full.jpg",
       "/portfolio/wix/graphic/film-festival-poster.jpg",
       "/portfolio/wix/graphic/film-festival-badge.jpg",
+      "/portfolio/wix/graphic/film-festival-badge-25mm.jpg",
+      "/portfolio/wix/graphic/film-festival-badge-38mm.jpg",
       "/portfolio/wix/graphic/film-festival-lanyards.jpg",
+      "/portfolio/wix/graphic/film-festival-tshirts.jpg",
+      "/portfolio/wix/graphic/film-festival-tshirt-tote.jpg",
+    ],
+    sections: [
+      {
+        title: "Logos",
+        images: [
+          "/portfolio/wix/graphic/film-festival-cover.jpg",
+          "/portfolio/wix/graphic/film-festival-logo.jpg",
+        ],
+      },
+      {
+        title: "Poster",
+        text: "The poster and the detailed vector illustration created for it.",
+        images: [
+          "/portfolio/wix/graphic/film-festival-poster-full.jpg",
+          "/portfolio/wix/graphic/film-festival-poster.jpg",
+        ],
+      },
+      {
+        title: "Badges",
+        images: [
+          "/portfolio/wix/graphic/film-festival-badge.jpg",
+          "/portfolio/wix/graphic/film-festival-badge-25mm.jpg",
+          "/portfolio/wix/graphic/film-festival-badge-38mm.jpg",
+        ],
+      },
+      {
+        title: "More Products",
+        images: [
+          "/portfolio/wix/graphic/film-festival-lanyards.jpg",
+          "/portfolio/wix/graphic/film-festival-tshirts.jpg",
+          "/portfolio/wix/graphic/film-festival-tshirt-tote.jpg",
+        ],
+      },
     ],
   },
   {
@@ -402,22 +449,6 @@ export const portfolioProjects: PortfolioProject[] = [
     ],
   },
   {
-    slug: "autism-acceptance-stickers",
-    title: "Autism Acceptance Stickers",
-    category: "Graphic Design",
-    year: "2023",
-    cover: "/portfolio/wix/graphic/autism-stickers-cover.jpg",
-    summary: "A competition-winning sticker set created for Autism Acceptance Week.",
-    description: [
-      "Designed for an Autism Acceptance Week competition in April 2023.",
-      "The winning stickers were printed and distributed throughout Begüm's sixth form, turning a compact illustration system into a visible awareness campaign.",
-    ],
-    images: [
-      "/portfolio/wix/graphic/autism-stickers-cover.jpg",
-      "/portfolio/wix/graphic/autism-stickers-process.jpg",
-    ],
-  },
-  {
     slug: "latrinalia",
     title: "Latrinalia",
     category: "Game Design",
@@ -433,6 +464,46 @@ export const portfolioProjects: PortfolioProject[] = [
       "/portfolio/wix/game/latrinalia-playthrough.jpg",
       "/portfolio/wix/game/latrinalia-stalls.jpg",
       "/portfolio/wix/game/latrinalia-installation.jpeg",
+      "/portfolio/wix/game/latrinalia/stall-render.jpg",
+      "/portfolio/wix/game/latrinalia/wall-detail.jpg",
+      "/portfolio/wix/game/latrinalia/poster.jpg",
+      "/portfolio/wix/game/latrinalia/visitor-playing.jpg",
+      "/portfolio/wix/game/latrinalia/visitors-queue.jpg",
+      "/portfolio/wix/game/latrinalia/unreal-editor.jpg",
+    ],
+    sections: [
+      {
+        title: "Teaser & Playthrough",
+        images: [
+          "/portfolio/wix/game/latrinalia-cover.jpg",
+          "/portfolio/wix/game/latrinalia-playthrough.jpg",
+        ],
+        imageLinks: {
+          "/portfolio/wix/game/latrinalia-cover.jpg": { label: "Latrinalia Teaser", href: "https://youtu.be/lOKDBAZs-Ik" },
+          "/portfolio/wix/game/latrinalia-playthrough.jpg": {
+            label: "Latrinalia Playthrough",
+            href: "https://youtu.be/_ZYbx6VA9u4",
+          },
+        },
+      },
+      {
+        title: "Design Elements",
+        images: [
+          "/portfolio/wix/game/latrinalia-stalls.jpg",
+          "/portfolio/wix/game/latrinalia/stall-render.jpg",
+          "/portfolio/wix/game/latrinalia/wall-detail.jpg",
+          "/portfolio/wix/game/latrinalia/unreal-editor.jpg",
+        ],
+      },
+      {
+        title: "At the Degree Show",
+        images: [
+          "/portfolio/wix/game/latrinalia-installation.jpeg",
+          "/portfolio/wix/game/latrinalia/poster.jpg",
+          "/portfolio/wix/game/latrinalia/visitor-playing.jpg",
+          "/portfolio/wix/game/latrinalia/visitors-queue.jpg",
+        ],
+      },
     ],
     externalUrl: "https://www.bamedia.uk/artwork/latrinalia",
     externalLabel: "View degree show feature",
@@ -448,7 +519,11 @@ export const portfolioProjects: PortfolioProject[] = [
       "Begüm's first complete character design, developed individually within a shared sci-fi world.",
       "The project moved through modelling, animation, and code to produce a finished interactive toy with a Blade Runner-inspired visual atmosphere.",
     ],
-    images: ["/portfolio/wix/game/interactive-toy.jpg"],
+    images: [
+      "/portfolio/wix/game/interactive-toy.jpg",
+      "/portfolio/wix/game/interactive-toy-character.jpg",
+      "/portfolio/wix/game/interactive-toy-character-render.jpg",
+    ],
   },
   {
     slug: "cinematic",
@@ -789,7 +864,8 @@ export const portfolioProjects: PortfolioProject[] = [
     title: "TikTok Shop Internship",
     category: "Social Content",
     year: "2026",
-    cover: "/portfolio/wix/social/tiktok-live-cover.jpg",
+    cover: "/portfolio/wix/social/tiktok-cover.jpg",
+    featureFocus: "67% center",
     summary: "B2C and B2B video production across campaigns, LIVE events, and seller stories.",
     description: [
       "As a videographer and editor within TikTok Shop Marketing, Begüm created social content for product campaigns, events, seller testimonials, podcasts, and behind-the-scenes stories.",

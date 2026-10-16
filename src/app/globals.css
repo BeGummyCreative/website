@@ -827,6 +827,11 @@ html::-webkit-scrollbar {
   transition: filter 300ms ease;
 }
 
+/* A landscape cover cropped to fill the card; its focus point comes from the project data. */
+.featureCard > img.featureCover {
+  object-fit: cover;
+}
+
 .featureCard:hover > img {
   filter: brightness(0.88);
 }
@@ -1488,20 +1493,40 @@ html::-webkit-scrollbar {
   line-height: 1.6;
 }
 
-/* Rows of photos that wrap, so large event sets stay visible without sideways scrolling. */
+/* Justified collage: each row is grouped at build time, and every image grows in
+   proportion to its width÷height ratio (--ratio), so a row shares one height and runs
+   edge to edge without cropping. */
 .projectSectionImages {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 12px;
 }
 
-.projectSectionImages img {
-  flex: 0 1 auto;
-  height: clamp(200px, 32svh, 380px);
-  width: auto;
-  max-width: 100%;
-  object-fit: cover;
+.projectSectionRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.projectSectionFigure,
+.projectSectionFiller {
+  flex: var(--ratio) 1 0%;
+  min-width: 0;
+  margin: 0;
+}
+
+.projectSectionFigure img {
+  display: block;
+  width: 100%;
+  height: auto;
   background: var(--ink);
+}
+
+/* A link that belongs to one image sits directly underneath it. */
+.projectSectionFigure .projectSectionLinks {
+  display: block;
+  margin-top: 12px;
+  border-top: 1px solid var(--purple);
 }
 
 .projectSectionLinks {
@@ -1772,6 +1797,20 @@ html::-webkit-scrollbar {
 
   .projectSectionLinks {
     grid-template-columns: 1fr;
+  }
+
+  /* Phones: one image per line at full width. */
+  .projectSectionRow {
+    flex-direction: column;
+  }
+
+  .projectSectionFigure {
+    flex: none;
+    width: 100%;
+  }
+
+  .projectSectionFiller {
+    display: none;
   }
 
   .scrollGumTrack {

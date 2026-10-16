@@ -23,7 +23,8 @@ function readDimensions(bytes: Buffer): { width: number; height: number } | null
         continue;
       }
       const marker = bytes[offset + 1];
-      if (marker === 0xe1) rotated = exifSwapsAxes(bytes, offset + 4);
+      // A later APP1 (e.g. Adobe XMP) must not reset what the EXIF block said.
+      if (marker === 0xe1) rotated ||= exifSwapsAxes(bytes, offset + 4);
       const isStartOfFrame =
         marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc;
       if (isStartOfFrame) {
@@ -54,6 +55,19 @@ function exifSwapsAxes(bytes: Buffer, start: number): boolean {
     if (u16(entry) === 0x0112) return u16(entry + 8) >= 5;
   }
   return false;
+}
+
+const ratioCache = new Map<string, number>();
+
+// Displayed width ÷ height, for layouts that size images by their proportions.
+export function imageRatio(publicPath: string): number {
+  const cached = ratioCache.get(publicPath);
+  if (cached) return cached;
+
+  const dimensions = readDimensions(readFileSync(join(process.cwd(), "public", publicPath)));
+  const ratio = dimensions && dimensions.height > 0 ? dimensions.width / dimensions.height : 1.5;
+  ratioCache.set(publicPath, ratio);
+  return ratio;
 }
 
 export function imageOrientation(publicPath: string): Orientation {
