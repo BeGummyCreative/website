@@ -24,14 +24,100 @@ const featuredProjects = featuredSlugs.flatMap((slug) => {
   return project ? [project] : [];
 });
 
-const experience = [
-  ["TikTok Shop", "Videographer & Editor Intern", "Jun - Sep 2026"],
-  ["HeySalad", "Creative Director", "May 2026 - Present"],
-  ["ELO Humanoid", "Branding Executive", "Jan 2026 - Present"],
-  ["The New Black Film Collective", "Social Media & Marketing", "Jan 2026 - Present"],
-  ["British Film Institute", "Film Festival Marketing", "Apr - May 2025"],
-  ["Pinewood Studios", "Camera Specialist Experience", "Aug 2023"],
-  ["Autism Acceptance Week", "Sticker Competition Winner", "Apr 2023"],
+type ExperienceRole = {
+  company: string;
+  role: string;
+  period: string;
+  logo?: string;
+  href?: string;
+};
+
+// Newest first by start date. Logos and links are the ones from the Wix "Work Experience" grid.
+const experience: ExperienceRole[] = [
+  {
+    company: "TikTok Shop",
+    role: "Videographer & Editor Intern",
+    period: "Jun - Sep 2026",
+    logo: "/portfolio/web/logos/tiktok-shop.png",
+    href: "https://www.tiktok.com/@tiktokshop_uk",
+  },
+  {
+    company: "HeySalad",
+    role: "Creative Director",
+    period: "May 2026 - Present",
+    logo: "/portfolio/web/logos/heysalad.png",
+    href: "https://heysalad.ai/",
+  },
+  {
+    company: "ELO Humanoid",
+    role: "Branding Executive",
+    period: "Jan 2026 - Present",
+    logo: "/portfolio/web/logos/elo.png",
+    href: "https://elo.inc/",
+  },
+  {
+    company: "The New Black Film Collective",
+    role: "Social Media & Marketing",
+    period: "Jan 2026 - Present",
+    logo: "/portfolio/web/logos/tnbfc.png",
+    href: "https://www.tnbfc.co.uk/",
+  },
+  {
+    company: "Swift Food",
+    role: "Freelance Videographer & Editor",
+    period: "Nov 2025 - Jan 2026",
+    logo: "/portfolio/web/logos/swift-food.png",
+    href: "https://swiftfood.uk/",
+  },
+  {
+    company: "UCL East Society",
+    role: "Graphic Designer & Branding Manager",
+    period: "Sep 2025 - Jun 2026",
+    logo: "/portfolio/web/logos/ucl-east-society.png",
+    href: "https://studentsunionucl.org/clubs-societies/ucl-east-society",
+  },
+  {
+    company: "MeSnap",
+    role: "Freelance Graphic Designer",
+    period: "Jul 2025",
+    logo: "/portfolio/web/logos/mesnap.png",
+    href: "https://mesnap.app/",
+  },
+  {
+    company: "Burju Cafe",
+    role: "Graphic Designer & Branding Manager",
+    period: "Jun 2025",
+    logo: "/portfolio/web/logos/burju-cafe.png",
+    href: "https://www.instagram.com/burju_cafe/",
+  },
+  {
+    company: "British Film Institute",
+    role: "Film Festival Marketing",
+    period: "Apr - May 2025",
+    logo: "/portfolio/web/logos/bfi.png",
+    href: "https://www.bfi.org.uk/",
+  },
+  {
+    company: "Effect Burson",
+    role: "Marketing & PR Intern",
+    period: "Jun - Jul 2024",
+    logo: "/portfolio/web/logos/effect-burson.jpg",
+    href: "https://www.bursonglobal.com/locations/turkey",
+  },
+  {
+    company: "Pinewood Studios",
+    role: "Camera Specialist Experience",
+    period: "Aug 2023",
+    logo: "/portfolio/web/logos/pinewood.jpg",
+    href: "https://pinewoodgroup.com/pinewood-studios/",
+  },
+  {
+    company: "Merlin Entertainments",
+    role: "Creative Team Member",
+    period: "Jun 2022",
+    logo: "/portfolio/web/logos/merlin.png",
+    href: "https://www.merlinentertainments.biz/",
+  },
 ];
 
 const categoryIds: Record<PortfolioCategory, string> = {
@@ -104,7 +190,7 @@ export default function Home() {
         <header className="featuredIntro">
           <span>02</span>
           <h2 className="chromeScript" id="featured-title">Selected Work</h2>
-          <p>A collection of identities, worlds, images, and stories.</p>
+          <p>A highlight of my favourite projects</p>
         </header>
 
         {featuredProjects.map((project, index) => (
@@ -175,6 +261,7 @@ export default function Home() {
                         alt=""
                         fill
                         sizes="(max-width: 760px) 100vw, 33vw"
+                        style={project.archiveFocus ? { objectPosition: project.archiveFocus } : undefined}
                       />
                       {project.coverLight ? (
                         <Image className="coverLightOnly" src={project.coverLight} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />
@@ -235,9 +322,27 @@ export default function Home() {
           <p>EXPERIENCE</p>
         </div>
         <div className="experienceRows">
-          {experience.map(([company, role, period]) => (
+          {experience.map(({ company, role, period, logo, href }) => (
             <article key={company}>
-              <h3>{company}</h3>
+              <span className="experienceLogo">
+                {logo && href ? (
+                  // The logo repeats the company link for pointer users; keyboard users get the name.
+                  <a href={href} target="_blank" rel="noreferrer" tabIndex={-1} aria-hidden="true">
+                    <Image src={logo} alt="" fill sizes="56px" />
+                  </a>
+                ) : logo ? (
+                  <Image src={logo} alt="" fill sizes="56px" />
+                ) : null}
+              </span>
+              <h3>
+                {href ? (
+                  <a href={href} target="_blank" rel="noreferrer">
+                    {company}
+                  </a>
+                ) : (
+                  company
+                )}
+              </h3>
               <p>{role}</p>
               <time>{period}</time>
             </article>

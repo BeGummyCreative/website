@@ -40,6 +40,8 @@ export type PortfolioProject = {
   coverLight?: string;
   // Crops the cover to fill the tall Selected Work card, centred on this CSS object-position.
   featureFocus?: string;
+  // Where the Full Archive card's fixed frame crops the cover (CSS object-position).
+  archiveFocus?: string;
   externalUrl?: string;
   externalLabel?: string;
 };
@@ -206,7 +208,8 @@ export const portfolioProjects: PortfolioProject[] = [
     title: "Into Wonderland",
     category: "Graphic Design",
     year: "2025",
-    cover: "/portfolio/wix/graphic/wonderland-cover.jpg",
+    cover: "/portfolio/wix/graphic/wonderland-poster-1.jpg",
+    archiveFocus: "center 18%",
     summary: "An exhibition campaign that sees Wonderland through Alice's eyes.",
     description: [
       "Into Wonderland is an advertising campaign for an Alice in Wonderland exhibition.",
@@ -239,6 +242,7 @@ export const portfolioProjects: PortfolioProject[] = [
     images: [
       "/portfolio/wix/graphic/bittersweet/01-logo-final.jpg",
       "/portfolio/wix/graphic/bittersweet/02-logo-coloured.jpg",
+      "/portfolio/wix/graphic/bittersweet/03-logo-animation.gif",
       "/portfolio/wix/graphic/bittersweet/04-palette-heels.jpg",
       "/portfolio/wix/graphic/bittersweet/05-palette-mockup.jpg",
       "/portfolio/wix/graphic/bittersweet/06-palette-strip.jpg",
@@ -445,6 +449,7 @@ export const portfolioProjects: PortfolioProject[] = [
           "/portfolio/wix/graphic/fomi-2025/photo25-24.jpg",
           "/portfolio/wix/graphic/fomi-2025/photo25-25.jpg",
         ],
+        links: [{ label: "FOMI on LinkedIn", href: "https://www.linkedin.com/company/uclfomi/" }],
       },
     ],
   },
@@ -453,7 +458,7 @@ export const portfolioProjects: PortfolioProject[] = [
     title: "Latrinalia",
     category: "Game Design",
     year: "2026",
-    cover: "/portfolio/wix/game/latrinalia-cover.jpg",
+    cover: "/portfolio/wix/game/latrinalia/cover-stall.jpg",
     summary: "An immersive, open-ended degree-show installation set in club bathrooms.",
     description: [
       "Latrinalia takes its name from the anonymous messages and drawings found on bathroom walls. Its female, male, and gender-neutral club-bathroom stalls each hold different traces and stories.",
