@@ -619,12 +619,13 @@ function buildScene(
     const rect = renderer.domElement.getBoundingClientRect();
     pointer.set(((event.clientX - rect.left) / rect.width) * 2 - 1, -((event.clientY - rect.top) / rect.height) * 2 + 1);
     pointerInside = true;
-    renderer.domElement.style.cursor = hitIndex() === null ? "" : "pointer";
+    // A class rather than an inline cursor, so the pressed (scrunched hand) cursor still wins.
+    renderer.domElement.classList.toggle("isOverGum", hitIndex() !== null);
   }
 
   function onPointerLeave() {
     pointerInside = false;
-    renderer.domElement.style.cursor = "";
+    renderer.domElement.classList.remove("isOverGum");
   }
 
   function onClick(event: MouseEvent) {

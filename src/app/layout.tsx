@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Pinyon_Script } from "next/font/google";
+import CursorGlow from "@/components/CursorGlow";
 import ScrollGumball from "@/components/ScrollGumball";
 import "./globals.css";
 
@@ -35,6 +36,17 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`,
           }}
         />
+        {/* Reloading the landing page always starts at the hero so the gum spiral intro
+            plays in view. Browsers decide whether to restore scroll from the setting the
+            page had when it unloaded, so the landing page turns restoration off as it
+            unloads (client-side navigation never unloads, so in-site back still works).
+            On the reload itself, any #section is dropped and restoration comes back at the
+            first interaction. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{addEventListener("pagehide",function(){if(location.pathname==="/")history.scrollRestoration="manual"});var n=performance.getEntriesByType("navigation")[0];if(location.pathname!=="/"||!n||n.type!=="reload")return;if(location.hash)history.replaceState(null,"","/"+location.search);var a=function(){history.scrollRestoration="auto"};["wheel","touchstart","keydown","pointerdown"].forEach(function(e){addEventListener(e,a,{once:true,passive:true})})}catch(e){}})()`,
+          }}
+        />
       </head>
       <body suppressHydrationWarning>
         {/* Chrome lettering (hero slogan and large titles): each stroke becomes a
@@ -61,6 +73,7 @@ export default function RootLayout({
         </svg>
         {children}
         <ScrollGumball />
+        <CursorGlow />
       </body>
     </html>
   );

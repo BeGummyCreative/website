@@ -21,6 +21,11 @@
     #cfcfd6 100%
   );
   /* Type: Helvetica, thin or bold only. */
+  /* Silver chrome cursors (public/cursors): arrow, pointing hand, scrunched hand. SVG first,
+     PNG for browsers without SVG cursors; the numbers are the click point (tip or palm). */
+  --cursor-arrow: url("/cursors/hand-arrow.svg") 3 2, url("/cursors/hand-arrow.png") 3 2, default;
+  --cursor-point: url("/cursors/hand-point.svg") 9 1, url("/cursors/hand-point.png") 9 1, pointer;
+  --cursor-grab: url("/cursors/hand-grab.svg") 12 12, url("/cursors/hand-grab.png") 12 12, grabbing;
   --weight-thin: 200;
   --weight-bold: 700;
   /* Theme tokens: dark by default, light via the header toggle. */
@@ -59,6 +64,40 @@
 
 html {
   scroll-behavior: smooth;
+  cursor: var(--cursor-arrow);
+}
+
+/* Chrome arrow everywhere, pointing hand over anything clickable, scrunched while pressed.
+   Text fields keep the normal text cursor so typing still feels right. */
+a,
+button,
+summary,
+label,
+select,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="checkbox"],
+input[type="radio"] {
+  cursor: var(--cursor-point);
+}
+
+/* :root raises these above single-class rules such as .contactForm button. */
+:root:active,
+:root :active {
+  cursor: var(--cursor-grab);
+}
+
+textarea,
+input:not([type="submit"], [type="button"], [type="checkbox"], [type="radio"]),
+:root textarea:active,
+:root input:not([type="submit"], [type="button"], [type="checkbox"], [type="radio"]):active {
+  cursor: text;
+}
+
+/* Set from GumHero.tsx while the pointer is over a gum on the landing page. */
+.isOverGum {
+  cursor: var(--cursor-point);
 }
 
 body {
@@ -249,7 +288,7 @@ img {
   font: inherit;
   font-size: 11px;
   line-height: 1;
-  cursor: pointer;
+  cursor: var(--cursor-point);
 }
 
 .themeToggle:hover,
@@ -298,6 +337,38 @@ html::-webkit-scrollbar {
   display: none;
 }
 
+/* Purple glow trailing the mouse pointer (see CursorGlow.tsx). It adds light on the
+   dark theme and tints on the light theme; it never takes clicks. */
+.cursorGlow {
+  position: fixed;
+  z-index: 400;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 240px;
+  margin: -120px 0 0 -120px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(90, 68, 175, 0.55) 0%,
+    rgba(90, 68, 175, 0.22) 35%,
+    rgba(90, 68, 175, 0) 70%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+  will-change: transform;
+}
+
+.cursorGlow.isVisible {
+  opacity: 1;
+}
+
+:root[data-theme="light"] .cursorGlow {
+  mix-blend-mode: multiply;
+}
+
 .scrollGumTrack {
   position: fixed;
   z-index: 150;
@@ -305,7 +376,7 @@ html::-webkit-scrollbar {
   right: 6px;
   bottom: 10px;
   width: 30px;
-  cursor: pointer;
+  cursor: var(--cursor-point);
   /* Only shown while scrolling (or hovered/dragged); ignores clicks when hidden. */
   opacity: 0;
   pointer-events: none;
@@ -328,7 +399,7 @@ html::-webkit-scrollbar {
   /* Glossy purple gumball: lit from the top left, darker toward the edge. */
   background: radial-gradient(circle at 32% 28%, #c9bcff 0%, #8f78ea 18%, #5a44af 46%, #3a2a7d 78%, #22184c 100%);
   box-shadow: inset -3px -4px 8px rgba(0, 0, 0, 0.35), 0 3px 8px rgba(0, 0, 0, 0.35);
-  cursor: grab;
+  cursor: var(--cursor-point);
   touch-action: none;
   will-change: transform;
   transition: scale 160ms ease;
@@ -340,7 +411,7 @@ html::-webkit-scrollbar {
 }
 
 .scrollGum.isDragging {
-  cursor: grabbing;
+  cursor: var(--cursor-grab);
 }
 
 .scrollGum::after {
@@ -1283,7 +1354,7 @@ html::-webkit-scrollbar {
   font: inherit;
   font-size: 24px;
   font-weight: var(--weight-bold);
-  cursor: pointer;
+  cursor: var(--cursor-point);
   transition: background 180ms ease;
 }
 
@@ -1771,7 +1842,7 @@ html::-webkit-scrollbar {
 
   .aurenMobileNav summary {
     padding: 12px 0;
-    cursor: pointer;
+    cursor: var(--cursor-point);
     list-style: none;
   }
 
