@@ -1,14 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
-  <!-- Silver chrome arrow cursor: soft shadow, dark rounded edge, banded chrome fill, bright bevel.
-       Generated together so all three cursors share one look. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32">
+  <!-- Silver chrome arrow cursor: small soft shadow, dark rounded edge, banded chrome fill,
+       bright bevel. Generated together so all three share one look. -->
   <defs>
     <linearGradient id="arrow-chrome" gradientUnits="userSpaceOnUse" x1="5" y1="2" x2="21" y2="30"><stop offset="0" stop-color="#f7f7fa"/><stop offset="0.16" stop-color="#a6a6ae"/><stop offset="0.3" stop-color="#f3f3f6"/><stop offset="0.44" stop-color="#8a8a93"/><stop offset="0.52" stop-color="#2c2c32"/><stop offset="0.58" stop-color="#6e6e77"/><stop offset="0.72" stop-color="#d6d6dc"/><stop offset="0.84" stop-color="#f7f7fa"/><stop offset="1" stop-color="#92929a"/></linearGradient>
     <linearGradient id="arrow-rim" gradientUnits="userSpaceOnUse" x1="4" y1="2" x2="18" y2="28">
       <stop offset="0" stop-color="#ffffff"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0.55"/><stop offset="1" stop-color="#4a4a52"/>
     </linearGradient>
-    <g id="arrow-shape">
-      <path d="M4 2.5 L4 23.6 L9.1 18.7 L12.9 27.3 L16.7 25.7 L12.9 17.2 L20.1 16.9 Z"/>
-    </g>
+    <path id="arrow-shape" d="M4 2.5 L4 23.6 L9.1 18.7 L12.9 27.3 L16.7 25.7 L12.9 17.2 L20.1 16.9 Z"/>
   </defs>
   <use href="#arrow-shape" transform="translate(0.45 0.65)" fill="#000" fill-opacity="0.18" stroke="#000" stroke-opacity="0.18" stroke-width="1.6" stroke-linejoin="round"/>
   <use href="#arrow-shape" fill="#26262c" stroke="#26262c" stroke-width="2" stroke-linejoin="round"/>

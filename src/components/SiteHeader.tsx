@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useRef, useState, type MouseEvent } from "react";
 
 import ThemeToggle from "@/components/ThemeToggle";
+import { REPLAY_INTRO_EVENT } from "@/lib/events";
 
 const workLinks = [
   { label: "SOCIAL", href: "/#social-content" },
@@ -39,27 +40,29 @@ export default function SiteHeader() {
 
   // <details> hides its content instantly, so fade the links out first and
   // only collapse the menu once the fade (600ms, see .isClosing) has finished.
-  // The logo is the home button: on the homepage it fades back to the top
-  // (a same-page "#top" link does nothing once that hash is already set).
+  // The logo is the home button: on the homepage it fades back to the top and replays
+  // the gum spiral intro (a same-page "#top" link does nothing once that hash is set).
+  // From other pages it navigates home, where the intro plays as the page loads.
   function goHome(event: MouseEvent<HTMLAnchorElement>) {
     if (mobileNavRef.current) mobileNavRef.current.open = false;
     if (pathname !== "/") return;
     event.preventDefault();
     blurLink();
     history.replaceState(null, "", "/");
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const toTopAndReplay = () => {
       window.scrollTo({ top: 0, behavior: "instant" });
-      return;
-    }
-    // Fade the page out, jump to the top behind the fade, then fade the landing page in.
+      window.dispatchEvent(new Event(REPLAY_INTRO_EVENT));
+    };
     const overlay = fadeRef.current;
-    if (!overlay) {
-      window.scrollTo({ top: 0, behavior: "instant" });
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !overlay) {
+      toTopAndReplay();
       return;
     }
+    // Fade the page out, jump to the top behind the fade, then fade the landing page in
+    // as the gums unwind.
     overlay.classList.add("isOn");
     window.setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: "instant" });
+      toTopAndReplay();
       requestAnimationFrame(() => overlay.classList.remove("isOn"));
     }, 380);
   }

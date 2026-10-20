@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import type * as Three from "three";
 
+import { REPLAY_INTRO_EVENT } from "@/lib/events";
+
 // `engraving` is the word pressed into the foil when it differs from the menu label.
 type GumTopic = { label: string; hash: string; image: string; engraving?: string };
 
@@ -657,6 +659,14 @@ function buildScene(
   renderer.domElement.addEventListener("pointerleave", onPointerLeave);
   renderer.domElement.addEventListener("click", onClick);
 
+  // The intro clock: the spiral plays from introStart (seconds on the scene timer), so
+  // replaying it just moves the start to now.
+  let introStart = 0;
+  function replayIntro() {
+    introStart = timer.getElapsed();
+  }
+  window.addEventListener(REPLAY_INTRO_EVENT, replayIntro);
+
   // Only render while the hero is on screen.
   let visible = true;
   const visibilityObserver = new IntersectionObserver(([entry]) => {
@@ -762,7 +772,7 @@ function buildScene(
     // spin and fade, like the photo spiral this replaced.
     // On first load the pieces play the spiral in reverse: they start gathered
     // in the centre and unwind out to the ring. Scrolling takes over from there.
-    const intro = reduceMotion ? 1 : Math.min(1, time / INTRO_SECONDS);
+    const intro = reduceMotion ? 1 : Math.min(1, (time - introStart) / INTRO_SECONDS);
     const introGather = (1 - intro) ** 3; // eases out: fast unwind, gentle landing
     const gather = Math.max(gatherProgress(), introGather);
     const gatherEase = gather * gather * (3 - 2 * gather);
@@ -848,6 +858,7 @@ function buildScene(
     renderer.domElement.removeEventListener("pointermove", onPointerMove);
     renderer.domElement.removeEventListener("pointerleave", onPointerLeave);
     renderer.domElement.removeEventListener("click", onClick);
+    window.removeEventListener(REPLAY_INTRO_EVENT, replayIntro);
     disposables.forEach((item) => item.dispose());
     sparkleTexture.dispose();
     sparkleMaterial.dispose();

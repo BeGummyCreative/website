@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import SiteHeader from "@/components/SiteHeader";
 import { getPortfolioProject, portfolioProjects, type ProjectLink } from "@/data/portfolio";
 import { imageRatio } from "@/lib/imageOrientation";
+import { justifiedRows } from "@/lib/justifiedRows";
 
 const compactAssetPattern = /palette|swatch|logo|badge|ticket|sticker|detail/i;
 
@@ -34,45 +35,6 @@ function SectionLink({ link }: { link: ProjectLink }) {
       <small>Not posted yet</small>
     </p>
   );
-}
-
-// Sum of width÷height ratios that makes a full row: about four portraits or two landscapes.
-const targetRowRatio = 3.2;
-
-type RowImage = { src: string; ratio: number };
-
-// Below this, a row filling the full width would be absurdly tall (e.g. one portrait).
-const minRowRatio = 1.2;
-
-// Splits a section's images, in order, into the rows whose ratio sums stay closest to the
-// target overall, so every row can run edge to edge at one shared height with no cropping.
-function justifiedRows(images: string[]) {
-  const items: RowImage[] = images.map((src) => ({ src, ratio: imageRatio(src) }));
-  const prefix = [0];
-  for (const item of items) prefix.push(prefix[prefix.length - 1] + item.ratio);
-
-  // best[i]: lowest cost for laying out the first i images; start[i]: where its last row begins.
-  const best = [0];
-  const start = [0];
-  for (let end = 1; end <= items.length; end += 1) {
-    best[end] = Infinity;
-    for (let begin = 0; begin < end; begin += 1) {
-      const cost = best[begin] + (prefix[end] - prefix[begin] - targetRowRatio) ** 2;
-      if (cost < best[end]) {
-        best[end] = cost;
-        start[end] = begin;
-      }
-    }
-  }
-
-  const rows: RowImage[][] = [];
-  for (let end = items.length; end > 0; end = start[end]) rows.unshift(items.slice(start[end], end));
-
-  // Only a genuinely sparse section keeps room beside it, sized like a normal row.
-  return rows.map((row) => {
-    const rowRatio = row.reduce((total, item) => total + item.ratio, 0);
-    return { items: row, filler: rowRatio < minRowRatio ? targetRowRatio - rowRatio : 0 };
-  });
 }
 
 export const dynamicParams = false;
@@ -162,9 +124,9 @@ export default async function ProjectPage({
               </header>
               {section.images?.length ? (
                 <div className="projectSectionImages">
-                  {justifiedRows(section.images).map(({ items, filler }) => (
-                    <div className="projectSectionRow" key={items[0].src}>
-                      {items.map(({ src, ratio }) => {
+                  {justifiedRows(section.images, imageRatio).map(({ items, filler }) => (
+                    <div className="projectSectionRow" key={items[0].item}>
+                      {items.map(({ item: src, ratio }) => {
                         const imageLink = section.imageLinks?.[src];
                         return (
                           <figure

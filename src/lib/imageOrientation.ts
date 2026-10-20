@@ -1,12 +1,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-export type Orientation = "portrait" | "landscape";
-
-const cache = new Map<string, Orientation>();
-
 // Reads pixel dimensions straight from a JPEG or PNG header at build time, so
-// preview frames can pick a portrait or landscape ratio without hardcoding it.
+// layouts can size images by their real proportions without hardcoding them.
 function readDimensions(bytes: Buffer): { width: number; height: number } | null {
   // PNG: IHDR width/height sit at fixed offsets.
   if (bytes.readUInt32BE(0) === 0x89504e47) {
@@ -68,14 +64,4 @@ export function imageRatio(publicPath: string): number {
   const ratio = dimensions && dimensions.height > 0 ? dimensions.width / dimensions.height : 1.5;
   ratioCache.set(publicPath, ratio);
   return ratio;
-}
-
-export function imageOrientation(publicPath: string): Orientation {
-  const cached = cache.get(publicPath);
-  if (cached) return cached;
-
-  const dimensions = readDimensions(readFileSync(join(process.cwd(), "public", publicPath)));
-  const orientation = dimensions && dimensions.height > dimensions.width ? "portrait" : "landscape";
-  cache.set(publicPath, orientation);
-  return orientation;
 }

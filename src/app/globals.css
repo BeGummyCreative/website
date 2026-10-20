@@ -21,11 +21,11 @@
     #cfcfd6 100%
   );
   /* Type: Helvetica, thin or bold only. */
-  /* Silver chrome cursors (public/cursors): arrow, pointing hand, scrunched hand. SVG first,
-     PNG for browsers without SVG cursors; the numbers are the click point (tip or palm). */
-  --cursor-arrow: url("/cursors/hand-arrow.svg") 3 2, url("/cursors/hand-arrow.png") 3 2, default;
-  --cursor-point: url("/cursors/hand-point.svg") 9 1, url("/cursors/hand-point.png") 9 1, pointer;
-  --cursor-grab: url("/cursors/hand-grab.svg") 12 12, url("/cursors/hand-grab.png") 12 12, grabbing;
+  /* Silver chrome cursors (public/cursors): arrow, open hand, scrunched hand. SVG first,
+     PNG for browsers without SVG cursors; the numbers are the click point (arrow tip or palm). */
+  --cursor-arrow: url("/cursors/hand-arrow.svg") 2 1, url("/cursors/hand-arrow.png") 2 1, default;
+  --cursor-hover: url("/cursors/hand-open.svg") 10 11, url("/cursors/hand-open.png") 10 11, pointer;
+  --cursor-grab: url("/cursors/hand-grab.svg") 10 12, url("/cursors/hand-grab.png") 10 12, grabbing;
   --weight-thin: 200;
   --weight-bold: 700;
   /* Theme tokens: dark by default, light via the header toggle. */
@@ -67,7 +67,7 @@ html {
   cursor: var(--cursor-arrow);
 }
 
-/* Chrome arrow everywhere, pointing hand over anything clickable, scrunched while pressed.
+/* Chrome arrow everywhere, open hand over anything clickable, scrunched while pressed.
    Text fields keep the normal text cursor so typing still feels right. */
 a,
 button,
@@ -79,7 +79,7 @@ input[type="submit"],
 input[type="button"],
 input[type="checkbox"],
 input[type="radio"] {
-  cursor: var(--cursor-point);
+  cursor: var(--cursor-hover);
 }
 
 /* :root raises these above single-class rules such as .contactForm button. */
@@ -97,7 +97,7 @@ input:not([type="submit"], [type="button"], [type="checkbox"], [type="radio"]),
 
 /* Set from GumHero.tsx while the pointer is over a gum on the landing page. */
 .isOverGum {
-  cursor: var(--cursor-point);
+  cursor: var(--cursor-hover);
 }
 
 body {
@@ -176,8 +176,8 @@ img {
   position: absolute;
   z-index: 2;
   left: 3vw;
-  width: 60px;
-  height: 60px;
+  width: 78px;
+  height: 78px;
 }
 
 .aurenHeaderLogo img {
@@ -288,7 +288,7 @@ img {
   font: inherit;
   font-size: 11px;
   line-height: 1;
-  cursor: var(--cursor-point);
+  cursor: var(--cursor-hover);
 }
 
 .themeToggle:hover,
@@ -376,7 +376,7 @@ html::-webkit-scrollbar {
   right: 6px;
   bottom: 10px;
   width: 30px;
-  cursor: var(--cursor-point);
+  cursor: var(--cursor-hover);
   /* Only shown while scrolling (or hovered/dragged); ignores clicks when hidden. */
   opacity: 0;
   pointer-events: none;
@@ -399,7 +399,7 @@ html::-webkit-scrollbar {
   /* Glossy purple gumball: lit from the top left, darker toward the edge. */
   background: radial-gradient(circle at 32% 28%, #c9bcff 0%, #8f78ea 18%, #5a44af 46%, #3a2a7d 78%, #22184c 100%);
   box-shadow: inset -3px -4px 8px rgba(0, 0, 0, 0.35), 0 3px 8px rgba(0, 0, 0, 0.35);
-  cursor: var(--cursor-point);
+  cursor: var(--cursor-hover);
   touch-action: none;
   will-change: transform;
   transition: scale 160ms ease;
@@ -1003,34 +1003,33 @@ html::-webkit-scrollbar {
   font-size: 11px;
 }
 
+/* Collage: three equal columns filled at build time (masonryColumns), so every cover is
+   the same width at its own shape (--ratio, uncropped), with title and caption under it. */
 .archiveGrid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 7vw 2.2vw;
-  align-items: start;
+  display: flex;
+  align-items: flex-start;
+  gap: 2.2vw;
+}
+
+.archiveColumn {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4.5vw;
 }
 
 .archiveCard {
-  grid-column: span 4;
   display: block;
 }
 
-
-
-/* Every preview is the same width; portrait covers share 4:5, landscape 3:2. */
 .archiveImage {
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: var(--ratio);
   overflow: hidden;
   background: var(--paper);
-}
-
-
-
-.portrait .archiveImage {
-  aspect-ratio: 4 / 5;
 }
 
 /* Logo covers sit whole on the page colour, framed in purple. */
@@ -1093,16 +1092,14 @@ html::-webkit-scrollbar {
   filter: invert(1);
 }
 
-:root[data-theme="light"] .invertsInLight:hover .archiveImage img {
-  filter: invert(1) brightness(0.9);
-}
-
 .archiveImage img {
   object-fit: cover;
   transition: filter 300ms ease;
 }
 
-.archiveCard:hover .archiveImage img {
+/* Photo covers dim slightly on hover. Logo covers stay as they are: darkening would turn
+   a logo's light background into a grey box. */
+.archiveCard:not(.logoCover):hover .archiveImage img {
   filter: brightness(0.9);
 }
 
@@ -1354,7 +1351,7 @@ html::-webkit-scrollbar {
   font: inherit;
   font-size: 24px;
   font-weight: var(--weight-bold);
-  cursor: var(--cursor-point);
+  cursor: var(--cursor-hover);
   transition: background 180ms ease;
 }
 
@@ -1806,7 +1803,11 @@ html::-webkit-scrollbar {
   }
 
   .archiveGrid {
-    gap: 8vw 2vw;
+    gap: 2vw;
+  }
+
+  .archiveColumn {
+    gap: 6vw;
   }
 }
 
@@ -1821,8 +1822,8 @@ html::-webkit-scrollbar {
 
   .aurenHeaderLogo {
     left: 18px;
-    width: 52px;
-    height: 52px;
+    width: 66px;
+    height: 66px;
   }
 
   .aurenDesktopNav {
@@ -1842,7 +1843,7 @@ html::-webkit-scrollbar {
 
   .aurenMobileNav summary {
     padding: 12px 0;
-    cursor: var(--cursor-point);
+    cursor: var(--cursor-hover);
     list-style: none;
   }
 
@@ -2011,13 +2012,19 @@ html::-webkit-scrollbar {
     font-size: 50px;
   }
 
+  /* Phones: the columns dissolve into one list, back in the original order. */
   .archiveGrid {
-    display: block;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 62px;
+  }
+
+  .archiveColumn {
+    display: contents;
   }
 
   .archiveCard {
-    width: 100%;
-    margin: 0 0 62px;
+    order: var(--order);
   }
 
   .archiveSummary {

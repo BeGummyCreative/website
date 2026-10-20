@@ -40,8 +40,6 @@ export type PortfolioProject = {
   coverLight?: string;
   // Crops the cover to fill the tall Selected Work card, centred on this CSS object-position.
   featureFocus?: string;
-  // Where the Full Archive card's fixed frame crops the cover (CSS object-position).
-  archiveFocus?: string;
   externalUrl?: string;
   externalLabel?: string;
 };
@@ -209,7 +207,6 @@ export const portfolioProjects: PortfolioProject[] = [
     category: "Graphic Design",
     year: "2025",
     cover: "/portfolio/wix/graphic/wonderland-poster-1.jpg",
-    archiveFocus: "center 18%",
     summary: "An exhibition campaign that sees Wonderland through Alice's eyes.",
     description: [
       "Into Wonderland is an advertising campaign for an Alice in Wonderland exhibition.",
@@ -514,51 +511,19 @@ export const portfolioProjects: PortfolioProject[] = [
     externalLabel: "View degree show feature",
   },
   {
-    slug: "interactive-toy",
-    title: "Interactive Toy",
+    slug: "vr-experience",
+    title: "VR Experience",
     category: "Game Design",
-    year: "Year 1",
-    cover: "/portfolio/wix/game/interactive-toy.jpg",
-    summary: "A modelled, animated, and coded character with a Blade Runner atmosphere.",
+    year: "Year 2",
+    cover: "/portfolio/wix/game/vr-experience.jpg",
+    summary: "A simulated hallway where every object exposes a crack in reality.",
     description: [
-      "Begüm's first complete character design, developed individually within a shared sci-fi world.",
-      "The project moved through modelling, animation, and code to produce a finished interactive toy with a Blade Runner-inspired visual atmosphere.",
+      "A VR experience designed for the Now Play This festival at Somerset House.",
+      "Players follow objects as clues through a simulated hallway, searching for an uncertain escape while the world unravels around them.",
     ],
-    images: [
-      "/portfolio/wix/game/interactive-toy.jpg",
-      "/portfolio/wix/game/interactive-toy-character.jpg",
-      "/portfolio/wix/game/interactive-toy-character-render.jpg",
-    ],
-  },
-  {
-    slug: "cinematic",
-    title: "Cinematic",
-    category: "Game Design",
-    year: "Year 1",
-    cover: "/portfolio/wix/game/cinematic.jpg",
-    summary: "A Blender and Unreal Engine collaboration seen through an escaped goldfish.",
-    description: [
-      "A group cinematic built with Blender characters and an Unreal Engine environment.",
-      "The scene adopts the perspective of a goldfish that has just escaped a fisherman, using scale and camera movement to make a familiar world feel newly precarious.",
-    ],
-    images: ["/portfolio/wix/game/cinematic.jpg"],
-    externalUrl: "https://youtu.be/xqEk0qQua4M",
-    externalLabel: "Watch cinematic",
-  },
-  {
-    slug: "mini-game",
-    title: "Mini Game",
-    category: "Game Design",
-    year: "Year 1",
-    cover: "/portfolio/wix/game/mini-game.jpg",
-    summary: "Three expressive characters driven by random text and custom sound.",
-    description: [
-      "An Unreal Engine mini-game featuring three characters whose dialogue is randomly selected from individual word pools.",
-      "Custom mumbling sounds add personality and make each encounter feel unpredictable.",
-    ],
-    images: ["/portfolio/wix/game/mini-game.jpg"],
-    externalUrl: "https://youtu.be/Tx8QSE5rRVo",
-    externalLabel: "Watch game",
+    images: ["/portfolio/wix/game/vr-experience.jpg"],
+    externalUrl: "https://youtu.be/XgnqgFvV6ac",
+    externalLabel: "Watch experience",
   },
   {
     slug: "nyctophobia",
@@ -576,21 +541,6 @@ export const portfolioProjects: PortfolioProject[] = [
     externalLabel: "Watch playthrough",
   },
   {
-    slug: "vr-experience",
-    title: "VR Experience",
-    category: "Game Design",
-    year: "Year 2",
-    cover: "/portfolio/wix/game/vr-experience.jpg",
-    summary: "A simulated hallway where every object exposes a crack in reality.",
-    description: [
-      "A VR experience designed for the Now Play This festival at Somerset House.",
-      "Players follow objects as clues through a simulated hallway, searching for an uncertain escape while the world unravels around them.",
-    ],
-    images: ["/portfolio/wix/game/vr-experience.jpg"],
-    externalUrl: "https://youtu.be/XgnqgFvV6ac",
-    externalLabel: "Watch experience",
-  },
-  {
     slug: "vault-of-genesis",
     title: "The Vault of Genesis",
     category: "Game Design",
@@ -604,6 +554,53 @@ export const portfolioProjects: PortfolioProject[] = [
     images: ["/portfolio/wix/game/worldbuilding.jpg"],
     externalUrl: "https://youtu.be/shUdWmNveU8",
     externalLabel: "Watch walkthrough",
+  },
+  {
+    slug: "cinematic",
+    title: "Cinematic",
+    category: "Game Design",
+    year: "Year 1",
+    cover: "/portfolio/wix/game/cinematic.jpg",
+    summary: "A Blender and Unreal Engine collaboration seen through an escaped goldfish.",
+    description: [
+      "A group cinematic built with Blender characters and an Unreal Engine environment.",
+      "The scene adopts the perspective of a goldfish that has just escaped a fisherman, using scale and camera movement to make a familiar world feel newly precarious.",
+    ],
+    images: ["/portfolio/wix/game/cinematic.jpg"],
+    externalUrl: "https://youtu.be/xqEk0qQua4M",
+    externalLabel: "Watch cinematic",
+  },
+  {
+    slug: "interactive-toy",
+    title: "Interactive Toy",
+    category: "Game Design",
+    year: "Year 1",
+    cover: "/portfolio/wix/game/interactive-toy.jpg",
+    summary: "A modelled, animated, and coded character with a Blade Runner atmosphere.",
+    description: [
+      "Begüm's first complete character design, developed individually within a shared sci-fi world.",
+      "The project moved through modelling, animation, and code to produce a finished interactive toy with a Blade Runner-inspired visual atmosphere.",
+    ],
+    images: [
+      "/portfolio/wix/game/interactive-toy.jpg",
+      "/portfolio/wix/game/interactive-toy-character.jpg",
+      "/portfolio/wix/game/interactive-toy-character-render.jpg",
+    ],
+  },
+  {
+    slug: "mini-game",
+    title: "Mini Game",
+    category: "Game Design",
+    year: "Year 1",
+    cover: "/portfolio/wix/game/mini-game.jpg",
+    summary: "Three expressive characters driven by random text and custom sound.",
+    description: [
+      "An Unreal Engine mini-game featuring three characters whose dialogue is randomly selected from individual word pools.",
+      "Custom mumbling sounds add personality and make each encounter feel unpredictable.",
+    ],
+    images: ["/portfolio/wix/game/mini-game.jpg"],
+    externalUrl: "https://youtu.be/Tx8QSE5rRVo",
+    externalLabel: "Watch game",
   },
   {
     slug: "sold-utopia",
@@ -1291,7 +1288,7 @@ export const portfolioProjects: PortfolioProject[] = [
     title: "Kasa Cafe Social",
     category: "Social Content",
     year: "2025",
-    cover: "/portfolio/wix/social/kasa-cover.jpg",
+    cover: "/portfolio/wix/social/kasa/kasa-01.jpg",
     summary: "Event imagery for UCL Entrepreneurs and Bloomberg Startup Academy.",
     description: [
       "A social photography assignment for a Kasa Cafe gathering connected to the Bloomberg Startup Academy.",

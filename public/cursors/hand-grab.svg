@@ -1,21 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
-  <!-- Silver chrome grab cursor: soft shadow, dark rounded edge, banded chrome fill.
-       Generated together so all three cursors share one look. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32">
+  <!-- Silver chrome grab cursor: small soft shadow, dark rounded edge, banded chrome fill,
+       bright bevel, finger creases. Generated together so all three share one look. -->
   <defs>
     <linearGradient id="grab-chrome" gradientUnits="userSpaceOnUse" x1="5" y1="2" x2="21" y2="30"><stop offset="0" stop-color="#f7f7fa"/><stop offset="0.16" stop-color="#a6a6ae"/><stop offset="0.3" stop-color="#f3f3f6"/><stop offset="0.44" stop-color="#8a8a93"/><stop offset="0.52" stop-color="#2c2c32"/><stop offset="0.58" stop-color="#6e6e77"/><stop offset="0.72" stop-color="#d6d6dc"/><stop offset="0.84" stop-color="#f7f7fa"/><stop offset="1" stop-color="#92929a"/></linearGradient>
     <linearGradient id="grab-rim" gradientUnits="userSpaceOnUse" x1="4" y1="2" x2="18" y2="28">
       <stop offset="0" stop-color="#ffffff"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0.55"/><stop offset="1" stop-color="#4a4a52"/>
     </linearGradient>
-    <g id="grab-shape">
-      <rect x="8.4" y="9.4" width="3.6" height="7" rx="1.8"/>
-      <rect x="12.6" y="8.2" width="3.6" height="7.6" rx="1.8"/>
-      <rect x="16.8" y="8.4" width="3.6" height="7.4" rx="1.8"/>
-      <rect x="21" y="9.8" width="3.2" height="6.6" rx="1.6"/>
-      <rect x="8.4" y="12.8" width="15.8" height="13.4" rx="5.6"/>
-      <rect x="6.4" y="14.4" width="3.8" height="8" rx="1.9" transform="rotate(-22 8.3 21)"/>
-    </g>
+    <path id="grab-shape" d="M8.6 13.6 C8.4 11.8 9.6 10.6 11 10.6 C12 10.6 12.6 11 13 11.6 C13.3 10.4 14.2 9.7 15.3 9.7 C16.4 9.7 17.2 10.4 17.5 11.4 C17.9 10.5 18.8 10 19.8 10.1 C20.9 10.3 21.6 11.1 21.7 12.1 C22.2 11.6 22.9 11.4 23.5 11.6 C24.4 11.9 24.9 12.7 24.9 13.7 L24.9 19 C24.9 23.8 21.9 27.2 17.6 27.2 L15.4 27.2 C12.4 27.2 10.4 25.8 9.2 23.6 L7 19.6 C6.4 18.5 6.8 17.2 7.9 16.8 C8.8 16.5 9.6 16.9 10 17.6 L8.7 15.6 Z"/>
   </defs>
   <use href="#grab-shape" transform="translate(0.45 0.65)" fill="#000" fill-opacity="0.18" stroke="#000" stroke-opacity="0.18" stroke-width="1.6" stroke-linejoin="round"/>
   <use href="#grab-shape" fill="#26262c" stroke="#26262c" stroke-width="2" stroke-linejoin="round"/>
   <use href="#grab-shape" fill="url(#grab-chrome)"/>
+  <use href="#grab-shape" fill="none" stroke="url(#grab-rim)" stroke-width="0.8" stroke-linejoin="round"/>
+  <path d="M13 11.6 C13.1 12.8 13 13.8 12.8 14.6" fill="none" stroke="#26262c" stroke-opacity="0.75" stroke-width="0.7" stroke-linecap="round"/>
+  <path d="M17.5 11.4 C17.6 12.6 17.5 13.6 17.3 14.4" fill="none" stroke="#26262c" stroke-opacity="0.75" stroke-width="0.7" stroke-linecap="round"/>
+  <path d="M21.7 12.1 C21.8 13.2 21.7 14.1 21.5 14.8" fill="none" stroke="#26262c" stroke-opacity="0.75" stroke-width="0.7" stroke-linecap="round"/>
 </svg>

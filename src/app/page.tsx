@@ -1,16 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 
 import ContactSection from "@/components/ContactSection";
 import GumHero from "@/components/GumHero";
 import SiteHeader from "@/components/SiteHeader";
-import { imageOrientation } from "@/lib/imageOrientation";
+import { imageRatio } from "@/lib/imageOrientation";
+import { masonryColumns } from "@/lib/masonryColumns";
 import {
   filmProjects,
   portfolioCategories,
   portfolioProjects,
   type PortfolioCategory,
 } from "@/data/portfolio";
+
+// Archive covers: same width, own shape (--ratio); --order restores the original order
+// on phones, where the columns collapse into one list.
+const coverStyle = (ratio: number, index: number) => ({ "--ratio": ratio, "--order": index }) as CSSProperties;
 
 const featuredSlugs = [
   "tiktok-shop-internship",
@@ -241,38 +247,41 @@ export default function Home() {
                 <h3 className="chromeScript">{category}</h3>
                 <span>{String(projects.length).padStart(2, "0")}</span>
               </div>
+              {/* A collage: every cover the same width at its own shape, in balanced columns. */}
               <div className="archiveGrid">
-                {projects.map((project) => (
-                  <Link
-                    className={[
-                      "archiveCard",
-                      // Graphic design covers all share one landscape frame.
-                      category === "Graphic Design" ? "landscape" : imageOrientation(project.cover),
-                      project.coverStyle === "logo" ? "logoCover" : "",
-                      project.coverInvertsInLight ? "invertsInLight" : "",
-                    ].join(" ")}
-                    href={`/projects/${project.slug}`}
-                    key={project.slug}
-                  >
-                    <span className="archiveImage">
-                      <Image
-                        className={project.coverLight ? "coverDarkOnly" : undefined}
-                        src={project.cover}
-                        alt=""
-                        fill
-                        sizes="(max-width: 760px) 100vw, 33vw"
-                        style={project.archiveFocus ? { objectPosition: project.archiveFocus } : undefined}
-                      />
-                      {project.coverLight ? (
-                        <Image className="coverLightOnly" src={project.coverLight} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />
-                      ) : null}
-                    </span>
-                    <span className="archiveDetails">
-                      <strong>{project.title}</strong>
-                      <small>{project.year}</small>
-                    </span>
-                    <span className="archiveSummary">{project.summary}</span>
-                  </Link>
+                {masonryColumns(projects, (project) => imageRatio(project.cover)).map((column, columnIndex) => (
+                  <div className="archiveColumn" key={columnIndex}>
+                    {column.map(({ item: project, ratio, index }) => (
+                      <Link
+                        className={[
+                          "archiveCard",
+                          project.coverStyle === "logo" ? "logoCover" : "",
+                          project.coverInvertsInLight ? "invertsInLight" : "",
+                        ].join(" ")}
+                        href={`/projects/${project.slug}`}
+                        key={project.slug}
+                        style={coverStyle(ratio, index)}
+                      >
+                        <span className="archiveImage">
+                          <Image
+                            className={project.coverLight ? "coverDarkOnly" : undefined}
+                            src={project.cover}
+                            alt=""
+                            fill
+                            sizes="(max-width: 760px) 100vw, 33vw"
+                          />
+                          {project.coverLight ? (
+                            <Image className="coverLightOnly" src={project.coverLight} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />
+                          ) : null}
+                        </span>
+                        <span className="archiveDetails">
+                          <strong>{project.title}</strong>
+                          <small>{project.year}</small>
+                        </span>
+                        <span className="archiveSummary">{project.summary}</span>
+                      </Link>
+                    ))}
+                  </div>
                 ))}
               </div>
             </section>
@@ -285,31 +294,38 @@ export default function Home() {
             <span>{String(filmProjects.length).padStart(2, "0")}</span>
           </div>
           <div className="archiveGrid filmGrid">
-            {filmProjects.map((project) => (
-              // Links can't nest, so a film with extra clips wraps its card link and the clips in a div.
-              <div className={`archiveCard ${imageOrientation(project.image)}`} key={project.title}>
-                <a className="archiveCardLink" href={project.href} target="_blank" rel="noreferrer">
-                  <span className="archiveImage">
-                    <Image src={project.image} alt="" fill sizes="(max-width: 760px) 100vw, 33vw" />
-                  </span>
-                  <span className="archiveDetails">
-                    <strong>{project.title}</strong>
-                    <small>{project.role}</small>
-                  </span>
-                  <span className="archiveSummary">{project.description}</span>
-                </a>
-                {project.clips?.length ? (
-                  <ul className="archiveClips" aria-label={`${project.title} behind the scenes`}>
-                    {project.clips.map((clip) => (
-                      <li key={clip.href}>
-                        <a href={clip.href} target="_blank" rel="noreferrer">
-                          <Image src={clip.image} alt="" width={120} height={218} />
-                          <span>{clip.label} ↗</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
+            {masonryColumns(filmProjects, (project) => imageRatio(project.image), {
+              // Behind-the-scenes clips add a row of tall thumbnails under the caption.
+              caption: (project) => (project.clips?.length ? 0.77 : 0.31),
+            }).map((column, columnIndex) => (
+              <div className="archiveColumn" key={columnIndex}>
+                {column.map(({ item: project, ratio, index }) => (
+                  // Links can't nest, so a film with extra clips wraps its card link and the clips in a div.
+                  <div className="archiveCard" key={project.title} style={coverStyle(ratio, index)}>
+                    <a className="archiveCardLink" href={project.href} target="_blank" rel="noreferrer">
+                      <span className="archiveImage">
+                        <Image src={project.image} alt="" fill sizes="(max-width: 760px) 100vw, 50vw" />
+                      </span>
+                      <span className="archiveDetails">
+                        <strong>{project.title}</strong>
+                        <small>{project.role}</small>
+                      </span>
+                      <span className="archiveSummary">{project.description}</span>
+                    </a>
+                    {project.clips?.length ? (
+                      <ul className="archiveClips" aria-label={`${project.title} behind the scenes`}>
+                        {project.clips.map((clip) => (
+                          <li key={clip.href}>
+                            <a href={clip.href} target="_blank" rel="noreferrer">
+                              <Image src={clip.image} alt="" width={120} height={218} />
+                              <span>{clip.label} ↗</span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </div>
+                ))}
               </div>
             ))}
           </div>
