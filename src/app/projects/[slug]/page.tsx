@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import LoopVideo from "@/components/LoopVideo";
 import SiteHeader from "@/components/SiteHeader";
 import { getPortfolioProject, portfolioProjects, type ProjectLink } from "@/data/portfolio";
 import { imageRatio } from "@/lib/imageOrientation";
@@ -174,19 +175,43 @@ export default async function ProjectPage({
         </div>
       ) : (
         <section className="projectGallery" id="gallery" aria-label={`${project.title} gallery`}>
-          {project.images.map((image, index) => (
-            <figure className={`projectGalleryItem ${getGalleryScale(image)}`} key={`${image}-${index}`}>
-              {/* Native sizing preserves each artwork's exact orientation in the masonry collage. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={image}
-                alt={`${project.title} project image ${index + 1}`}
-                loading={index < 6 ? "eager" : "lazy"}
-                decoding="async"
-              />
-              <figcaption>{String(index + 1).padStart(2, "0")} / {project.title}</figcaption>
-            </figure>
-          ))}
+          {(() => {
+            // "large" images lead in a row across the top; the rest fill the masonry columns.
+            const sizes = project.gallerySizes ?? {};
+            const items = project.images.map((image, index) => ({ image, index, size: sizes[image] }));
+            const renderItem = ({ image, index, size }: (typeof items)[number]) => (
+              <figure
+                className={`projectGalleryItem ${size === "small" ? "gallerySmall" : getGalleryScale(image)}`}
+                key={`${image}-${index}`}
+              >
+                {/* Native sizing preserves each artwork's exact orientation in the masonry collage. */}
+                {image.endsWith(".mp4") ? (
+                  // Clips play like GIFs; a .jpg of the same name is the still shown while loading.
+                  <LoopVideo
+                    src={image}
+                    poster={image.replace(/\.mp4$/, ".jpg")}
+                    label={`${project.title} video ${index + 1}`}
+                  />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={image}
+                    alt={`${project.title} project image ${index + 1}`}
+                    loading={index < 6 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                )}
+                <figcaption>{String(index + 1).padStart(2, "0")} / {project.title}</figcaption>
+              </figure>
+            );
+            const lead = items.filter((item) => item.size === "large");
+            return (
+              <>
+                {lead.length ? <div className="projectGalleryLead">{lead.map(renderItem)}</div> : null}
+                {items.filter((item) => item.size !== "large").map(renderItem)}
+              </>
+            );
+          })()}
         </section>
       )}
 

@@ -40,6 +40,9 @@ export type PortfolioProject = {
   coverLight?: string;
   // Crops the cover to fill the tall Selected Work card, centred on this CSS object-position.
   featureFocus?: string;
+  // Per-image size in the gallery collage, keyed by image path: "small" shrinks an image
+  // within its column; "large" lifts it into a row across the top of the gallery.
+  gallerySizes?: Record<string, "small" | "large">;
   externalUrl?: string;
   externalLabel?: string;
 };
@@ -184,19 +187,30 @@ export const portfolioProjects: PortfolioProject[] = [
     title: "ELO Design Work",
     category: "Graphic Design",
     year: "2026",
-    cover: "/portfolio/wix/graphic/elo-logo-white.png",
-    coverStyle: "logo",
-    coverInvertsInLight: true,
+    cover: "/portfolio/wix/graphic/elo-site-head.jpg",
+    gallerySizes: {
+      "/portfolio/wix/graphic/elo-site-head.jpg": "large",
+      "/portfolio/wix/graphic/elo-site-body.jpg": "large",
+      "/portfolio/wix/graphic/elo-head-chest.jpg": "small",
+      "/portfolio/wix/graphic/elo-chest-closeup.jpg": "small",
+    },
     summary: "Brand and campaign design for a London open-source humanoid start-up.",
     description: [
       "ELO is an open-source humanoid start-up based in London.",
       "The work brings its identity into real-world events and campaign materials, balancing technical credibility with an accessible, human visual language.",
     ],
     images: [
-      "/portfolio/wix/graphic/elo-cover.jpg",
+      "/portfolio/wix/graphic/elo-site-head.jpg",
+      "/portfolio/wix/graphic/elo-site-body.jpg",
+      "/portfolio/wix/graphic/elo-wordmark-black-on-white.png",
+      "/portfolio/wix/graphic/elo-wordmark-white-on-black.png",
       "/portfolio/wix/graphic/elo-event.jpg",
       "/portfolio/wix/graphic/elo-display.jpg",
       "/portfolio/wix/graphic/elo-poster.jpg",
+      "/portfolio/wix/graphic/elo-get-paid-poster.jpg",
+      "/portfolio/wix/graphic/elo-in-motion.mp4",
+      "/portfolio/wix/graphic/elo-head-chest.jpg",
+      "/portfolio/wix/graphic/elo-chest-closeup.jpg",
     ],
     externalUrl: "https://elo.inc/",
     externalLabel: "Visit ELO",
