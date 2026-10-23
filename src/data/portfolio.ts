@@ -33,6 +33,9 @@ export type PortfolioProject = {
   // Full-width image at the top of the project page (and its "next project" panel) when it
   // should differ from the archive card's cover.
   heroCover?: string;
+  // Silent looping clip shown instead of the hero image on the project page only (a
+  // same-name .jpg is its poster).
+  heroVideo?: string;
   summary: string;
   description: string[];
   images: string[];
@@ -199,11 +202,10 @@ export const portfolioProjects: PortfolioProject[] = [
     category: "Graphic Design",
     year: "2026",
     cover: "/portfolio/wix/graphic/elo-site-head.jpg",
+    heroVideo: "/portfolio/wix/graphic/elo-hero.mp4",
     gallerySizes: {
       "/portfolio/wix/graphic/elo-site-head.jpg": "large",
       "/portfolio/wix/graphic/elo-site-body.jpg": "large",
-      "/portfolio/wix/graphic/elo-head-chest.jpg": "small",
-      "/portfolio/wix/graphic/elo-chest-closeup.jpg": "small",
     },
     summary: "Brand and campaign design for a London open-source humanoid start-up.",
     description: [

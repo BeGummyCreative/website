@@ -104,15 +104,25 @@ export default async function ProjectPage({
       <SiteHeader />
 
       <section className="projectHero">
-        <Image
-          src={project.heroCover ?? project.cover}
-          alt={`${project.title} cover`}
-          fill
-          priority
-          sizes="100vw"
-          className={project.coverStyle === "logo" ? "projectHeroLogo" : undefined}
-          style={project.featureFocus ? { objectPosition: project.featureFocus } : undefined}
-        />
+        {project.heroVideo ? (
+          <LoopVideo
+            className="projectHeroVideo"
+            src={project.heroVideo}
+            poster={project.heroVideo.replace(/\.mp4$/, ".jpg")}
+            label={`${project.title} cover`}
+            controlsFallback={false}
+          />
+        ) : (
+          <Image
+            src={project.heroCover ?? project.cover}
+            alt={`${project.title} cover`}
+            fill
+            priority
+            sizes="100vw"
+            className={project.coverStyle === "logo" ? "projectHeroLogo" : undefined}
+            style={project.featureFocus ? { objectPosition: project.featureFocus } : undefined}
+          />
+        )}
         <span className="projectHeroShade" aria-hidden="true" />
         <Link className="projectBack" href="/#work">← ALL WORK</Link>
         <div className="projectHeroTitle">

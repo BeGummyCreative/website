@@ -70,6 +70,8 @@ const vary = (value: number, amount: number) => value * (1 + (Math.random() * 2 
 // can come out louder than the rest.
 let audio: { ctx: AudioContext; output: AudioNode } | null = null;
 
+const CRACKLE_VOLUME = 0.3;
+
 function getAudio() {
   if (!audio) {
     const ctx = new AudioContext();
@@ -79,7 +81,12 @@ function getAudio() {
     limiter.ratio.value = 8;
     limiter.attack.value = 0.002;
     limiter.release.value = 0.15;
-    limiter.connect(ctx.destination);
+    // Master volume: the crackle plays at a fraction of the device's own volume (about
+    // 10dB down), so it stays a quiet detail rather than a jolt.
+    const volume = ctx.createGain();
+    volume.gain.value = CRACKLE_VOLUME;
+    limiter.connect(volume);
+    volume.connect(ctx.destination);
     audio = { ctx, output: limiter };
   }
   if (audio.ctx.state === "suspended") void audio.ctx.resume();
