@@ -1,19 +1,45 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
+import { Fragment, type CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import LoopVideo from "@/components/LoopVideo";
 import SiteHeader from "@/components/SiteHeader";
-import { getPortfolioProject, portfolioProjects, type ProjectLink } from "@/data/portfolio";
+import { getPortfolioProject, portfolioProjects, type ProjectLink, type ProjectSection } from "@/data/portfolio";
 import { imageRatio } from "@/lib/imageOrientation";
 import { justifiedRows } from "@/lib/justifiedRows";
 
-const compactAssetPattern = /palette|swatch|logo|badge|ticket|sticker|detail/i;
+// How much wider than it really is a "large" section image counts when rows are built, so
+// its row holds fewer images and comes out taller.
+const LARGE_WEIGHT = 2.2;
 
-function getGalleryScale(image: string) {
-  return compactAssetPattern.test(image) ? "galleryCompact" : "galleryStandard";
+type SectionUnit = { srcs: string[]; ratio: number; weight: number };
+
+// Section images as collage slots: consecutive "small" images stack in one slot (half
+// height each), a "large" image gets a taller row, the rest are one image per slot.
+function sectionUnits(section: ProjectSection): SectionUnit[] {
+  const units: SectionUnit[] = [];
+  let stack: string[] = [];
+  const flush = () => {
+    if (!stack.length) return;
+    // Stacked images share the slot's width, so their heights (1/ratio) add up.
+    const ratio = 1 / stack.reduce((total, src) => total + 1 / imageRatio(src), 0);
+    units.push({ srcs: stack, ratio, weight: ratio });
+    stack = [];
+  };
+  for (const src of section.images ?? []) {
+    const size = section.imageSizes?.[src];
+    if (size === "small") {
+      stack.push(src);
+      continue;
+    }
+    flush();
+    const ratio = imageRatio(src);
+    units.push({ srcs: [src], ratio, weight: size === "large" ? ratio * LARGE_WEIGHT : ratio });
+  }
+  flush();
+  return units;
 }
 
 function linkPlatform(href: string) {
@@ -79,17 +105,19 @@ export default async function ProjectPage({
 
       <section className="projectHero">
         <Image
-          src={project.cover}
+          src={project.heroCover ?? project.cover}
           alt={`${project.title} cover`}
           fill
           priority
           sizes="100vw"
+          className={project.coverStyle === "logo" ? "projectHeroLogo" : undefined}
+          style={project.featureFocus ? { objectPosition: project.featureFocus } : undefined}
         />
         <span className="projectHeroShade" aria-hidden="true" />
         <Link className="projectBack" href="/#work">← ALL WORK</Link>
         <div className="projectHeroTitle">
           <p>{project.category} / {project.year}</p>
-          <h1 className="chromeScript">{project.title}</h1>
+          <h1>{project.title}</h1>
         </div>
         <p className="projectScroll">SCROLL TO EXPLORE ↓</p>
       </section>
@@ -111,6 +139,11 @@ export default async function ProjectPage({
               {project.externalLabel ?? "VIEW PROJECT"} <span aria-hidden="true">↗</span>
             </a>
           ) : null}
+          {project.relatedProject ? (
+            <Link className="relatedProjectButton" href={`/projects/${project.relatedProject.slug}`}>
+              {project.relatedProject.label} <span aria-hidden="true">→</span>
+            </Link>
+          ) : null}
         </div>
       </section>
 
@@ -125,31 +158,31 @@ export default async function ProjectPage({
               </header>
               {section.images?.length ? (
                 <div className="projectSectionImages">
-                  {justifiedRows(section.images, imageRatio).map(({ items, filler }) => (
-                    <div className="projectSectionRow" key={items[0].item}>
-                      {items.map(({ item: src, ratio }) => {
-                        const imageLink = section.imageLinks?.[src];
-                        return (
-                          <figure
-                            className="projectSectionFigure"
-                            style={{ "--ratio": ratio } as CSSProperties}
-                            key={src}
-                          >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {justifiedRows(sectionUnits(section), (unit) => unit.weight).map(({ items, filler }) => (
+                    <div className="projectSectionRow" key={items[0].item.srcs[0]}>
+                      {items.map(({ item: unit }) => (
+                        <figure
+                          className={`projectSectionFigure${unit.srcs.length > 1 ? " projectSectionStack" : ""}`}
+                          style={{ "--ratio": unit.ratio } as CSSProperties}
+                          key={unit.srcs[0]}
+                        >
+                          {unit.srcs.map((src) => (
+                            // eslint-disable-next-line @next/next/no-img-element
                             <img
+                              key={src}
                               src={src}
                               alt={`${section.title} ${section.images!.indexOf(src) + 1}`}
                               loading="lazy"
                               decoding="async"
                             />
-                            {imageLink ? (
-                              <figcaption className="projectSectionLinks">
-                                <SectionLink link={imageLink} />
-                              </figcaption>
-                            ) : null}
-                          </figure>
-                        );
-                      })}
+                          ))}
+                          {section.imageLinks?.[unit.srcs[0]] ? (
+                            <figcaption className="projectSectionLinks">
+                              <SectionLink link={section.imageLinks[unit.srcs[0]]} />
+                            </figcaption>
+                          ) : null}
+                        </figure>
+                      ))}
                       {filler ? (
                         <span
                           className="projectSectionFiller"
@@ -181,7 +214,7 @@ export default async function ProjectPage({
             const items = project.images.map((image, index) => ({ image, index, size: sizes[image] }));
             const renderItem = ({ image, index, size }: (typeof items)[number]) => (
               <figure
-                className={`projectGalleryItem ${size === "small" ? "gallerySmall" : getGalleryScale(image)}`}
+                className={`projectGalleryItem${size === "small" ? " gallerySmall" : size === "wide" ? " galleryWide" : ""}`}
                 key={`${image}-${index}`}
               >
                 {/* Native sizing preserves each artwork's exact orientation in the masonry collage. */}
@@ -208,7 +241,14 @@ export default async function ProjectPage({
             return (
               <>
                 {lead.length ? <div className="projectGalleryLead">{lead.map(renderItem)}</div> : null}
-                {items.filter((item) => item.size !== "large").map(renderItem)}
+                {items.filter((item) => item.size !== "large").map((item) => (
+                  <Fragment key={`${item.image}-${item.index}`}>
+                    {item.image === project.galleryBreakBefore ? (
+                      <span className="projectGalleryBreak" aria-hidden="true" />
+                    ) : null}
+                    {renderItem(item)}
+                  </Fragment>
+                ))}
               </>
             );
           })()}
@@ -216,7 +256,7 @@ export default async function ProjectPage({
       )}
 
       <section className="nextProject">
-        <Image src={nextProject.cover} alt="" fill sizes="100vw" />
+        <Image src={nextProject.heroCover ?? nextProject.cover} alt="" fill sizes="100vw" />
         <span aria-hidden="true" />
         <p>NEXT PROJECT</p>
         <Link href={`/projects/${nextProject.slug}`}>

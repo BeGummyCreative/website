@@ -66,13 +66,39 @@ const vary = (value: number, amount: number) => value * (1 + (Math.random() * 2 
 // Synthesised foil unwrapping, generated fresh every time: a low crumple as the
 // foil gives, clusters of crinkle clicks, and one to three tearing rips at
 // random moments. Panned toward the side of the screen the piece is on.
-let audioContext: AudioContext | null = null;
+// One audio engine and one gentle limiter shared by every crackle, so no single sound
+// can come out louder than the rest.
+let audio: { ctx: AudioContext; output: AudioNode } | null = null;
+
+function getAudio() {
+  if (!audio) {
+    const ctx = new AudioContext();
+    const limiter = ctx.createDynamicsCompressor();
+    limiter.threshold.value = -14;
+    limiter.knee.value = 6;
+    limiter.ratio.value = 8;
+    limiter.attack.value = 0.002;
+    limiter.release.value = 0.15;
+    limiter.connect(ctx.destination);
+    audio = { ctx, output: limiter };
+  }
+  if (audio.ctx.state === "suspended") void audio.ctx.resume();
+  return audio;
+}
+
+// Starting the engine with the very first crackle made that one burst in too loud while
+// the engine settled, so the hero wakes it on the visitor's first press instead.
+function warmUpAudio() {
+  try {
+    getAudio();
+  } catch {
+    // Audio is a flourish; never let it break the page.
+  }
+}
 
 function playUnwrapSound(voiceIndex: number, pan: number) {
   try {
-    audioContext ??= new AudioContext();
-    const ctx = audioContext;
-    if (ctx.state === "suspended") void ctx.resume();
+    const { ctx, output } = getAudio();
     const voice = foilVoices[voiceIndex % foilVoices.length];
     const sampleRate = ctx.sampleRate;
     const duration = vary(0.85, 0.2);
@@ -111,23 +137,27 @@ function playUnwrapSound(voiceIndex: number, pan: number) {
       data[i] = ((Math.random() * 2 - 1) * (crackle + rip) + body) * fade;
     }
 
+    // Everything is scheduled a moment ahead on the engine's clock (rather than set
+    // "now"), and the level fades in over 15ms, so a sound never bursts in at full volume.
+    const start = ctx.currentTime + 0.03;
     const source = ctx.createBufferSource();
     source.buffer = buffer;
-    source.playbackRate.value = vary(voice.pitch, 0.08);
+    source.playbackRate.setValueAtTime(vary(voice.pitch, 0.08), start);
     const highpass = ctx.createBiquadFilter();
     highpass.type = "highpass";
-    highpass.frequency.value = vary(900, 0.3);
+    highpass.frequency.setValueAtTime(vary(900, 0.3), start);
     const presence = ctx.createBiquadFilter();
     presence.type = "peaking";
-    presence.frequency.value = vary(voice.brightness, 0.12);
-    presence.Q.value = vary(1.2, 0.3);
-    presence.gain.value = vary(6, 0.3);
+    presence.frequency.setValueAtTime(vary(voice.brightness, 0.12), start);
+    presence.Q.setValueAtTime(vary(1.2, 0.3), start);
+    presence.gain.setValueAtTime(vary(6, 0.3), start);
     const volume = ctx.createGain();
-    volume.gain.value = vary(0.3, 0.15);
+    volume.gain.setValueAtTime(0, start);
+    volume.gain.linearRampToValueAtTime(vary(0.3, 0.15), start + 0.015);
     const panner = ctx.createStereoPanner();
-    panner.pan.value = Math.max(-0.7, Math.min(0.7, pan));
-    source.connect(highpass).connect(presence).connect(volume).connect(panner).connect(ctx.destination);
-    source.start();
+    panner.pan.setValueAtTime(Math.max(-0.7, Math.min(0.7, pan)), start);
+    source.connect(highpass).connect(presence).connect(volume).connect(panner).connect(output);
+    source.start(start);
   } catch {
     // Audio is a flourish; never let it break the interaction.
   }
@@ -666,6 +696,8 @@ function buildScene(
     introStart = timer.getElapsed();
   }
   window.addEventListener(REPLAY_INTRO_EVENT, replayIntro);
+  // Wake the audio engine on the first press anywhere, before any gum is clicked.
+  window.addEventListener("pointerdown", warmUpAudio, { once: true, capture: true });
 
   // Only render while the hero is on screen.
   let visible = true;
@@ -859,6 +891,7 @@ function buildScene(
     renderer.domElement.removeEventListener("pointerleave", onPointerLeave);
     renderer.domElement.removeEventListener("click", onClick);
     window.removeEventListener(REPLAY_INTRO_EVENT, replayIntro);
+    window.removeEventListener("pointerdown", warmUpAudio, { capture: true });
     disposables.forEach((item) => item.dispose());
     sparkleTexture.dispose();
     sparkleMaterial.dispose();

@@ -377,15 +377,14 @@ html::-webkit-scrollbar {
   bottom: 10px;
   width: 30px;
   cursor: var(--cursor-hover);
-  /* Only shown while scrolling (or hovered/dragged); ignores clicks when hidden. */
+  /* Shown while scrolling, hovered or dragged. Like a macOS scrollbar it fades when idle
+     but still answers the pointer, so hovering the edge brings it back to grab. */
   opacity: 0;
-  pointer-events: none;
   transition: opacity 450ms ease;
 }
 
 .scrollGumTrack.isVisible {
   opacity: 1;
-  pointer-events: auto;
   transition-duration: 160ms;
 }
 
@@ -550,8 +549,17 @@ html::-webkit-scrollbar {
 
 /* Room for the script's tall capitals and descenders inside the clipped fill. */
 .chromeScript {
-  padding-block: 0.12em;
+  /* The chrome fill only paints inside the element's box, so give the script's swashes
+     (e.g. the lead-in stroke of a line-starting "i") room on every side; the negative
+     margin cancels the side padding so the text itself doesn't move. */
+  padding: 0.12em 0.3em;
   line-height: 1.05;
+}
+
+/* :root outranks heading rules like `.archiveHeader h2 { margin: 0 }`; only the side
+   margins are set, so their vertical spacing is untouched. */
+:root .chromeScript {
+  margin-inline: -0.3em;
 }
 
 /* "Ideas you can chew on": appears as the gums gather. */
@@ -964,6 +972,9 @@ html::-webkit-scrollbar {
   z-index: 10;
   padding: 18svh 3vw;
   background: var(--paper);
+  /* "The Work, in Full." sits against the right edge; its swash padding must not make the
+     page scroll sideways. (Not on the page root: that would break the sticky slides.) */
+  overflow-x: clip;
 }
 
 .archiveHeader {
@@ -1239,10 +1250,19 @@ html::-webkit-scrollbar {
   align-items: start;
 }
 
+/* The column shrinks to the width of its location/email/social rows, so the photo
+   (centred inside it) sits centred over them. */
+.contactAside {
+  width: fit-content;
+  max-width: 100%;
+}
+
 .contactProfile {
   display: block;
-  width: 160px;
-  height: 160px;
+  /* Centred above the location, email and social links. */
+  width: 240px;
+  height: 240px;
+  margin: 0 auto;
   border: 2px solid var(--purple);
   border-radius: 50%;
   object-fit: cover;
@@ -1437,7 +1457,12 @@ html::-webkit-scrollbar {
   color: var(--white);
 }
 
+/* Covers fill the hero edge to edge; a logo cover stays whole on the black. */
 .projectHero > img {
+  object-fit: cover;
+}
+
+.projectHero > img.projectHeroLogo {
   object-fit: contain;
 }
 
@@ -1479,10 +1504,13 @@ html::-webkit-scrollbar {
   text-transform: uppercase;
 }
 
+/* Project titles are flat white Helvetica bold (no chrome). */
 .projectHeroTitle h1 {
   max-width: 1100px;
   margin: 0;
-  font-size: clamp(80px, 11vw, 180px);
+  font-size: clamp(56px, 8vw, 140px);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.02em;
   line-height: 0.98;
 }
 
@@ -1550,6 +1578,34 @@ html::-webkit-scrollbar {
 
 .projectNarrative .textArrow {
   margin-top: 20px;
+}
+
+/* relatedProject: a purple pill on its own line, linking to the companion project. */
+.relatedProjectButton {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 14px;
+  margin-top: 36px;
+  padding: 16px 28px;
+  border-radius: 999px;
+  background: var(--purple);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: var(--weight-bold);
+  transition: filter 180ms ease;
+}
+
+.relatedProjectButton:hover {
+  filter: brightness(1.2);
+}
+
+.relatedProjectButton span {
+  transition: transform 180ms ease;
+}
+
+.relatedProjectButton:hover span {
+  transform: translateX(4px);
 }
 
 /* Experience write-ups (e.g. TikTok internship): titled blocks of stills and
@@ -1621,6 +1677,22 @@ html::-webkit-scrollbar {
   width: 100%;
   height: auto;
   background: var(--ink);
+}
+
+/* imageSizes "small": images stacked in one slot, stretched to the row's height and split
+   evenly (contain absorbs the gap between them, so nothing is cropped). */
+.projectSectionStack {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.projectSectionStack img {
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  background: transparent;
 }
 
 /* A link that belongs to one image sits directly underneath it. */
@@ -1730,19 +1802,25 @@ html::-webkit-scrollbar {
   column-span: all;
 }
 
+/* galleryBreakBefore: spanning every column ends the column flow, so the images before it
+   are balanced across all columns above the ones after it. */
+.projectGalleryBreak {
+  display: block;
+  column-span: all;
+}
+
 .projectGalleryLead .projectGalleryItem {
   flex: 1 1 0;
   margin: 0;
 }
 
-.projectGalleryItem.gallerySmall {
-  width: 82%;
-  margin-left: auto;
-  margin-right: auto;
+/* gallerySizes "wide": spans every column at its place in the order. */
+.projectGalleryItem.galleryWide {
+  column-span: all;
 }
 
-.projectGalleryItem.galleryCompact {
-  width: 64%;
+.projectGalleryItem.gallerySmall {
+  width: 82%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -1935,6 +2013,12 @@ html::-webkit-scrollbar {
     width: 100%;
   }
 
+  /* Stacked small images sit side by side on phones instead. */
+  .projectSectionStack {
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+
   .projectSectionFiller {
     display: none;
   }
@@ -2099,8 +2183,8 @@ html::-webkit-scrollbar {
   }
 
   .contactProfile {
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
   }
 
   .contactDetails {
@@ -2143,7 +2227,7 @@ html::-webkit-scrollbar {
   }
 
   .projectHeroTitle h1 {
-    font-size: clamp(64px, 20vw, 104px);
+    font-size: clamp(44px, 13vw, 72px);
   }
 
   .projectBack {

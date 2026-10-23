@@ -97,13 +97,19 @@ function attachGumball(track: HTMLDivElement, ball: HTMLDivElement) {
     hideSoon();
   }
 
+  // Like a normal scrollbar, clicking the track pages up or down by about a screen
+  // (toward the click) instead of jumping straight to that spot.
   function onTrackDown(event: PointerEvent) {
     if (event.target !== track) return;
-    scrollToPointer(event.clientY, ball.offsetHeight / 2);
+    const direction = event.clientY < ball.getBoundingClientRect().top ? -1 : 1;
+    window.scrollBy({ top: direction * window.innerHeight * 0.9, behavior: "smooth" });
   }
 
+  // Hovering the right edge reveals the gumball (as macOS shows its scrollbar), so it can
+  // be grabbed without scrolling first.
   function onEnter() {
     hovering = true;
+    track.classList.add("isVisible");
     window.clearTimeout(hideTimer);
   }
 
