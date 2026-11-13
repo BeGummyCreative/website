@@ -16,8 +16,10 @@ const workLinks = [
   { label: "PHOTOGRAPHY", href: "/#photography" },
 ];
 
-const mainLinks = [
-  { label: "ABOUT", href: "/#about" },
+// Menu order: About, Work (with its category dropdown), Experience, Contact.
+const aboutLink = { label: "ABOUT", href: "/#about" };
+const afterWorkLinks = [
+  { label: "EXPERIENCE", href: "/#experience" },
   { label: "CONTACT", href: "/#contact" },
 ];
 
@@ -99,6 +101,7 @@ export default function SiteHeader() {
         </Link>
 
         <nav className="aurenDesktopNav" aria-label="Primary navigation">
+          <Link href={aboutLink.href} onClick={closeDesktopMenu}>{aboutLink.label}</Link>
           <div
             className={workMenuClosed ? "aurenWorkMenu isClosed" : "aurenWorkMenu"}
             onMouseLeave={() => setWorkMenuClosed(false)}
@@ -110,7 +113,7 @@ export default function SiteHeader() {
               ))}
             </div>
           </div>
-          {mainLinks.map((link) => (
+          {afterWorkLinks.map((link) => (
             <Link href={link.href} key={link.label} onClick={closeDesktopMenu}>{link.label}</Link>
           ))}
         </nav>
@@ -120,14 +123,16 @@ export default function SiteHeader() {
         <details className="aurenMobileNav" ref={mobileNavRef}>
           <summary>MENU</summary>
           <nav aria-label="Mobile navigation">
+            <Link href={aboutLink.href} onClick={closeMobileMenu}>{aboutLink.label}</Link>
             <Link href="/#work" onClick={closeMobileMenu}>WORK</Link>
             {workLinks.map((link) => (
               <Link className="mobileSubLink" href={link.href} key={link.label} onClick={closeMobileMenu}>
                 {link.label}
               </Link>
             ))}
-            <Link href="/#about" onClick={closeMobileMenu}>ABOUT</Link>
-            <Link href="/#contact" onClick={closeMobileMenu}>CONTACT</Link>
+            {afterWorkLinks.map((link) => (
+              <Link href={link.href} key={link.label} onClick={closeMobileMenu}>{link.label}</Link>
+            ))}
           </nav>
         </details>
       </header>

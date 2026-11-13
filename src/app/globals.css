@@ -187,10 +187,10 @@ img {
 }
 
 .aurenDesktopNav {
-  width: min(460px, 48vw);
+  width: min(600px, 56vw);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   align-items: center;
   font-size: 11px;
   line-height: 1;
