@@ -579,6 +579,19 @@ export const portfolioProjects: PortfolioProject[] = [
     externalLabel: "Watch game",
   },
   {
+    slug: "windrush-documentary-bts",
+    title: "Windrush Documentary BTS",
+    category: "Photography",
+    year: "2026",
+    cover: "/portfolio/wix/photo/windrush/bts-01.jpg",
+    summary: "Behind-the-scenes photography from interviews with The Positive Network for a YouTube documentary series.",
+    description: [
+      "A YouTube documentary series built around one central question: who gets to decide who belongs?",
+      "The series begins by exploring the experiences of the Windrush Generation and their children, through interviews with The Positive Network. These photos capture the interviewees, the crew and the set on the day.",
+    ],
+    images: Array.from({ length: 31 }, (_, index) => `/portfolio/wix/photo/windrush/bts-${String(index + 1).padStart(2, "0")}.jpg`),
+  },
+  {
     slug: "sold-utopia",
     title: "Sold Utopia",
     category: "Photography",
